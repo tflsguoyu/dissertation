@@ -66,7 +66,7 @@
 \newtheorem{example}{\textsc{Example}}[chapter]
 
 % Macros for title, author, abstract, etc.
-\input{preliminaries}
+\input{tex/preliminaries}
 
 % Add PDF document info fields
 \hypersetup{
@@ -93,8 +93,13 @@
 
 % Include the different components of your thesis, in separate files.
 % Using \include allows you to set \includeonly above.
-\include{chapter1}
-%\include{chapter2}
+\input{tex/introduction}
+\input{tex/background}
+\input{tex/layeredbsdf}
+\input{tex/waveoptics}
+\input{tex/svbrdf}
+\input{tex/bayesian}
+\input{tex/conclusion}
 % ... and so on
 
 % These commands fix an odd problem in which the bibliography line
@@ -104,8 +109,8 @@
 
 % "References should be formatted in style most common in discipline",
 % abbrv is only a suggestion.
-\bibliographystyle{abbrv}
-\bibliography{thesis}
+\bibliographystyle{plain}
+\bibliography{references}
 
 % The Thesis Manual says not to include appendix figures and tables in
 % the List of Figures and Tables, respectively, so these commands from
@@ -116,7 +121,7 @@
 
 % If you have an appendix, it should come after the references.
 \begin{appendices}
-\include{appendix}
+\input{tex/appendix}
 \end{appendices}
 
 \end{document}

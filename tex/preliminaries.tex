@@ -1,0 +1,156 @@
+\thesistitle{Microscale-based Macroscale Rendering and Its Inverse Rendering}
+
+%"Dissertation" for PhD, "Thesis" for master's
+\documenttitle{Dissertation}
+
+\degreename{Doctor of Philosophy}
+
+% Use the wording given in the official list of degrees awarded by UCI:
+% http://www.rgs.uci.edu/grad/academic/degrees_offered.htm
+\degreefield{Computer Science}
+
+% Your name as it appears on official UCI records.
+\authorname{Yu Guo}
+
+% Use the full name of each committee member and full title 
+% (e.g. Professor/Associate Professor).
+\committeechair{Professor Shuang Zhao}
+\othercommitteemembers
+{
+  Professor Gopi Meenakshisundaram\\
+  Professor Charless Fowlkes
+}
+
+\degreeyear{2021}
+
+\copyrightdeclaration
+{
+  {\copyright} {\Degreeyear} \Authorname
+}
+
+% If you have previously published parts of your manuscript, you must list the
+% copyright holders; see Section 3.2 of the UCI Thesis and Dissertation Manual.
+% Otherwise, this section may be omitted.
+% \prepublishedcopyrightdeclaration
+% {
+% 	Chapter 4 {\copyright} 2003 Springer-Verlag \\
+% 	Portion of Chapter 5 {\copyright} 1999 John Wiley \& Sons, Inc. \\
+% 	All other materials {\copyright} {\Degreeyear} \Authorname
+% }
+
+% The dedication page is optional
+% (comment out to exclude).
+\dedications
+{
+  % (Optional dedication page)
+  
+  To Myself and My Family
+}
+
+\acknowledgments
+{
+  I would like to thank my advisor Shuang Zhao for his patient guidance and unconditional support.
+  
+  I am sincerely grateful to Milo\v{s} Ha\v{s}an for his inspiration and offering me opportunities for my internships in Autodesk and Adobe. I would also like to thank my other committee members Gopi Meenakshisundaram and Charless Fowlkes for the constructive advice they have provided. 
+  
+  I want to thank all the collaborator from my publications.
+  And my intership mentors.
+  
+  I would like to thank my labmates and other friends.
+  
+  Finally, I thank my wife and my parents.
+  
+  This work was supported in part by NSF grant IIS-1813553, Autodesk Inc., Adobe Inc., University of Zaragoza (Spain) and Department of Computer Science, UC Irvine.
+  
+  Chapter \ref{cpt:layeredbsdf} is based on the material as it appears in ACM Transactions on Graphics, 2018
+  (“Position-Free Monte Carlo Simulation for Arbitrary Layered BSDFs”, Yu Guo, Milo\v{s} Ha\v{s}an and Shuang Zhao). The dissertation author was the primary investigator and author of this paper.
+  
+  Chapter \ref{cpt:waveoptics} is based on an under reviewing paper
+  ("Beyond Mie Theory: Systematic Computation of Bulk Scattering Parameters based on Microphysical Wave Optics", Yu Guo, Adrian Jarabo and Shuang Zhao). The dissertation author was the primary investigator and author of this paper.
+  
+  Chapter \ref{cpt:svbrdf} is based on the material as it appears in ACM Transactions on Graphics, 2020
+  (“MaterialGAN: Reflectance Capture using a Generative SVBRDF Model”, Yu Guo, Cameron Smith, Milo\v{s} Ha\v{s}an, Kalyan Sunkavalli and Shuang Zhao). The dissertation author was the primary investigator and author of this paper.
+  
+  Chapter \ref{cpt:bayesian} is based on the material as it appears in Computer Graphics Forum, 2020
+  (“A Bayesian Inference Framework for Procedural Material Parameter Estimation”, Yu Guo, Milo\v{s} Ha\v{s}an, Lingqi Yan and Shuang Zhao). The dissertation author was the primary investigator and author of this paper.
+
+  This dissertation is based on a \LaTeX~template for thesis and dissertation documents at UC Irvine \cite{uci-thesis-latex}.
+}
+
+
+% Some custom commands for your list of publications and software.
+\newcommand{\mypubentry}[3]{
+  \begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}}p{4.5in}r}
+    \textbf{#1} & \textbf{#2} \\ 
+    \multicolumn{2}{@{\extracolsep{\fill}}p{.95\textwidth}}{#3}\vspace{6pt} \\
+  \end{tabular*}
+}
+\newcommand{\mysoftentry}[3]{
+  \begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}}lr}
+    \textbf{#1} & \url{#2} \\
+    \multicolumn{2}{@{\extracolsep{\fill}}p{.95\textwidth}}
+    {\emph{#3}}\vspace{-6pt} \\
+  \end{tabular*}
+}
+
+% Include, at minimum, a listing of your degrees and educational
+% achievements with dates and the school where the degrees were
+% earned. This should include the degree currently being
+% attained. Other than that it's mostly up to you what to include here
+% and how to format it, below is just an example.
+%
+% CV is required for PhD theses, but not Master's
+% comment out to exclude
+\curriculumvitae
+{
+
+\textbf{EDUCATION}
+  
+  \begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}}lr}
+    \textbf{Doctor of Philosophy in Computer Science} & \textbf{2016 -- 2021} \\
+    \vspace{6pt}
+    University of California, Irvine & \emph{Irvine, CA, US} \\
+    \textbf{Master of Science in Computational Sciences} & \textbf{2010 -- 2013} \\
+    \vspace{6pt}
+    University of Chinese Academy of Sciences & \emph{Beijing \& Shenzhen, China} \\
+    \textbf{Bachalar of Science in Applied Mathematics} & \textbf{2006 -- 2010} \\
+	\vspace{6pt}
+	Central South University & \emph{Changsha, China} \\
+  \end{tabular*}
+
+\vspace{12pt}
+\textbf{RESEARCH EXPERIENCE}
+
+  \begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}}lr}
+    \textbf{Research Associate} & \textbf{2013 -- 2016} \\
+    \vspace{6pt}
+    Nanyang Technological University & \emph{Singapore} \\
+  \end{tabular*}
+
+\pagebreak
+
+\textbf{REFEREED PUBLICATIONS}
+
+  \mypubentry{Position-Free Monte Carlo Simulation for Arbitrary Layered BSDFs}{2018}{ACM Transactions on Graphics}
+
+  \mypubentry{MaterialGAN: Reflectance Capture using a Generative SVBRDF Model}{2020}{ACM Transactions on Graphics}
+
+  \mypubentry{A Bayesian Inference Framework for Procedural Material Parameter Estimation}{2020}{Computer Graphics Forum}
+
+  \mypubentry{Beyond Mie Theory: Systematic Computation of Bulk Scattering Parameters based on Microphysical Wave Optics}{2021}{In submission ...}
+
+}
+
+% The abstract was previously limited to a maximum of 350 words, 
+% but the UCI manual at https://etd.lib.uci.edu/electronic/td2e#2.2.1.
+% currently does not indicate that there is any word limit for the abstract
+\thesisabstract
+{
+  The abstract of your contribution goes here.
+}
+
+
+%%% Local Variables: ***
+%%% mode: latex ***
+%%% TeX-master: "thesis.tex" ***
+%%% End: ***
