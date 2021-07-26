@@ -7,42 +7,7 @@
 % 2) Call \myappendix once, and then make each appendix a \section.
 
 \appendix
-\chapter{Appendix Title}
-
-% Appendix sections, subsections etc should not appear in the table of 
-% contents. So set tocdepth to 0 and set it back to 2 at the end. Do 
-% this for each appendix.
-\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
-
-Supplementary material goes here. See for instance Figure
-\ref{fig:quote}.
-
-\section{Lorem Ipsum}
-
-dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-mollit anim id est laborum.
-
-\begin{figure}
-  \centering
-  \begin{tabular}{l}
-    ``I am glad I was up so late,\\
-    \quad{}for that's the reason I was up so early.''\\
-    \em \footnotesize William Shakespeare (1564-1616), British
-    dramatist, poet.\\
-    \em \footnotesize Cloten, in Cymbeline, act 2, sc. 3, l. 33-4.
-  \end{tabular}
-  \caption{A deep quote.}
-  \label{fig:quote}
-\end{figure}
-
-\addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
-
-%%% Local Variables: ***
-%%% mode: latex ***
-%%% TeX-master: "thesis.tex" ***
-%%% End: ***
+\chapter{Appendix for Chapter \ref{cpt:layeredbsdf}}
+\input{tex/layeredbsdf/appendix_1}
+\input{tex/layeredbsdf/appendix_2}
+\input{tex/layeredbsdf/appendix_3}

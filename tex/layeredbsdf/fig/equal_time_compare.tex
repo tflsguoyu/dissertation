@@ -1,0 +1,56 @@
+\begin{figure}[t]
+	\centering
+	\setlength{\imgWidth}{1.04in}
+	\addtolength{\tabcolsep}{-4.5pt}
+	\begin{tabular}{cccccc}
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/validations/compare1/plane_fullsim_ref_3_2h.jpg} 
+		\end{overpic} &
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/validations/compare1/plane_10s_pt_98spp.jpg} 
+			\put(2,3){\bfseries \color{white} 98 spp} 
+		\end{overpic} &
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/validations/compare1/plane_10s_bdpt_35spp.jpg} 
+			\put(2,3){\bfseries \color{white} 35 spp} 
+		\end{overpic} &
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/validations/compare1/plane_10s_mlt_280spp.jpg}
+			\put(2,3){\bfseries \color{white} 280 spp} 
+		\end{overpic} &
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/validations/compare1/plane_10s_uni_56spp.jpg} 
+			\put(2,3){\bfseries \color{white} 56 spp} 
+		\end{overpic} &
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/validations/compare1/plane_10s_bi_26spp.jpg} 
+			\put(2,3){\bfseries \color{white} 26 spp} 
+		\end{overpic}
+		\\
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/validations/compare1/plane_fullsim_ref_4_8h.jpg} 
+		\end{overpic} &
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/validations/compare1/plane_10s_pt_60spp.jpg} 
+			\put(2,3){\bfseries \color{white} 60 spp} 
+		\end{overpic} &
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/validations/compare1/plane_10s_bdpt_25spp.jpg} 
+			\put(2,3){\bfseries \color{white} 25 spp} 
+		\end{overpic} &
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/validations/compare1/plane_10s_mlt_80spp.jpg} 
+			\put(2,3){\bfseries \color{white} 80 spp} 
+		\end{overpic} &
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/validations/compare1/plane_10s_uni_15spp.jpg} 
+			\put(2,3){\bfseries \color{white} 15 spp} 
+		\end{overpic} &
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/validations/compare1/plane_10s_bi_19spp.jpg} 
+			\put(2,3){\bfseries \color{white} 19 spp} 
+		\end{overpic}
+		\\
+		%
+		\small Reference &
+		\small Standard PT &
+		\small Standard \footnotesize BDPT &
+		\small Standard MLT &
+		\small Our unidir. &
+		\small Our bidir.
+	\end{tabular}
+	\caption{\label{fig:layeredbsdf:equal_time_compare}
+		\textbf{Equal-time comparisons} of our unidirectional and bidirectional approach to standard transport algorithms, on a simple flat layered configuration lit by a small area light. 
+		For standard PT, BDPT and MLT, results are all generated using 3D tracing by applying these algorithms in a simple 3D scene containing a very large slab with flat interfaces.
+		\textbf{Top}: A single slab with Henyey-Greenstein scattering between two interfaces, where our estimators perform similarly, but both significantly outperform path tracing, bidirectional and Metropolis transport. \textbf{Bottom}: A more complex configuration with two slabs and three interfaces; both media are using an anisotropic microflake phase function \cite{jakob2010radiative}. Our bidirectional estimator is a clear winner in this case.
+		The references are generated using standard PT with 100K spp, and all the other images are rendered in 10 seconds.
+	}
+\end{figure}
