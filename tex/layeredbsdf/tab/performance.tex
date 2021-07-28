@@ -1,0 +1,42 @@
+\begin{table}[h]
+	\centering
+	\caption[Render times of all our results]{\label{tab:layeredbsdf:performance}
+		\textbf{Render times} of all our results (using our ``unidir.'' and ``bidir.'' estimators) as well as baseline models with ``trivial'' BSDFs (that require no stochastic evaluation).
+		All the multi-layer models are described using nesting BSDFs for the unidirectional estimator and the explicit implementations for the bidirectional one.
+		The baseline models exhibit different appearances and are created solely for performance comparison.
+		All the timings are converted to a 6-core Intel i7-6800K CPU time, and those between parentheses indicate render time per mega-pixel.
+		The numbers in bold correspond to methods used for creating the paper figures.
+		Please refer to the supplemental material for all the other renderings.
+	}
+    %
+   	\addtolength{\tabcolsep}{0pt} 
+	\begin{tabular}{l|c|c|rr|rr|rr}
+	%\hline
+	& \multirow{2}{*}{\textbf{Image size}}  & \multirow{2}{*}{\textbf{Spp}} & \multicolumn{6}{c}{\textbf{Render time}}\\
+	& & & \multicolumn{2}{c}{\textbf{Unidir.}} & \multicolumn{2}{c}{\textbf{Bidir.}} & \multicolumn{2}{c}{\textbf{Trivial}}\\
+	\hline
+	Fig. \ref{fig:layeredbsdf:teaser}a 			& 3000$\times$2000 & 1024 & 2.5 h  		   	& (25 m) 			& \textbf{2.2 h}& \textbf{(22 m)}   & 38 m  & (6.3 m)\\
+	%\hline
+	Fig. \ref{fig:layeredbsdf:globe}b 			& 1024$\times$1024 & 256  & \textbf{2.2 m} 	& \textbf{(2.1 m)} 	& 2.6 m 		& (2.5 m)   		& 1.3 m & (1.2 m)\\
+	%\hline
+	Fig. \ref{fig:layeredbsdf:zhaoyun} 			& 800$\times$1200  & 512  & 15.2 m   	   	& (7.9 m)		 	& \textbf{24 m} & \textbf{(12.5 m)} & 2.4 m & (1.3 m)\\
+	%\hline
+	Fig. \ref{fig:layeredbsdf:magnifier} 		& 512$\times$512   & 1024 & 6.4 m 			& (6.1 m) 			& \textbf{13 m} & \textbf{(12.6 m)} & 1.6 m & (1.5 m)\\
+	%\hline
+	Fig. \ref{fig:layeredbsdf:cloth}a 			& 876$\times$584   & 256  & \textbf{1.1 m} 	& \textbf{(2.2 m)} 	& 1.4 m 		& (2.7 m)   		& 0.6 m & (1.1 m)\\
+	%\hline
+	Fig. \ref{fig:layeredbsdf:cloth}b 			& 876$\times$584   & 256  & \textbf{1.1 m} 	& \textbf{(2.2 m)} 	& 1.4 m 		& (2.7 m)		   	& 0.5 m & (0.9 m)\\
+	%\hline
+	Fig. \ref{fig:layeredbsdf:cloth}c 			& 876$\times$584   & 256  & \textbf{2.5 m} 	& \textbf{(4.9 m)}	& 5.4 m 		& (10.5 m)  		& 0.5 m & (0.9 m)\\
+	%\hline
+	Fig. \ref{fig:layeredbsdf:cloth_compare}b 	& 640$\times$540   & 256  & 1.5 m   		& (4.3 m) 			& \textbf{1.9 m}& \textbf{(5.5 m)}  & 0.5 m & (1.4 m)\\
+	%\hline
+	Fig. \ref{fig:layeredbsdf:kettle}a 			& 1200$\times$1400 & 256  & \textbf{6.7 m}  & \textbf{(4.0 m)} 	& 12 m  		& (7.1 m)   		& 3.7 m & (2.2 m)\\
+	%\hline
+	Fig. \ref{fig:layeredbsdf:kettle}b 			& 1200$\times$1400 & 256  & \textbf{7.0 m}  & \textbf{(4.2 m)} 	& 13 m  		& (7.7 m)   		& 3.7 m & (2.2 m)\\
+	%\hline
+	Fig. \ref{fig:layeredbsdf:kettle}c 			& 1200$\times$1400 & 256  & 67 m 			& (40 m) 			& \textbf{20 m} & (\textbf{12 m})  	& 4.7 m & (2.8 m)\\
+	%\hline
+	\end{tabular}
+\end{table}
+
