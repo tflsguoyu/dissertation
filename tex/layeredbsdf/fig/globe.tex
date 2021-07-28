@@ -1,0 +1,25 @@
+\begin{figure}[h]
+	\centering
+	\setlength{\imgWidth}{2.1in}
+	\addtolength{\tabcolsep}{-3pt}
+	\begin{tabular}{ccc}
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/results/glints_globe_none_combine.jpg}
+			\put(2,3){\bfseries (a)}
+		\end{overpic}
+		&
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/results/glints_globe_bottom_combine.jpg}
+			\put(2,3){\bfseries (b)}
+		\end{overpic}
+		&
+		\begin{overpic}[width=\imgWidth]{layeredbsdf/results/glints_globe_top_combine.jpg}
+			\put(2,3){\bfseries (c)}
+		\end{overpic}
+	\end{tabular}
+	\caption[Top vs. bottom height variation]{\label{fig:layeredbsdf:globe}
+		\textbf{Top vs. bottom height variation.}
+		Thanks to the physically-based nature of our layered BSDF model, manipulating heights on its top and bottom interfaces has greatly varying effects on the final appearance. The height variation drives both normals and thickness differences (and thus medium absorption).
+		\textbf{(a)} No height variation.
+		\textbf{(b)} Height variation applied to the bottom interface.
+		\textbf{(c)} Height variation applied to the top interface.
+	}
+\end{figure}

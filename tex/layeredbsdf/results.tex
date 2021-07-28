@@ -6,7 +6,7 @@ All the renderings are generated using the Mitsuba physically based renderer \ci
 Please see the accompanying video for animated versions of several results.
 
 All the multi-layer results in the paper use our bidirectional estimator with the explicit implementation (although our BSDF plugin also supports nesting BSDFs).
-This is because the former runs faster, as seen in Figure \ref{fig:layeredbsdf:result_multilayer}-c.
+This is because the former runs faster, as seen in Figure \ref{fig:layeredbsdf:result_multilayer}-(c).
 
 \subsection{Validations}
 \label{subsec:res_validation}
@@ -22,24 +22,23 @@ Under constant lighting (where identical amount of light comes from all directio
 \input{tex/layeredbsdf/fig/white_test}
 
 
-%\subsection{Main Results}
-%\label{subsec:res_main}
-%
-%\subsubsection{Application: Coating thickness/normal variation}
-%%\myparagraph{Application: Coating thickness/normal variation}
-%%
-%Figure~\ref{fig:result_glints} shows renderings of a globe with a dielectric coating on top of a metallic substrate.
-%In this example, both interfaces are colorless and the layer medium has a blue tint.
-%In Figure~\ref{fig:result_glints}-a, both interfaces are smooth, creating two overlapped reflections of the environment map with different amounts of blur.
-%In Figure~\ref{fig:result_glints}-b, the top interface of the globe is smooth, leading to one clear reflection.
-%On the bottom (metallic) interface, we use a detailed height field to drive the normal variation as well as the medium thickness.
-%The high-frequency variation of normal direction has resulted in detailed highlights on the bottom surface.
-%Further, due to varying amounts of attenuation at different thickness, these highlights exhibit different colors: reflections from greater depths become darker and more saturated. 
-%In Figure~\ref{fig:result_glints}-c, the height variation is instead applied to the top dielectric interface, causing the clear reflection of the environment to be replaced by a blurred one.
-%Further, since the areas under the continents now have larger thickness, their colors become more saturated.
-%Our layered BSDF model is capable of producing all these appearances using a simple set of parameters (thickness, roughness and medium absorption) in conjunction with spatial variation.
-%
-%\input{tex/fig/globe} 
+\subsection{Main Results}
+\label{subsec:res_main}
+
+\subsubsection{Application: Coating thickness/normal variation}
+
+Figure \ref{fig:layeredbsdf:globe} shows renderings of a globe with a dielectric coating on top of a metallic substrate.
+In this example, both interfaces are colorless and the layer medium has a blue tint.
+In Figure \ref{fig:layeredbsdf:globe}-(a), both interfaces are smooth, creating two overlapped reflections of the environment map with different amounts of blur.
+In Figure \ref{fig:layeredbsdf:globe}-(b), the top interface of the globe is smooth, leading to one clear reflection.
+On the bottom (metallic) interface, we use a detailed height field to drive the normal variation as well as the medium thickness.
+The high-frequency variation of normal direction has resulted in detailed highlights on the bottom surface.
+Further, due to varying amounts of attenuation at different thickness, these highlights exhibit different colors: reflections from greater depths become darker and more saturated. 
+In Figure \ref{fig:layeredbsdf:globe}-(c), the height variation is instead applied to the top dielectric interface, causing the clear reflection of the environment to be replaced by a blurred one.
+Further, since the areas under the continents now have larger thickness, their colors become more saturated.
+Our layered BSDF model is capable of producing all these appearances using a simple set of parameters (thickness, roughness and medium absorption) in conjunction with spatial variation.
+
+\input{tex/layeredbsdf/fig/globe} 
 %	
 %
 %\subsubsection{Application: Complex thin sheet transmission}
