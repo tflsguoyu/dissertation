@@ -78,11 +78,11 @@
 		\Authorname \\
 	\end{center}
 	\vspace{1in}
-	\begin{flushright}
+	\begin{flushleft}
 		\Documenttitle \;Committee: \\
 		\Committeechair, Chair \\
 		\Othercommitteemembers \\
-	\end{flushright}
+	\end{flushleft}
 	\vfill
 	\begin{center}
 		\Degreeyear

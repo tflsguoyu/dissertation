@@ -1,4 +1,4 @@
-\begin{figure}[t]
+\begin{figure}[h]
 	\centering
 	\setlength{\imgWidth}{1.04in}
 	\addtolength{\tabcolsep}{-4.5pt}
@@ -47,7 +47,7 @@
 		\small Our unidir. &
 		\small Our bidir.
 	\end{tabular}
-	\caption{\label{fig:layeredbsdf:equal_time_compare}
+	\caption[Equal-time comparisons]{\label{fig:layeredbsdf:equal_time_compare}
 		\textbf{Equal-time comparisons} of our unidirectional and bidirectional approach to standard transport algorithms, on a simple flat layered configuration lit by a small area light. 
 		For standard PT, BDPT and MLT, results are all generated using 3D tracing by applying these algorithms in a simple 3D scene containing a very large slab with flat interfaces.
 		\textbf{Top}: A single slab with Henyey-Greenstein scattering between two interfaces, where our estimators perform similarly, but both significantly outperform path tracing, bidirectional and Metropolis transport. \textbf{Bottom}: A more complex configuration with two slabs and three interfaces; both media are using an anisotropic microflake phase function \cite{jakob2010radiative}. Our bidirectional estimator is a clear winner in this case.
