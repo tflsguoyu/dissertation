@@ -1,0 +1,49 @@
+\begin{table}[h!]
+	\centering
+    \caption[Notation used in \S\ref{cpt:waveoptics}]{\label{tab:waveoptics:notation}
+    	Notation used in \S\ref{cpt:waveoptics}.
+    }
+	\renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{ll}
+        $\px\in\Real^3$ & Position \\
+        $\dpx\in\Sphere$ & Direction to $\px$. \\
+        $\tpx\in\Real$ & Distance. \\
+        \hline
+        $\sPermittivity(\px)$ & Permittivity \\
+        $\sPermeability(\px)$ & Permeability \\
+        $\sFreq$ & Wave angular frequency [1/s] \\
+        $\lambda=2\pi\sFreq^{-1}$ & Wavelength [m] \\
+        $k(\px)=\sFreq\sqrt{\sPermittivity(\px)\sPermeability(\px)}$ & Wavenumber at $\px$\\
+        $\sIOR(\px)=k_2(\px)/k_1$ & Relative refractive index at $\px$ \\
+        \hline
+        $\MField(\px)$ & Magnetic field at $\px$ \\
+        $\EField(\px)$   & Electric field at $\px$~\eqref{eq:vri}  \\
+        $\IncEField(\px)$ & Incident electric field $\px$\\
+        $\ScaEField(\px)$ & Scattered electric field at $\px$~\eqref{eq:vri}\\ 
+        $\EField_0$ & Amplitude of a planar electric field \\
+        $\ScaEField_1(\dpx)$ & Far-field angular distribution of the scattered radiation  \\
+        \hline
+        $\sGreen$ & Free-space dyadic Green's function~\eqref{eq:greenfunc} \\
+        $\dyad{T}$ & Dyad transition operator~\eqref{eq:dyadtransition}\\
+        $\sGreenProp(\dw,\px)$ & Planar field scalar propagator \\
+        \hline
+        \hline
+        $V_i$ & Volume suspended by particle/cluster $i$ \\
+        $\Px_i\in\Real^3$ & Representative position of particle/cluster $i$ \\
+        $\dPx_{ij}\in\Sphere$ & Direction from $\Px_j$ to $\Px_i$\\
+        $\tPx_{ij}\in\Real$ & Distance from $\Px_j$ to $\Px_i$\\
+        $\Ncls$ & Number of particles in a cluster \\
+        \hline
+        $\ScaEField_i(\px)$ & Scattered field of $\px\in V_i$~\eqref{eq:foldylax}\\
+        $\EField_i(\px)$ & Exciting field in $\px\in V_i$ \\
+        $\ExcEField_{ij}(\px)$ & Partial exciting field in $\px\in V_i$ from particle $j$~\eqref{eq:excfield} \\
+        $\ScaDyad_i^\text{near}(\dwi,\px)$ & Near-field scattering dyad of particle/cluster $i$~\eqref{eq:scatdyad_near}. \\
+        $\ScaDyad_i(\dwi,\dws)$ & Far-field scattering dyad of particle/cluster $i$~\eqref{eq:farscatdyad}. \\
+        \hline
+        \hline
+        $\cT(\dwi),\cS(\dwi)$ & Extinction~\eqref{eq:crosstcluster} and scattering~\eqref{eq:crossscluster} cross-sections [m$^{2}$]\\
+        $\phase(\dwi,\dws)$ & Phase function~\eqref{eq:phasecluster}\\
+        $\rho$ & Particles density [m$^{-3}$] \\
+        $\sigT(\dwi),\sigS(\dwi)$ & Extinction~\eqref{eq:sigmatcluster} and scattering~\eqref{eq:sigmascluster} coefficients [m$^{-1}$]
+    \end{tabular}
+\end{table}

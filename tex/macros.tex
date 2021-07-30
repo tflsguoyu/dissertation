@@ -1,6 +1,6 @@
 % A few common packages
 \usepackage{amsmath}
-\usepackage{amsthm}
+%\usepackage{amsthm}
 \usepackage{array}
 \usepackage{graphicx}
 \usepackage{natbib}
@@ -16,13 +16,17 @@
 \usepackage[plainpages=false,pdfborder={0 0 0}]{hyperref}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{graphicx}
 \usepackage{overpic}
 \usepackage{xcolor}
 \usepackage{bm}
 \usepackage{amssymb}
+\usepackage{accents}
+\usepackage{mathtools}
+\usepackage{animate}
 
 
+
+%% layeredbsdf
 \newcommand{\E}{\mathrm{e}}
 \newcommand{\bd}{\bm{d}}
 \newcommand{\bx}{\bm{x}}
@@ -49,9 +53,132 @@
 \newcommand{\dd}{\mbox{d}}
 \newcommand{\rev}{\mathrm{rev}}
 
+%% waveoptics
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
 
-\newlength{\imgWidth}
-\newlength{\imgHeight}
+%\newcommand{\bd}{\bm{d}}
+\newcommand{\bu}{\bm{u}}
+%\newcommand{\bx}{\bm{x}}
+%\newcommand{\by}{\bm{y}}
+\newcommand{\bz}{\bm{z}}
+%\newcommand{\bn}{\bm{n}}
+%\newcommand{\bp}{\bm{p}}
+%\newcommand{\bq}{\bm{q}}
+\newcommand{\be}{\bm{e}}
+\newcommand{\bv}{\bm{v}}
+\newcommand{\bI}{\bm{I}}
+%\newcommand{\bom}{\bm{\omega}}
 
+%\newcommand{\Real}{\mathbb{R}}
+\newcommand{\bbS}{\mathbb{S}}
+%\newcommand{\Sph}{\bbS^2}
+\newcommand{\vis}{\mathbb{V}}
+\newcommand{\bbP}{\mathbb{P}}
+
+\newcommand{\Le}[1][]{L_{\ifthenelse{\equal{#1}{}}{\mathrm{e}}{\mathrm{e},#1}}}
+\newcommand{\Li}{L_\mathrm{i}}
+\newcommand{\Lr}{L_\mathrm{r}}
+\newcommand{\We}{W_\mathrm{e}}
+\newcommand{\bWe}{\bm{W}_\mathrm{e}}
+\newcommand{\Ae}{A_\mathrm{e}}
+\newcommand{\bAe}{\bm{A}_\mathrm{e}}
+
+\newcommand{\bomi}{\bom_\mathrm{i}}
+\newcommand{\bomo}{\bom_\mathrm{o}}
+\newcommand{\bxo}{\bx_\mathrm{o}}
+\newcommand{\bsdf}{f_\mathrm{s}}
+
+\newcommand{\sigS}{\sigma_\mathrm{s}}
+\newcommand{\sigA}{\sigma_\mathrm{a}}
+\newcommand{\sigT}{\sigma_\mathrm{t}}
+\newcommand{\phase}{f_\mathrm{p}}
+\newcommand{\cS}{C_\mathrm{s}}
+\newcommand{\cA}{C_\mathrm{a}}
+\newcommand{\cT}{C_\mathrm{t}}
+
+\newcommand{\dtheta}{\dir{\bm\theta}}
+\newcommand{\dphi}{\dir{\bm\dphi}}
+
+\newcommand{\dir}[1]{\mathbf{\hat{#1}}}
+
+\newcommand{\px}{\mathbf{r}}
+\newcommand{\dpx}{\dir{r}}
+\newcommand{\tpx}{r}
+\newcommand{\Px}{\mathbf{R}}
+\newcommand{\dPx}{\dir{R}}
+\newcommand{\tPx}{R}
+
+\newcommand{\radius}{a}
+
+\newcommand\approxwhen[1]{\mathrel{\stackrel{\makebox[0pt]{\mbox{\tiny{#1}}}}{\approx}}}
+
+\newcommand{\dw}{\dir{n}}
+\newcommand{\dwi}{\dw^{\text{inc}}}
+\newcommand{\dws}{\dw^{\text{sca}}}
+
+\newcommand{\dwpc}{\dir{\mathrm\phi}}
+\newcommand{\dwsc}{\dir{\mathrm\theta}}
+
+\newcommand{\diff}[1]{\,\text{d}#1}
+\newcommand{\img}{\text{i}}
+
+\newcommand{\Vint}{{V_{\text{int}}}}
+\newcommand{\Vext}{{V_{\text{ext}}}}
+
+\newcommand{\Nnear}{{N_{\text{near}}}}
+\newcommand{\Nfar}{{N_{\text{far}}}}
+\newcommand{\Ncls}{{N^\text{cls}}}
+
+\newcommand{\sFreq}{\omega}
+\newcommand{\sPermittivity}{\varepsilon}
+\newcommand{\sPermeability}{\mu}
+\newcommand{\sIOR}{m}
+
+%\newcommand{\E}{\mathrm{e}}
+\newcommand{\Curl}{\nabla\times}
+\newcommand{\Complex}{\mathbb{C}}
+
+\newcommand{\Sphere}{\mathcal{S}^2}
+
+\newcommand{\EField}{\mathbf{E}}
+\newcommand{\ScaEField}{\EField^\text{sca}}
+\newcommand{\IncEField}{\EField^\text{inc}}
+\newcommand{\ExcEField}{\EField^\text{exc}}
+
+\newcommand{\EFields}{\EField_\theta}
+\newcommand{\EFieldp}{\EField_\phi}
+\newcommand{\MField}{\mathbf{H}}
+
+\newcommand{\sStokes}{\bm{I}}
+\newcommand{\sJones}{\bm{J}}
+
+\newcommand{\EV}[1]{{\langle #1 \rangle}}
+
+\newcommand{\Pprops}{\xi}
+
+\newcommand{\dyad}[1]{\accentset{\Longleftrightarrow}{#1}}
+\newcommand{\sGreen}{\dyad{G}}
+\newcommand{\sGreenProp}{g}
+\newcommand{\sIdDyad}{\dyad{I}}
+\newcommand{\ScaDyad}{\dyad{A}}
+
+\newcommand{\ScaMatrix}{\bm{S}}
+\newcommand{\PhaseMatrix}{\bm{Z}^{\sJones}}
+\newcommand{\ExtMatrix}{\bm{K}^{\sJones}}
+
+\newcommand{\Eq}[1]{Equation~\eqref{#1}}
+\newcommand{\Eqs}[2]{Equations~\eqref{#1} and \eqref{#2}}
+\newcommand{\Eqss}[3]{Equations~\eqref{#1}, \eqref{#2} and \eqref{#3}}
+\newcommand{\EqRange}[2]{Equations~\eqref{#1}-\eqref{#2}}
+
+\newcommand{\Cls}{C}
+\newcommand{\UG}{\dyad{M}}
+\newcommand{\TG}{\dyad{M}^T}
+
+
+%% others
+\newlength{\resLen}
+\newlength{\raiseLen}
 
 \graphicspath{{img/}}

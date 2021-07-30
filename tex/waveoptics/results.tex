@@ -1,0 +1,97 @@
+\section{Experiments}
+\label{sec:waveoptics:results}
+
+In this section, we first validate our technique by comparing bulk scattering parameters computed with our method and the Lorenz-Mie theory (\S\ref{ssec:result_validation}).
+Then, we apply our technique described in \S\ref{sec:waveoptics:ours_theory} and \S\ref{sec:waveoptics:ours_numerical} to compute bulk scattering parameters for a wide range of participating media (\S\ref{ssec:result_main}).
+
+
+\subsection{Validation}
+\label{ssec:result_validation}
+
+To validate our technique, we compare computed bulk scattering parameters provided by our implementation and \texttt{MiePlot} \cite{laven2011mieplot}, a free software based on the Lorenz-Mie theory.
+We focus on the configuration where a cluster contains only one (spherical) particle as this is a fundamental assumption of the Lorenz-Mie theory.
+
+\input{tex/waveoptics/fig/mie}
+
+In Figure \ref{fig:waveoptics:mie}, we visualize computed single-scattering phase functions at the wavelength 600~nm with three particle radii (300, 600, and 900~nm).
+We set the refractive index of the embedding medium to $(1.5 + 0.1\img)$.
+
+Additionally, we show in Figure \ref{fig:waveoptics:mie2} the corresponding extinction and scattering cross sections $\cT$ and $\cS$ given by Equations~\eqref{eq:crosstcluster} and \eqref{eq:crossscluster}, respectively.
+In all these examples, our computed scattering parameters match those predicted by the Lorenz-Mie theory perfectly.
+
+\input{tex/waveoptics/fig/mie2}
+
+
+\subsection{Main Results}
+\label{ssec:result_main}
+%
+We now demonstrate the versatility of our technique by computing bulk scattering parameters for a range of participating media.
+Please see Table~\ref{fig:waveoptics:time} for the performance statistics of our experiments.
+
+\input{tex/waveoptics/tab/time}
+
+\paragraph{Isotropic media}
+
+In computer graphics, volumetric light transport effects are typically simulated using \emph{isotropic media} where the extinction and scattering coefficients $\sigT$, $\sigS$ are directionally independent, and the single-scattering phase function $\phase$ is formulated as a 1D function on the angle between the incident and scattered directions.
+
+Our technique can produce bulk scattering parameters for isotropic media using particles distributed in radically symmetric densities.
+We conduct a few ablation studies to demonstrate how different particle arrangements in a cluster affects the resulting parameters.
+We use a wavelength of 600~nm for all these studies and represent the 1D phase functions as tabulated (i.e., piecewise constant) functions using 180 equal-sized bins.
+
+\input{tex/waveoptics/fig/ablation}
+
+\input{tex/waveoptics/fig/lucycompare}
+
+In our first study, we use a cluster of 100 particles with radii 500~nm. Then, we vary the distances between particles (by using bounding spheres with different sizes and distributing particles uniformly in these spheres).
+As shown in Figure \ref{fig:waveoptics:ablation} (a), the closer the particles are to each other, the more forward the resulting phase function is.
+This is expected: With sparsely distributed particles, it is simpler for light to pass straightly through.
+
+Our second ablation study examines the effect of particle size. With 100 uniformly distributed particles, we apply our technique to three particle sizes ($\radius_i$= 400, 500, and 600 nm).
+As shown in Figure \ref{fig:waveoptics:ablation} (b), as we increase the particles radius, the phase function becomes more forward and increases its frequency. This agrees with the behaviour of single particles predicted by Lorenz-Mie theory. 
+
+In our third study, we vary the number of particles in a cluster while keeping the particle size fixed to $\radius_i$=500 nm.
+Figure \ref{fig:waveoptics:ablation} (c) shows that as we increase the number of particles, the phase function gets more forward and of higher-frequency, in a behaviour somewhat correlated with the particles size. This is the result of the increasing number of diffractive elements on the cluster, that instead of making scattering more diffuse (as predicted by geometric optics) increases its forward frequency. 
+
+Lastly, we show in Figure \ref{fig:waveoptics:lucycompare} monochrome renderings using bulk scattering parameters obtained with varying combinations of particle count and radius.
+
+
+\paragraph{Multi-spectral results}
+
+Since our technique is derived using microphysical wave optics, it allows systematic generation of multi-spectral parameters based on a single (monochrome) configuration of particle cluster.
+
+To demonstrate this, we use a configuration of 100 uniformly distributed particles (per cluster) with radius 500~nm and compute bulk scattering parameters at 50 wavelengths ranging from 400~nm to 700~nm.
+
+\input{tex/waveoptics/fig/multiwave1}
+
+\input{tex/waveoptics/fig/multiwave2}
+
+In Figure \ref{fig:waveoptics:multiwave1}, we visualize the computed phase functions at three wavelengths as well as multi-spectral renderings of a backlit thin slab.
+The smooth changes in scattering parameters across wavelength have resulted in a characteristic rainbow-like effect.
+When using the single-particle configuration (with identical overall particle density per unit volume), the rainbow effect is missing.
+
+Figure \ref{fig:waveoptics:multiwave2} shows renderings of the Lucy model using these scattering parameters.
+
+
+\paragraph{Anisotropic media}
+
+Anisotropic media allow the extinction and scattering coefficients $\sigT$, $\sigS$ to be directionally dependent, and have full 4D phase functions $\phase$.
+Previously, although the scattering parameters of anisotropic media can be devised based on the microflake models \cite{jakob2010radiative,heitz2015sggx}, equivalences of the Lorenz-Mie theory, to our knowledge, have been lacking. 
+
+\input{tex/waveoptics/fig/aniso1}
+
+By using anisotropic particle distributions, our technique can generate bulk scattering parameters for anisotropic media.
+To demonstrate this, we use a configuration where the cluster contains $\Ncls = 100$ particles following an anisotropic Gaussian distribution, as illustrated in Figure \ref{fig:waveoptics:aniso1}(a).
+We tabulate the extinction and scattering cross sections using the latitude-longitude parameterization with a resolution of $180 \times 360$.
+Due to the symmetry of the disc, the resulting phase function $\phase$ is three-dimensional, and we tabulated it with the resolution $90 \times 180 \times360$.
+
+In Figure \ref{fig:waveoptics:aniso1}(b), we visualize slices of the computed single-scattering phase function $\phase$ with two incident directions $\dwi$.
+In Figure \ref{fig:waveoptics:aniso2}, we show renderings of the Lucy model with three (spatially invariant) orientations.
+
+\input{tex/waveoptics/fig/aniso2}
+
+
+\paragraph{Correlated particles}
+
+Finally, in Figure \ref{fig:waveoptics:correlated} we demonstrate the effect of particles correlation within the cluster, by analyzing particles distributed using both negative (Poisson sampled) and positive correlation \cite{jarabo2018radiative}. We compare the effect of introducing microscopic correlation on media where the clusters position is itself correlated, compared with uniformly distributed particles inside the clusters. These two levels of correlation have significant effect on the final appearance of the translucent materials. 
+
+\input{tex/waveoptics/fig/correlated}

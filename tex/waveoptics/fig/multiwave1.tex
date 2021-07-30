@@ -1,0 +1,26 @@
+\begin{figure}[h!]
+    \centering
+    \setlength{\resLen}{1.6in}
+    \addtolength{\tabcolsep}{3pt}
+    \begin{tabular}{cc}
+        \begin{overpic}[height=\resLen]{waveoptics/pfunc/color.jpg}
+            \put(2, 57){Ours}
+        \end{overpic}
+        &
+        \includegraphics[height=\resLen]{waveoptics/slab/color4x.jpg}
+        \\
+        \begin{overpic}[height=\resLen]{waveoptics/pfunc/color1.jpg}
+            \put(2, 57){Single-particle}
+        \end{overpic}
+        &
+        \includegraphics[height=\resLen]{waveoptics/slab/color4x_1.jpg}
+        \\
+        \textbf{(a)} Phase function & \textbf{(b)} Thin-slab rendering
+    \end{tabular}
+    \caption[Multi-spectral results]{\label{fig:waveoptics:multiwave1}
+        \textbf{Multi-spectral results:} \textbf{(a)} visualizations of phase functions; \textbf{(b)} corresponding multi-spectral renderings of a thin slab lit by a small area light from behind.
+        Results on the top are generated using a cluster of 100 particles with radii 500nm.
+        Results on the bottom are obtained using a conventional single-particle setting.
+        We used identical particle counts per differential volume for both configurations.
+    }
+\end{figure}

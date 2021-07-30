@@ -1,0 +1,28 @@
+\section{Related Work}
+\label{sec:waveoptics:related}
+
+\paragraph{Radiative Transfer. } 
+Simulating the propagation of light in participating media has been widely studied in graphics \cite{novak2018monte}, building upon the radiative transfer equation (RTE), introduced 125 years ago by von Lommel \cite{lommel1889photometrie} (see \cite{mishchenko2013125} for a historical perspective). 
+
+This escalar radiative formulation has been extended in graphics accounting for anisotropic \cite{jakob2010radiative}, refractive \cite{ament2014refractive}, bispectral \cite{gutierrez2008visualizing}, or spatially-correlated media \cite{jarabo2018radiative,bitterli2018radiative}. All these works assume a radiometric light transport model, establishing no connections with the electromagnetic behaviour governing light transport. 
+
+From a wave optics perspective, a few works have generalized light transport in media to account for wave-based properties, including polarized light transport \cite{wilkie2001combined,Jarabo2018bidirectional}, or coherence \cite{bar2019monte}. This last work is of special relevance, given that it was able to simulate purely wave-based phenomena such as speckle or coherent back-scattering on top of a radiative model. 
+
+All these works build on the assumption of the far-field approximation and independent scattering, which largely simplifies computations. A notable exception is the near-field model proposed by Bar et al.\cite{bar2020rendering}, that renders speckle statistics in the near-field zone of the camera, although it still considers independent far-field scattering between particles. In contrast, in this work we explicitly relate the radiometric light transport modeled by the RTE with physics-based optics based on electromagnetism, and generalize the independent scattering approximation to account clusters of particles in the near field. 
+
+
+\paragraph{Modeling scattering in media}
+
+The phase function models the average scattering distribution at an interaction with the medium. A common approach is to use simple phenomenological models, such as the Henyey-Greenstein phase function \cite{henyey1941diffuse} or mixtures of von Mishes-Fisher distributions \cite{gkioulekas2013understanding}, as well as other functions modeling the scattering of idealized anistropic particles \cite{zhao2011building,heitz2015sggx}; however, these methods lack an explicit relationship with the underlying microscopic material properties. Under the assumption of geometric optics, several works have proposed to precompute the phase functions of more complex particles for granular materials \cite{meng2015multi,muller2016efficient} or cloth fibers \cite{aliaga2017appearance} using explicit path tracing, by neglecting wave effects. 
+
+A more rigorous phase function is based on the Lorenz-Mie theory \cite{hulst1981light}, which provides closed-form solutions for the Maxwell's equations for spherical particles \cite{jackel1997modeling,frisvad2007computing}. Sadeghi et al. \cite{sadeghi2012physically} generalized the Lorenz-Mie theory to larger non-spherical particles in the context of accurately modeling rainbows. To avoid the expensive sum series of the Lorenz-Mie theory, Guo et al. \cite{guo2021rendering} proposed to use the geometric optics approximation \cite{glantschnig1981light}, which give a good approximation to Lorenz-Mie theory for larger particles at significantly lower cost. 
+
+All these approaches provide accurate rigorous solutions to the far-field scattering of disperse particles. 
+
+Beyond Lorenz-Mie, several exact rigorous solutions have been proposed for computing  electromagnetic scattering of particles in media, including the finite elements method (FEM), the finite difference time domain (FDTD) method, or the boundary elements method (BEM) \cite{wu1977scattering}, which solve the Maxwell's equations for arbitrary shapes. Xia et al. \cite{xia2020wave} proposed using BEM for accurately precomputing the far-field scattering of individual fibers. Unfortunately these methods are very slow as the number of particles increase, limiting its applicability to individual elements in problems with reduced dimensionality. 
+
+The T-matrix method \cite{waterman1965matrix} generalizes the Lorentz-Mie theory to particles of arbitrary shape in both the near- and far-fields, with the only assumption of the computed field being outside a sphere surrounding the particles. This method was later extended to clusters of multiple particles \cite{peterson1973t,mackowski2011multiple}. We leverage the T-matrix method for computing the scattering of groups of particles. 
+
+\paragraph{Wave optics in surface scattering} 
+Inspired on the vast background on electromagnetic surface scattering in optics (see \cite{frisvad2020survey} for a general survey), several works in graphics have taken into account relevant wave effects including diffraction-aware BSDFs \cite{he1991comprehensive,stam1999diffraction,cuypers2012reflectance,dong2015predicting,holzschuch2017two, toisoul2017practical, werner2017scratch,yan2018rendering},  goniochromatic patterns due to thin-layer interference \cite{smits1992newton,gondek1994wavelength,belcour2017practical,guillen2020general} or birefringence \cite{steinberg2019analytic}. These works assume single scattering, with no interaction between different particles with a few exceptions that assume full incoherence after single scattering \cite{falster2020computing,guillen2020general}. Notably, Moravec \cite{moravec19813d} and Musbach et al. \cite{musbach2013full} computed the full electromagnetic surface scattering by solving the full wave propagation using the FDTD. 
+

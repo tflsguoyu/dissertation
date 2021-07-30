@@ -1,0 +1,29 @@
+\section{Introduction}
+\label{sec:waveoptics:intro}
+
+Participating media and translucent materials---such as marble, milk, wax, and human skin---are ubiquitous in the real world. These materials allow light to penetrate their surfaces and scatter in the interior. 
+
+In computational optics and computer graphics, how light interacts with participating media and translucent materials is typically modeled using the radiative transfer theory (RTT). Under this formulation, a participating medium consists of microscopic particles (\emph{scatterers}) randomly dispersed in some homogeneous embedding medium. After entering a translucent material, light travels in straight lines in the embedding medium and occasionally collides with a particle and gets redirected into a new direction. To capture the macroscopic behavior of light, the RTT uses a statistical description of the particles (the medium bulk parameters), namely the extinction coefficient $\sigT$ (aka. optical density), the scattering coefficient $\sigS$, and the phase function $\phase$.
+
+While purely phenomenological in origin, the RTT has been demonstrated a corollary of Maxwell equations, under the assumption of far-field or independent scattering \cite{mishchenko2002vector}. Therefore, these optical bulk parameters can be obtained from first principles, using e.g. Lorenz-Mie theory \cite{hulst1981light,frisvad2007computing}. However, although very successful in practice, this theory neglects the interactions occurring between particles in their near-field, including wave-optics effects such as diffraction and interference with neighbor particles. Consequently, Lorenz-Mie theory is largely limited to isotropic media with relatively low packing rates.
+
+
+Previously, the classical radiative transfer theory has been generalized to handle materials with (statistically) organized microstructures. 
+Anisotropic media \cite{jakob2010radiative}, for instance, have bulk scattering parameters with stronger directional dependency compared to isotropic media.
+Additionally, media comprised of particles with correlated locations can exhibit non-exponential transmittance and characteristic scattering profiles \cite{bitterli2018radiative,jarabo2018radiative}.
+Although several empirical models have been proposed to model these media, these still base on the very same far-field assumption of Lorenz-Mie scattering. Therefore, techniques capable of computing the bulk optical parameters of a material, based its microscopic properties, have been lacking.
+
+In this paper, we bridge this gap by introducing a new technique to systematically and rigorously compute the bulk scattering parameters.
+The elementary building block of our technique is \emph{particle clusters} in which individual particles follow user-specified distributions.
+Within a cluster, we consider full near-field light transport effects; Between clusters, on the contrary, we use a far-field approximation to allow efficient modeling of macroscopic level light transport.
+
+Our formulation is derived from first principles of light transport (i.e., Maxwell electromagnetism) and reduces to the Lorenz-Mie theory in the special case of single-particle scatterers. Based on this formulation, we demonstrate how the bulk parameters can be computed numerically. Using our technique, we systematically generate radiative transfer optical parameters capturing multi-spectral, anisotropic, and correlated scattering effects for particles with arbitrary distributions (Figure \ref{fig:waveoptics:teaser}).
+
+Concretely, our contributions include:
+\begin{itemize}
+    \item Establishing a computational framework for modeling light scattering from clusters of particles (\S\ref{sec:waveoptics:ours_theory}).
+    %
+    \item Showing how radiatve transfer parameters can be computed numerically based on our formulation (\S\ref{sec:waveoptics:ours_numerical}).
+    %
+    \item Demonstrating how our technique can be applied to systematically compute scattering parameters for a variety of participating media (\S\ref{sec:waveoptics:results}).
+\end{itemize}
