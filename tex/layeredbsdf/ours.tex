@@ -52,52 +52,51 @@ Our approach is conceptually similar to bidirectional path tracing (BDPT) but is
 
 Given the incoming and outgoing directions $\omegain$ and $\omegaout$, consider two light transport paths, generated from the light and camera, respectively.
 \begin{equation}
-\begin{aligned}
-\bar{x}_i &= (\bd_0, z_1, \bd_1, \ldots, z_s) \\
-\bar{x}_o &= (\bd'_0, z'_1, \bd'_1, \ldots, z_t'),
-\end{aligned}
+	\begin{aligned}
+	\bar{x}_i &= (\bd_0, z_1, \bd_1, \ldots, z_s) \\
+	\bar{x}_o &= (\bd'_0, z'_1, \bd'_1, \ldots, z_t'),
+	\end{aligned}
 \end{equation}
 where $\bd_0 = -\omegain$ and $\bd'_0 = -\omegaout$ (Figure \ref{fig:layeredbsdf:mc_estimators}-c).
 Now we can construct a full light path $\bar{y}_{s, t}$ connecting the $s$-th vertex in $\bar{x}_i$ and the $t$-th vertex in $\bar{x}_o$ (assuming the connection between $z_s$ and $z'_t$ does not cross any layer boundary):
 \begin{equation}
-\bar{y}_{s, t} = (\bd_0, \ldots, z_{s - 1}, \bd_{s - 1}, z_s, \tilde{\bd}, z'_t, -\bd'_{t - 1}, z'_{t - 1}, \ldots, -\bd'_0).
+	\bar{y}_{s, t} = (\bd_0, \ldots, z_{s - 1}, \bd_{s - 1}, z_s, \tilde{\bd}, z'_t, -\bd'_{t - 1}, z'_{t - 1}, \ldots, -\bd'_0).
 \end{equation}
 Unlike traditional BDPT, where the connection term between two given subpaths endpoints is fixed, there exists infinitely many valid directions $\tilde{\bd}$ connecting $z_s$ and $z'_t$ in our case, which gives us freedom to importance-sample the direction. In practice, we choose $\tilde{\bd}$ in two ways by sampling additional directions $\bd_s$ and $\bd'_t$ by extending the two subpaths with an extra importance sampling step. We set $\tilde{\bd}$ to $\bd_s$ and $-\bd'_t$ respectively. This yields two light paths $\bar{y}^{(0)}_{s, t}$ and $\bar{y}^{(1)}_{s, t}$ (Figure \ref{fig:layeredbsdf:mc_estimators}-de), thus providing two samples of the path integral.
 Denote the extended subpaths by
 \begin{align}
-\bar{x}_i^+ &:= (\bd_0, z_1, \bd_1, \ldots, z_s, \bd_s),\\
-\bar{x}_o^+ &:= (\bd'_0, z'_1, \bd'_1, \ldots, z'_t, \bd'_t),
+	\bar{x}_i^+ &:= (\bd_0, z_1, \bd_1, \ldots, z_s, \bd_s),\\
+	\bar{x}_o^+ &:= (\bd'_0, z'_1, \bd'_1, \ldots, z'_t, \bd'_t),
 \end{align}
 and let $\bar{x}^*$ denote the adjoint (reversed) version of a light path $\bar{x}$, e.g., \\$\bar{x}_o^{+*} = (-\bd'_t, z'_t, -\bd'_{t - 1}, \ldots, z'_1, -\bd'_0)$.
 
 Let $v(z, \bom, \bom')$ and $s(z, z', \bom)$ be the vertex and segment contributions defined in eqs. \eqref{eqn:vtx_contrib} and \eqref{eqn:seg_contrib}.
 We can easily verify that
 \begin{align}
-f(\bar{y}_{s,t}^{(0)}) &= f(\bar{x}_i^+) \, f(\bar{x}_o^*) \, s(z_s, z'_t, \bd_s) \, v(z'_t, -\bd_s, -\bd'_{t - 1}),\\
-f(\bar{y}_{s,t}^{(1)}) &= f(\bar{x}_i) \, f(\bar{x}_o^{+*}) \, v(z_s, -\bd_{s - 1}, -\bd'_t) \, s(z_s, z'_t, -\bd'_t).
+	f(\bar{y}_{s,t}^{(0)}) &= f(\bar{x}_i^+) \, f(\bar{x}_o^*) \, s(z_s, z'_t, \bd_s) \, v(z'_t, -\bd_s, -\bd'_{t - 1}),\\
+	f(\bar{y}_{s,t}^{(1)}) &= f(\bar{x}_i) \, f(\bar{x}_o^{+*}) \, v(z_s, -\bd_{s - 1}, -\bd'_t) \, s(z_s, z'_t, -\bd'_t).
 \end{align}
 It follows that the two Monte Carlo estimates will be:
 \begin{align}
-\label{eqn:bidir_estimate_i}
-\frac{f(\bar{y}^{(0)}_{s, t})}{p(\bar{y}^{(0)}_{s, t})} &=
-\frac{f(\bar{x}_i^+)}{p(\bar{x}_i^+)}
-\frac{f(\bar{x}_o^*)}{p(\bar{x}_o)}
-\, s(z_s, z'_t, \bd_s) \, v(z'_t, -\bd_s, -\bd'_{t - 1})\\
-%
-\label{eqn:bidir_estimate_j}
-\frac{f(\bar{y}^{(1)}_{s, t})}{p(\bar{y}^{(1)}_{s, t})} &=
-\frac{f(\bar{x}_i)}{p(\bar{x}_i)}
-\frac{f(\bar{x}_o^{+*})}{p(\bar{x}_o^+)}
-\, v(z_s, \bd_{s - 1}, \bd'_t) \, s(z_s, z'_t, -\bd'_t),
+	\label{eqn:bidir_estimate_i}
+	\frac{f(\bar{y}^{(0)}_{s, t})}{p(\bar{y}^{(0)}_{s, t})} &=
+	\frac{f(\bar{x}_i^+)}{p(\bar{x}_i^+)}
+	\frac{f(\bar{x}_o^*)}{p(\bar{x}_o)}
+	\, s(z_s, z'_t, \bd_s) \, v(z'_t, -\bd_s, -\bd'_{t - 1})\\
+	\label{eqn:bidir_estimate_j}
+	\frac{f(\bar{y}^{(1)}_{s, t})}{p(\bar{y}^{(1)}_{s, t})} &=
+	\frac{f(\bar{x}_i)}{p(\bar{x}_i)}
+	\frac{f(\bar{x}_o^{+*})}{p(\bar{x}_o^+)}
+	\, v(z_s, \bd_{s - 1}, \bd'_t) \, s(z_s, z'_t, -\bd'_t),
 \end{align}
 Note that in general $f(\bar x_o) \neq f(\bar x_o^*)$ and $f(\bar x_o^+) \neq f(\bar x_o^{+*})$ due to non-reciprocal operations such as shading normals; care must be taken to compute correct throughputs of light subpaths, as detailed in Chapter 5 of Veach \cite{veach1997robust}.
 
 The above discussion assumed a single light and single camera subpath. In practice, we combine all prefixes of the sampled subpaths. In particular, we sample subpaths of length $n_i$ and $n_o$ from the light and camera respectively (the lengths are chosen through Russian roulette):
 \begin{equation}
-\begin{aligned}
-\bar{x}_i &= (\bd_0, z_1, \bd_1, \ldots, z_{n_i}, \bd_{n_i}),\\
-\bar{x}_o &= (\bd'_0, z'_1, \bd'_1, \ldots, z'_{n_o}, \bd'_{n_o}).
-\end{aligned}
+	\begin{aligned}
+	\bar{x}_i &= (\bd_0, z_1, \bd_1, \ldots, z_{n_i}, \bd_{n_i}),\\
+	\bar{x}_o &= (\bd'_0, z'_1, \bd'_1, \ldots, z'_{n_o}, \bd'_{n_o}).
+	\end{aligned}
 \end{equation}
 For all $s$ and $t$ combinations, Eqs. \eqref{eqn:bidir_estimate_i} and \eqref{eqn:bidir_estimate_j} provide $2 n_i n_o$ estimators of $f_l(\omegain, \omegaout)$.
 Combining them using MIS gives us our bidirectional estimator for paths of length 2 or more vertices. We handle single vertex paths separately. The details of MIS weighting are discussed in the supplementary document.
@@ -112,12 +111,12 @@ This operator is used for weight computation in multiple importance sampling (us
 
 Although $p(\omegaout \;|\; \omegain)$ is usually easily available for traditional analytical BSDFs, no closed-form pdf exists in our case. Instead, the pdf evaluation has comparable form to the BSDF evaluation itself. It can be expressed using another position-free path integral:
 \begin{equation}
-\label{eqn:ours_pdf}
-p(\omegaout \;|\; \omegain) = \int_{\Omega(\omegain, \omegaout)} \mathcal{P}(\bar{x}) \intd\mu(\bar{x}),
+	\label{eqn:ours_pdf}
+	p(\omegaout \;|\; \omegain) = \int_{\Omega(\omegain, \omegaout)} \mathcal{P}(\bar{x}) \intd\mu(\bar{x}),
 \end{equation}
 where
 \begin{equation}
-\mathcal{P}(\bar{x}) := \left(\prod_{j = 1}^k p(\bd_j \;|\; z_j, \bd_{j - 1})\right) \left(\prod_{j = 1}^{k - 1} p(z_{j + 1} \;|\; z_j, \bd_{j - 1})\right),
+	\mathcal{P}(\bar{x}) := \left(\prod_{j = 1}^k p(\bd_j \;|\; z_j, \bd_{j - 1})\right) \left(\prod_{j = 1}^{k - 1} p(z_{j + 1} \;|\; z_j, \bd_{j - 1})\right),
 \end{equation}
 with $k$ denoting the number of vertices in $\bar{x}$. Note that $\bd_k = \omegaout$.
 

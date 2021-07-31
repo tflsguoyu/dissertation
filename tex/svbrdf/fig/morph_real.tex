@@ -1,0 +1,17 @@
+\begin{figure}[h]
+	\centering
+	\setlength{\resLen}{3.2in}
+	\addtolength{\tabcolsep}{-3.5pt}
+	\begin{tabular}{cc}
+		GAN-based interpolation of SVBRDF maps & Linear interpolation of SVBRDF maps\\
+		\includegraphics[width=\resLen]{svbrdf/results/morph/1_gan.jpg} &
+		\includegraphics[width=\resLen]{svbrdf/results/morph/1_naive.jpg}\\
+		\includegraphics[width=\resLen]{svbrdf/results/morph/2_gan.jpg} &
+		\includegraphics[width=\resLen]{svbrdf/results/morph/2_naive.jpg}\\
+		\includegraphics[width=\resLen]{svbrdf/results/morph/3_gan.jpg} &
+		\includegraphics[width=\resLen]{svbrdf/results/morph/3_naive.jpg}
+	\end{tabular}
+	\caption[Material interpolation]{\label{fig:svbrdf:morph_real}
+		\textbf{Material interpolation.} Renderings of interpolations between two SVBRDFs recovered from real images using our method. Results on the left and right columns are obtained, respectively, using our GAN latent space and na\"ive linear interpolation.
+	}
+\end{figure}
