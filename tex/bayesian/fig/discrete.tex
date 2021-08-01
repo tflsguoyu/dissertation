@@ -1,0 +1,57 @@
+\renewcommand{\imglabel}[1]{\put(2,5){\scriptsize\contour{black}{\textcolor{white}{\textbf{#1}}}}}
+\begin{figure}[h]
+	\centering
+	\setlength{\resLen}{0.12\columnwidth}	
+	\addtolength{\tabcolsep}{-5pt}
+	\begin{tabular}{cccccccc}
+		Target & S1 & S2 & S3 & Target & S1 & S2 & S3
+		\\
+		\begin{overpic}[width=\resLen]{bayesian/fig6/2_leather_1/target.jpg}
+			\imglabel{Leather-1}
+		\end{overpic} &
+		\includegraphics[width=\resLen]{bayesian/fig6/2_leather_1/good1.jpg} &
+		\includegraphics[width=\resLen]{bayesian/fig6/2_leather_1/bad1.jpg} &
+		\includegraphics[width=\resLen]{bayesian/fig6/2_leather_1/bad2.jpg} &
+		\begin{overpic}[width=\resLen]{bayesian/fig6/3_plaster_2/target.jpg}
+			\imglabel{Plaster-2}
+		\end{overpic} &
+		\includegraphics[width=\resLen]{bayesian/fig6/3_plaster_2/good1.jpg} &
+		\includegraphics[width=\resLen]{bayesian/fig6/3_plaster_2/bad1.jpg} &
+		\includegraphics[width=\resLen]{bayesian/fig6/3_plaster_2/bad2.jpg}
+		\\
+		&
+		\begin{overpic}[width=\resLen]{bayesian/fig6/cell/cell_1.jpg}
+			\put(0,0){\color{green}%
+				\frame{\includegraphics[width=0.4\resLen]{bayesian/fig6/cell/cell_1_zoom.jpg}}}
+		\end{overpic}
+		&
+		\begin{overpic}[width=\resLen]{bayesian/fig6/cell/cell_2.jpg}
+			\put(0,0){\color{green}%
+				\frame{\includegraphics[width=0.4\resLen]{bayesian/fig6/cell/cell_2_zoom.jpg}}}
+		\end{overpic}
+		&
+		\begin{overpic}[width=\resLen]{bayesian/fig6/cell/cell_3.jpg}
+			\put(0,0){\color{green}%
+				\frame{\includegraphics[width=0.4\resLen]{bayesian/fig6/cell/cell_3_zoom.jpg}}}
+		\end{overpic}
+		&
+		&
+		\begin{overpic}[width=\resLen]{bayesian/fig6/noise/noise_1.jpg}
+			\put(0,0){\color{green}%
+				\frame{\includegraphics[width=0.4\resLen]{bayesian/fig6/noise/noise_1_zoom.jpg}}}
+		\end{overpic}
+		&
+		\begin{overpic}[width=\resLen]{bayesian/fig6/noise/noise_2.jpg}
+			\put(0,0){\color{green}%
+				\frame{\includegraphics[width=0.4\resLen]{bayesian/fig6/noise/noise_2_zoom.jpg}}}
+		\end{overpic}
+		&
+		\begin{overpic}[width=\resLen]{bayesian/fig6/noise/noise_3.jpg}
+			\put(0,0){\color{green}%
+				\frame{\includegraphics[width=0.4\resLen]{bayesian/fig6/noise/noise_3_zoom.jpg}}}
+		\end{overpic}
+	\end{tabular}
+	\caption[Synthetic results with discrete parameters]{\label{fig:bayesian:discrete}
+		\textbf{MCMC sampling with discrete parameters.} In these examples, we illustrate the ability of our sampling to handle discrete parameters. In both examples, one noise inputs used in the procedural model can be switched between several different types of noise. Out of the thousands of sampled solutions, we pick three that have different settings of the discrete parameter where the (log) pdf values decrease from S1 to S3.
+	}
+\end{figure}

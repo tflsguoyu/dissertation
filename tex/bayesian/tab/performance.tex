@@ -1,0 +1,14 @@
+\begin{table}[h]
+	\centering
+	\caption[Performance]{\label{tab:bayesian:performance}
+		Performance statistics for our MCMC-based posterior sampling.
+		The numbers are collected using a workstation equipped with an Intel i7-6800K six-core CPU and an Nvidia GTX 1080 GPU.
+	}
+	\addtolength{\tabcolsep}{3pt}
+	\begin{tabular}{c|cccccc}
+		Material & bump & leather & plaster & flakes & metal & wood\\
+		\hline
+		\# of parameters. & 8 & 12 & 11 & 13 & 10 & 23\\
+		MCMC (1k iter.) & 180s & 194s & 190s & 187s & 182s & 290s
+	\end{tabular}
+\end{table}
