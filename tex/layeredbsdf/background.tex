@@ -1,7 +1,7 @@
 \section{Background and Overview}
 \label{sec:layeredbsdf:background}
 
-In this section, we explicitly state the assumptions of our method, provide background on the standard path formulation of light transport, and provide a quick overview of the rest of the paper.
+In this section, we explicitly state the assumptions of our method, provide background on the standard path formulation of light transport, and provide a quick overview of the rest of the chapter.
 
 \subsection{Assumptions}
 Although light generally enters and leaves the layer from different locations, we note that when the layers are thin and the lighting is comparably distant, the entrance and departure locations will be close enough to each other. We assume it is acceptable to ignore this displacement, allowing us to describe the light transport in the layers using BSDFs, rather than BSSRDFs (Figure~\ref{fig:layeredbsdf:assumption}).
@@ -25,7 +25,7 @@ where $\bar x = (x_0, \dots, x_k)$ is a path with $k$ segments and $k + 1$ verti
 $\Omega$ is the space of all paths and is defined as the union of $\Omega_k$ for $k \geq 0$, where $\Omega_k$ indicates the set of paths of length $k$.
 Furthermore, $f(\bar x)$ is the path contribution to the integral, and $\mu(\bar x)$ is a special measure on the path space, defined as the product of area measures on the vertices $x_i$. The contribution $f(\bar x)$ is a product of vertex terms (normally BSDFs and phase functions) and geometry terms corresponding to path segments. The geometry terms contain the squared distance between the two vertices in the denominator; this is a significant source of variance when trying to connect independently sampled vertices on thin layer configurations.
 
-\subsection{Paper overview}
+\subsection{Overview}
 
 In Section \ref{sec:layeredbsdf:pathformulation}, we describe our path formulation of layered light transport. Our path integral differs from Veach's formulation in that it is \emph{position-free}. The key idea is that on an infinite flat slab, the horizontal positions of vertices do not matter: it is only the vertical position (depth) of a vertex, and the \emph{directions} between vertices, that are relevant to a light transport integral. The vertices are defined by their depth in the layer, as opposed to a full 3D position, and the segments have variable unit directions.
 

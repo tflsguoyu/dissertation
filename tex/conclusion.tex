@@ -1,3 +1,36 @@
 \chapter{Conclusion and Future work}
 \label{cpt:conclusion}
 
+In the dissertation, we focus on material appearances modeling in both forward and inverse rendering. All the macro appearances are modeled from microscales or hyperparameter spaces. 
+
+First we have presented two scattering frameworks in forward rendering, one for layered materials (\emph{thin planer surface}) and the other one for participating medium (\emph{bulk,particles}). The first work \textbf{LayeredBSDF} provides a general solution to layered materials which is included in \emph{Physically Based Rendering}, Fourth Edition \cite{pharr2021physically}. It leads to the first BSDF layering solution that offers unbiased accuracy and full flexibility in setting the layer properties.
+Our second work \textbf{Beyond Mie Theory} generalizes the widely-used Lorenz-Mie theory for rigorously deriving optical properties of scattering media, and can be readily used in any radiative-based light transport simulator.
+
+Then we have estimated material properties using \emph{latent space} and \emph{procedural parameters}. Our third work \textbf{MaterialGAN} is the first step toward GAN-based material analysis and synthesis and our experiments suggest many avenues for further exploration. Our last work \textbf{Bayesian Inference Sampling} handles both continuous and discrete model parameters and provides users additional information beyond single point estimates and allows a
+cleaner extension to handle discrete parameters.
+
+At the end, we will discuss the limitation of our work and future directions:
+
+\paragraph{LayeredBSDF}
+Our model relies on the assumption of thin flat layers (Figure \ref{fig:layeredbsdf:zhaoyun}) and cannot capture effects caused by geometric or optical variations at the global scale.
+Examples include internal caustics and shadowing arising from major normal variations and color bleeding caused by light scattering though media with varying colors.
+Generalizing our technique to include bidirectional subsurface scattering distribution functions (BSSRDFs) is an interesting further topic.
+In addition, as our model simulates subsurface scattering using Monte Carlo path tracing, the performance may degrade with the presence of optically thick layers with many scattering events.
+Using fast approximated solutions such as \cite{jensen2001practical,frisvad2014directional} to capture multiple scattering may be a useful extension.
+Lastly, since we model light transport using traditional radiative transfer, wave effects such as thin film interference are not handled.
+An interesting challenge is to integrate wave optics into our model to accurately and efficiently handle light interference and phase shifts.
+
+\paragraph{Beyond Mie Theory}
+While taking into account the effect of the near-field on clusters, our work is still based on the RTT. Therefore it relies on the far-field approximation to represent a scattering dyad useful for rendering. Therefore, while we can handle near- and far-field scattering, we cannot accurately model the scattering in the intermediate region, which we treat as the far field. Using more accurate representations, that capture the effects at such near-field region could further enhance the generality of our theory and, thus, is an interesting future topic. This would however require exploring an alternative light transport framework beyond the RTT.
+Right now, our implementation requires precomputing the bulk optical properties of the media. This limits the applicability of our work to media with homogeneous particle statistical properties. Finding faster approximations for our scattering functions, in the same spirit as the geometric optics approximation for Lorenz-Mie theory \cite{glantschnig1981light}, is an interesting future research. 
+Finally, our implementation is currently limited in practice to spherical particles with identical radii within a particle cluster. Allowing general and spatially varying particle shapes by using an alternative implementation of the T-matrix method would further improve the versatility of our technique.
+
+\paragraph{MaterialGAN}
+Our current BRDF model is shared by previous work, but certain common effects (layering on book covers, subsurface fiber scattering in woods, anisotropy in fabrics) are not correctly captured by it. An extension of our generative model and rendering operator would be possible, though the key challenge is finding high-quality  training data for these effects.
+Our assumption of almost flat samples will fail for materials with strong relief patterns, and will produce blurring or ghosting if there are obvious parallax effects in the aligned captured images. Strong self-shadowing or inter-reflections are also not currently handled. Solving for height instead of normal, with a more advanced rendering operator, may be able to resolve parallax effects and to correctly predict (and undo) shadowing effects from strong height variations.
+Furthermore, more precise calibration may improve our accuracy. This would likely require knowledge of the cell phone hardware, and/or pre-calibration of its properties (e.g. flash light falloff, lens vignetting, and color processing properties).
+The resolution of our result can be increased with a coarse-to-fine post-process, since we have a fairly good result as the initialization of next level of resolution.
+
+\paragraph{Bayesian Inference Sampling}
+In the future, we would like to increase the complexity of the models supported even further, to handle materials like woven fabrics, transmissive BTDFs, and more. Finally, extensions to our approach could be used to estimate parameters of procedural models beyond materials, including geometry and lighting, as long as the parameters could be differentiated.
+

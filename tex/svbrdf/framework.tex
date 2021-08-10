@@ -112,7 +112,7 @@ All of them give reasonable results, but Strategy 1 is better suited for materia
 Strategy 2 provides the fastest convergence because it allows the noise vector $\noise$ to be modified from the very beginning.
 This, however, generally causes the optimization to use $\noise$ for encoding higher-level features and is prone to overfitting.
 Finally, Strategy 3---a hybrid of Strategies 1 and 2---behaves in a more robust fashion than either of the previous strategies in most cases.
-We use Strategy 3 for all the results in our paper.
+We use Strategy 3 for all the results in this chapter.
 Additionally, our experiments indicate that it is desirable to use different VGG layer weights for the optimization of $\bw^+$ and $\noise$. The weights we are using are, for $\bw^+$: [1/512,1/512,1/128,1/64]; for $\noise$: [1/64,1/64,1/256,1/512].
 
 
@@ -132,5 +132,5 @@ We find that our method is robust to the initialization of the latent vectors. W
 However, this initialization represents a material with a high roughness (reflecting a bias in our training data) and sometimes leads to errors when fitting highly specular / low roughness materials.
 Therefore, we add an additional low roughness initialization (see Figure \ref{fig:svbrdf:init}(b)).
 In practice, given the captured images, we run our MaterialGAN optimization starting from both initializations and retain the result with the lowest optimization error of Eq. \eqref{eq:loss}.
-All of our results in this paper followed this scheme.
+All of our results in this chapter followed this scheme.
 

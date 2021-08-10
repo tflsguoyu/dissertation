@@ -25,7 +25,7 @@ Notice that, compared to standard bidirectional path tracing that combines $n_i 
 
 Computing Eqs. \eqref{eqn:bdpt_estimator} and \eqref{eqn:bdpt_weight_0} for all $s$ and $t$ na\"ively has a time complexity of $O(n_i n_o (n_i + n_o))$ and is too slow to be practical.
 We now present our method that runs in $O(n_i n_o)$ time.
-Our approach is conceptually similar to Veach's method for standard BDPT but differs in the exact mathematical form due to our position-free path formulation (see \S\ref{sec:layeredbsdf:ours} for the paper).
+Our approach is conceptually similar to Veach's method for standard BDPT but differs in the exact mathematical form due to our position-free path formulation (see \S\ref{sec:layeredbsdf:ours}).
 
 Let $\bar{y}_{s,t} = (\bd_0, z_1, \bd_1, \ldots, z_n, \bd_n)$ with $n = s + t$.
 For all $s', t' \in \{ 1, 2, \ldots, n \}$, define

@@ -5,16 +5,16 @@ In this section, we first provide experimental validations (\S\ref{subsec:res_va
 All the renderings are generated using the Mitsuba physically based renderer \cite{jakob2010mitsuba} with our layered model implemented as a BSDF plugin.
 Please see the accompanying video for animated versions of several results.
 
-All the multi-layer results in the paper use our bidirectional estimator with the explicit implementation (although our BSDF plugin also supports nesting BSDFs).
+All the multi-layer results in the chapter use our bidirectional estimator with the explicit implementation (although our BSDF plugin also supports nesting BSDFs).
 This is because the former runs faster, as seen in Figure \ref{fig:layeredbsdf:kettle}-(c).
 
 \subsection{Validations}
 \label{subsec:res_validation}
 
-\subsubsection{Cross validation}
+\paragraph{Cross validation}
 In Figures \ref{fig:layeredbsdf:lobes} and \ref{fig:layeredbsdf:validate_pdf} as well as the supplemental material, we cross-validate our Monte Carlo estimators depicted in \S\ref{subsec:ours_eval} by comparing our estimated BSDFs/pdfs to references generated using forward sampling (\S\ref{subsec:ours_sample}) and binning. Notice that the sampling procedure is a straightforward process that requires none of the complexity introduced by our path formulation and estimators.
 
-\subsubsection{White furnace tests}
+\paragraph{White furnace tests}
 We conducted a few ``white furnace tests'' to demonstrate the energy conservation of our layered BSDFs (Figure \ref{fig:layeredbsdf:white_test}).
 For all these examples, the BSDFs are constructed such that no energy is lost due to light-layer interactions.
 Under constant lighting (where identical amount of light comes from all directions), the object becomes invisible, demonstrating that our layered BSDFs indeed conserve energy properly.
@@ -24,6 +24,10 @@ Under constant lighting (where identical amount of light comes from all directio
 
 \subsection{Main Results}
 \label{subsec:res_main}
+
+\textbf{(Only a small subset of our results fits into the thesis. Please see our supplemental material and video for more results.
+[\href{https://www.ics.uci.edu/~yug10/webpage/suppl/2018TOG/index.html}{Click here}])}
+
 
 \subsubsection{Application: Coating thickness/normal variation}
 
@@ -74,8 +78,8 @@ Lastly, in Figure \ref{fig:layeredbsdf:kettle}, we show rendered results of a ke
 In column (a), the material has a single transparent water layer with a dielectric interface on the top and a metallic surface on the bottom.
 Both interfaces are normal mapped to capture the water drops and the scratches, respectively.
 In column (b), the material shares the same bottom surface as in (a) but has a smooth top interface and a translucent coating layer with spatially varying optical thickness and albedo, making only part of the bottom surface directly visible.
-Lastly, in column (c), the material has a dual-layer configuration by stacking the layers from (a) on top of that from (b).
-Our method offers the flexibility to conveniently model all three cases with the last one described using the explicit implementation depicted in \S\ref{subsec:multi_layer}.
+Lastly, in column (c), the material has a dual-layer configuration by stacking the layers from (a) on top of (b).
+Our method offers the flexibility to model all three cases with the last one described using the explicit implementation depicted in \S\ref{subsec:multi_layer}.
 
 \input{tex/layeredbsdf/fig/kettle}
 
@@ -88,16 +92,3 @@ Our performance does degrade with the presence of optically thick and highly sca
 However, as already demonstrated in Figure~\ref{fig:layeredbsdf:equal_time_compare}, rendering using our model is still significantly faster than explicitly simulating light transport in layered geometries.
 
 \input{tex/layeredbsdf/tab/performance}
-
-\subsection{Limitations and future work}
-\label{subsec:limitation}
-
-Our model relies on the assumption of thin flat layers (Figure \ref{fig:layeredbsdf:zhaoyun}) and cannot capture effects caused by geometric or optical variations at the global scale.
-Examples include internal caustics and shadowing arising from major normal variations and color bleeding caused by light scattering though media with varying colors.
-Generalizing our technique to include bidirectional subsurface scattering distribution functions (BSSRDFs) is an interesting further topic.
-In addition, as our model simulates subsurface scattering using Monte Carlo path tracing, the performance may degrade with the presence of optically thick layers with many scattering events.
-Using fast approximated solutions such as~\cite{jensen2001practical,frisvad2014directional} to capture multiple scattering may be a useful extension.
-Lastly, since we model light transport using traditional radiative transfer, wave effects such as thin film interference are not handled.
-An interesting challenge is to integrate wave optics into our model to accurately and efficiently handle light interference and phase shifts.
-
-

@@ -81,7 +81,7 @@ The same argument can be used for $X_f^2$.
 
 {\bf Application to direct illumination integral.} In our application, the integral of interest $I$ is normally the direct illumination estimate at a shading point. The function $f(x)$ involves the product of the BSDF and illumination values; this is integrated over the unit sphere (or unit hemisphere for BRDFs with no transmission), which is the domain $D$. The random variables $X_1$ and $X_2$ are outgoing directions $\omega_o$ chosen by light sampling and BSDF sampling, respectively. For the case of light sampling, we need to stochastically evaluate the MIS weight and BSDF value for the chosen $\omega_o$; these evaluations will consume vectors of uniform random numbers $R_1$ and $R_2$, respectively.
 
-{\bf No approximation of pdfs in estimator denominators.} While in the main paper we use approximate stochastic pdfs to define the weights, we never approximate the pdfs in the denominators of our estimators. In our case, the accurate values of these pdfs are already baked into the $f/p$ estimates returned by the position-free Monte Carlo simulations.
+{\bf No approximation of pdfs in estimator denominators.} While we use approximate stochastic pdfs to define the weights, we never approximate the pdfs in the denominators of our estimators. In our case, the accurate values of these pdfs are already baked into the $f/p$ estimates returned by the position-free Monte Carlo simulations.
 
 {\bf Sum of stochastic weights.} The sum of the stochastic approximations to weights $w_1$ and $w_2$ will generally not be exactly 1, but this is not required. We simply require that
 \begin{enumerate}
