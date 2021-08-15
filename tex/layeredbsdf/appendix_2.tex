@@ -27,11 +27,11 @@ Computing Eqs. \eqref{eqn:bdpt_estimator} and \eqref{eqn:bdpt_weight_0} for all 
 We now present our method that runs in $O(n_i n_o)$ time.
 Our approach is conceptually similar to Veach's method for standard BDPT but differs in the exact mathematical form due to our position-free path formulation (see \S\ref{sec:layeredbsdf:ours}).
 
-Let $\bar{y}_{s,t} = (\bd_0, z_1, \bd_1, \ldots, z_n, \bd_n)$ with $n = s + t$.
+Let $\bar{y}_{s,t} = (\bmd_0, z_1, \bmd_1, \ldots, z_n, \bmd_n)$ with $n = s + t$.
 For all $s', t' \in \{ 1, 2, \ldots, n \}$, define
 \begin{align}
-p^{(0)}_{s'} &:= \prod_{i = 1}^{s' - 1} p( \bd_i \;|\; z_i, \bd_{i - 1} ) \, p( z_{i + 1} \;|\; z_i, \bd_i ),\\
-p^{(1)}_{t'} &:= \prod_{i = n - t' + 1}^{n - 1} p( -\bd_i \;|\; z_{i + 1}, -\bd_{i + 1} ) \, p( z_i \;|\; z_{i + 1}, -\bd_i ),
+p^{(0)}_{s'} &:= \prod_{i = 1}^{s' - 1} p( \bmd_i \;|\; z_i, \bmd_{i - 1} ) \, p( z_{i + 1} \;|\; z_i, \bmd_i ),\\
+p^{(1)}_{t'} &:= \prod_{i = n - t' + 1}^{n - 1} p( -\bmd_i \;|\; z_{i + 1}, -\bmd_{i + 1} ) \, p( z_i \;|\; z_{i + 1}, -\bmd_i ),
 \end{align}
 which denote the probability for constructing two subpaths containing the first $s'$ and last $t'$ vertices of $\bar{y}$, respectively.
 Then, for all $u'$, $s'$ and $t'$, it holds that
@@ -41,8 +41,8 @@ p^{(u')}_{s',t'}(\bar{y}_{s,t}) = p^{(0)}_{s'} \, p^{(1)}_{t'} \, q^{(u')}_{s'},
 where
 \begin{equation}
 q^{(u')}_{s'} := \begin{cases}
-p( \bd_{s'} \;|\; z_{s'}, \bd_{s' - 1} ) & \text{if $u = 0$,}\\
-p( -\bd_{s'} \;|\; z_{s' + 1}, -\bd_{s' + 1} ) & \text{if $u = 1$.}
+p( \bmd_{s'} \;|\; z_{s'}, \bmd_{s' - 1} ) & \text{if $u = 0$,}\\
+p( -\bmd_{s'} \;|\; z_{s' + 1}, -\bmd_{s' + 1} ) & \text{if $u = 1$.}
 \end{cases}
 \end{equation}
 It follows that
@@ -65,9 +65,9 @@ It follows that
 Since
 \begin{equation}
 \frac{p^{(1)}_{t'}}{p^{(1)}_{t + 1}}
-= \prod_{i = s' + 1}^{s - 1} p( -\bd_i \;|\; z_{i + 1}, -\bd_{i + 1} ) \, p( z_i \;|\; z_{i + 1}, -\bd_i ),
+= \prod_{i = s' + 1}^{s - 1} p( -\bmd_i \;|\; z_{i + 1}, -\bmd_{i + 1} ) \, p( z_i \;|\; z_{i + 1}, -\bmd_i ),
 \end{equation}
-it is easy to verify that $P^{(0)}_s$ depends only on depths $z_{s'}$ and directions $\bd_{s'}$ with $s' \leq s$, which are all from the subpath $\bar{x}_i$.
+it is easy to verify that $P^{(0)}_s$ depends only on depths $z_{s'}$ and directions $\bmd_{s'}$ with $s' \leq s$, which are all from the subpath $\bar{x}_i$.
 Further, $P^{(0)}_{s'}$ remains constant for all paths $\bar{y}_{s,t}$ with $s > s'$.
 This allows us to precompute $P^{(0)}_s$ using $\bar{x}_i$ for $s = 1, 2, \ldots, n_i$.
 To this end, $P^{(0)}_s(\bar{y})$ can be efficiently evaluated using the following relation:

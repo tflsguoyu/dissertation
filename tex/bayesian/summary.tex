@@ -4,16 +4,16 @@
 To solve the parameter estimation problem using Eq. \eqref{eq:approx}, a key ingredient is the appearance-match relation.
 Unfortunately, we cannot use simplistic image difference metrics such as the L2 or L1 norms.
 This is because the features (bumps, scratches, flakes, yarns, etc.) in the images of real-world materials are generally misaligned, even when the two images represent the same material.
-In procedural modeling, as shown in Figure \ref{fig:bayesian:sum_func}, with irregularities created differently using $\bz_1$ and $\bz_2$, the same procedural model parameters $\btheta$ can yield slightly different results $f(\btheta; \bz_1)$ and $f(\btheta, \bz_2)$.
+In procedural modeling, as shown in Figure \ref{fig:bayesian:sum_func}, with irregularities created differently using $\bmz_1$ and $\bmz_2$, the same procedural model parameters $\bmtheta$ can yield slightly different results $f(\bmtheta; \bmz_1)$ and $f(\bmtheta, \bmz_2)$.
 
 \input{tex/bayesian/fig/sum_func}
 
 To overcome this challenge, we use the concept of a \emph{summary function}, which abstracts away the unimportant differences in the placement of the features, and summarizes the predicted and target images into smaller vectors whose similarity can be judged with simple metrics like L2 distance.
-We define an image summary function $\summ$ to be a continuous function that maps an image of a material ($\target$ or $\synth$) into a vector in $\Reals^k$. An idealized summary function would have the property that
+We define an image summary function $\calS$ to be a continuous function that maps an image of a material ($\bmIt$ or $\bmIs$) into a vector in $\bbR^k$. An idealized summary function would have the property that
 \begin{equation}
-	\summ(f(\btheta_1, \bz_1)) = \summ(f(\btheta_2, \bz_2)) \ \Leftrightarrow \ \btheta_1 = \btheta_2.
+	\calS(f(\bmtheta_1, \bmz_1)) = \calS(f(\bmtheta_2, \bmz_2)) \ \Leftrightarrow \ \bmtheta_1 = \bmtheta_2.
 \end{equation}
-That is, applying the summary function would abstract away from the randomness $\bz$ and the difference between the two summary vectors would be entirely due to different material properties $\btheta$. Practical summary functions will satisfy the above only approximately. However, a good practical summary function will embed images of the same material close to each other, and images of different materials further away from each other. Below we discuss several techniques for constructing summary functions.
+That is, applying the summary function would abstract away from the randomness $\bmz$ and the difference between the two summary vectors would be entirely due to different material properties $\bmtheta$. Practical summary functions will satisfy the above only approximately. However, a good practical summary function will embed images of the same material close to each other, and images of different materials further away from each other. Below we discuss several techniques for constructing summary functions.
 
 \paragraph{Neural summary function.}
 Gatys et al. \cite{gatys2015neural,gatys2016image} introduced the idea of using the features of an image classification neural network (usually VGG \cite{simonyan2014very}) as a descriptor $T_G$ of image texture (or style). Optimizing images to minimize the difference in $T_G$ (combined with other constraints) allowed Gatys et al. to produce impressive, state-of-the art results for parametric texture synthesis and style transfer between images. While further work  has introduced improvements \cite{risser2017stable}, we find that the original version from Gatys et al. works already well in our case.

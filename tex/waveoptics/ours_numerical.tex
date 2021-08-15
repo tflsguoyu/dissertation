@@ -1,15 +1,15 @@
 \section{Computing the Bulk Scattering Parameters}
 \label{sec:waveoptics:ours_numerical}
 
-We now detail our numerical computations of the scattering dyad $\ScaDyad_\Cls(\dwi,\dws)$ of \Eq{eq:farscatdyadC}, which in turn determines the bulk scattering parameters that can be directly used in any renderer supporting participating media. 
+We now detail our numerical computations of the scattering dyad $\dyad{A}_\Cls(\hatbfnis)$ of \Eq{eq:farscatdyadC}, which in turn determines the bulk scattering parameters that can be directly used in any renderer supporting participating media. 
 
-Computing $\ScaDyad_\Cls(\dwi,\dws)$ essentially boils down to solving the time-harmonic Maxwell equations for an incident unit-amplitude planar field with direction $\dwi$. While several different methods exist for that purpose (see \S 16 of \cite{mishchenko2014electromagnetic} for an overview), we opt for the superposition T-matrix method \cite{mackowski1996calculation} that has been demonstrated efficient for moderately large $\Ncls$, can handle scatterers with arbitrary geometry, and is based on the principles of the Foldy-Lax equations, making it particularly appealing for our work. 
+Computing $\dyad{A}_\Cls(\hatbfnis)$ essentially boils down to solving the time-harmonic Maxwell equations for an incident unit-amplitude planar field with direction $\hatbfni$. While several different methods exist for that purpose (see \S 16 of \cite{mishchenko2014electromagnetic} for an overview), we opt for the superposition T-matrix method \cite{mackowski1996calculation} that has been demonstrated efficient for moderately large $\Ncls$, can handle scatterers with arbitrary geometry, and is based on the principles of the Foldy-Lax equations, making it particularly appealing for our work. 
 
 In practice, we use the open-source CUDA-based \texttt{CELES} solver \cite{egel2017celes}, which implements the T-matrix method proposed by Mackowski and Mishchenko \cite{mackowski2011multiple} for spherical or randomly rotated particles.
 In our implementation, we focus on clusters of spherical particles.
 Since the Lorenz-Mie theory also assumes spherical particles, this allows us to directly compare our results with those computed using the Lorenz-Mie theory. 
 
-To compute the average scattering dyad $\EV{\ScaDyad_\Cls(\dwi,\dws)}$, we average the scattered field of several random realizations of the clusters (each of which obtained by randomly sampling the position of the particles inside the cluster's bounding sphere).
+To compute the average scattering dyad $\EV{\dyad{A}_\Cls(\hatbfnis)}$, we average the scattered field of several random realizations of the clusters (each of which obtained by randomly sampling the position of the particles inside the cluster's bounding sphere).
 As we will demonstrate in \S\ref{sec:waveoptics:results}, we use a wide array of distributions including particles uniformly distributed over the volume of the cluster, positively-correlated particles following Shaw et al. \cite{shaw2002super}, negatively-correlated particles using Poisson sampling of the sphere, and anisotropic distributions by uniformly sampling the particles on a oriented 2D disk.
 
 Lastly, we represent the resulting phase function as well as the extinction and scattering cross sections as tabulated (i.e., piecewise constant) functions that can be used for rendering.

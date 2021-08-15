@@ -41,17 +41,17 @@ Finally, we present results in Section \ref{sec:layeredbsdf:results}, and summar
 % \subsection{Applying a Monte Carlo estimator}
 % \label{sec:applymc}
 %
-% To evaluate the BSDF value $f_l(\omegain, \omegaout)$ for given query directions $\omegain$ and $\omegaout$, we need to evaluate the path integral of Eq.~\eqref{eq:pathintegral} by sampling paths $\bar x$ from some distribution, and weighting the paths by their contribution, divided by their probability densities in the measure $\mu(\bar x)$, i.e. the product of solid angle measures at the internal directions of the path.
+% To evaluate the BSDF value $\fl(\bmomegai, \bmomegao)$ for given query directions $\bmomegai$ and $\bmomegao$, we need to evaluate the path integral of Eq.~\eqref{eq:pathintegral} by sampling paths $\bar x$ from some distribution, and weighting the paths by their contribution, divided by their probability densities in the measure $\mu(\bar x)$, i.e. the product of solid angle measures at the internal directions of the path.
 %
-% Consider the specific example of $\Omega_3(\omegain, \omegaout)$, i.e. the subspace of paths with three vertices, corresponding to a transmit-reflect-transmit (TRT) configuration.
-% For paths in this subspace, only the directions $\bd_1$ and $\bd_2$ are ``free parameters'' participating in the integration, and the measure is simply the product of solid angle measures at $\bd_1$ and $\bd_2$.
-% This suggests a simple and effective approach for choosing $\bd_1$ and $\bd_2$ (and thus $\bar x$): to importance-sample the top interface BSDF $f_\uparrow$ twice, by using $\omegain$ and $\omegaout$ as the incoming directions, respectively (Figure~\ref{fig:mis_local}-a).
-% Alternatively, one can sample $\bd_1$ and $\bd_2$ by first drawing $\bd_1$ using $f_\uparrow$ (given $\omegain$) and then $\bd_2$ (given $\bd_1$) using $f_\downarrow$ (Figure~\ref{fig:mis_local}-b).
+% Consider the specific example of $\Omega_3(\bmomegai, \bmomegao)$, i.e. the subspace of paths with three vertices, corresponding to a transmit-reflect-transmit (TRT) configuration.
+% For paths in this subspace, only the directions $\bmd_1$ and $\bmd_2$ are ``free parameters'' participating in the integration, and the measure is simply the product of solid angle measures at $\bmd_1$ and $\bmd_2$.
+% This suggests a simple and effective approach for choosing $\bmd_1$ and $\bmd_2$ (and thus $\bar x$): to importance-sample the top interface BSDF $f_\uparrow$ twice, by using $\bmomegai$ and $\bmomegao$ as the incoming directions, respectively (Figure~\ref{fig:mis_local}-a).
+% Alternatively, one can sample $\bmd_1$ and $\bmd_2$ by first drawing $\bmd_1$ using $f_\uparrow$ (given $\bmomegai$) and then $\bmd_2$ (given $\bmd_1$) using $f_\downarrow$ (Figure~\ref{fig:mis_local}-b).
 % This method is more efficient when the bottom interface is close to specular.
-% Both strategies can be combined using MIS to provide a robust sampling scheme for light transport paths $\bar{x} \in \Omega_3(\omegain, \omegaout)$.
+% Both strategies can be combined using MIS to provide a robust sampling scheme for light transport paths $\bar{x} \in \Omega_3(\bmomegai, \bmomegao)$.
 %
-% In standard rendering systems, a BSDF sampling procedure commonly returns a ``weight'', defined as the BSDF value in the sampled direction $\bom$, times the cosine term, divided by the probability density (pdf) of picking the direction in the solid angle measure.
+% In standard rendering systems, a BSDF sampling procedure commonly returns a ``weight'', defined as the BSDF value in the sampled direction $\bmomega$, times the cosine term, divided by the probability density (pdf) of picking the direction in the solid angle measure.
 % %\szrem{Need a figure to make this part clearer.}
-% This makes it particularly convenient to compute the path contribution divided by the pdf: simply multiply the two weights returned by importance-sampling $\bd_1$ and $\bd_2$, additionally multiplied by the BSDF at the bottom interface, $f_s(x_2, \bd_1, -\bd_2)$.
+% This makes it particularly convenient to compute the path contribution divided by the pdf: simply multiply the two weights returned by importance-sampling $\bmd_1$ and $\bmd_2$, additionally multiplied by the BSDF at the bottom interface, $\fs(x_2, \bmd_1, -\bmd_2)$.
 %
 % Furthermore, it is clear that there is nothing specific about the TRT mode here, and a minor modification of this approach works for camera and light subpaths of any length. In our concrete implementation, the light subpath has up to one vertex, while the camera subpath can have any length.

@@ -19,234 +19,119 @@
 \usepackage{overpic}
 \usepackage{xcolor}
 \usepackage{bm}
-\usepackage{amssymb}
+\usepackage{amssymb} % \mathbb \mathcal
 \usepackage{accents}
-\usepackage{mathtools}
+\usepackage{mathtools} % \vcentcolon
 \usepackage{animate}
 \usepackage[linesnumbered,ruled]{algorithm2e}
 \usepackage{contour}
 \contourlength{0.1em}
 
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
 
-
-%% layeredbsdf
-\newcommand{\E}{\mathrm{e}}
-\newcommand{\bd}{\bm{d}}
-\newcommand{\bx}{\bm{x}}
-\newcommand{\by}{\bm{y}}
-\newcommand{\bp}{\bm{p}}
-\newcommand{\bq}{\bm{q}}
-\newcommand{\br}{\bm{r}}
-\newcommand{\bn}{\bm{n}}
-\newcommand{\bb}{\bm{b}}
-\newcommand{\bt}{\bm{t}}
-\newcommand{\calt}{\mathcal{T}}
-\newcommand{\bom}{\bm{\omega}}
-\newcommand{\bal}{\bm{\alpha}}
-\newcommand{\bsm}{\bm{m}}
-\newcommand{\bh}{\bm{h}}
-\newcommand{\BO}{\mathbb{B}_0}
-\newcommand{\intd}{\,\mathrm{d}}
-\newcommand{\Real}{\mathbb{R}}
-\newcommand{\pr}{\mathbb{P}}
-\newcommand{\ind}{\mathbb{I}}
-\newcommand{\omegain}{\bm{\omega}_i}
-\newcommand{\omegaout}{\bm{\omega}_o}
-\newcommand{\Sph}{{\mathcal S^2}}
-\newcommand{\dd}{\mbox{d}}
-\newcommand{\rev}{\mathrm{rev}}
-
-%% waveoptics
-\newcommand{\defeq}{\vcentcolon=}
-\newcommand{\eqdef}{=\vcentcolon}
-
-%\newcommand{\bd}{\bm{d}}
-\newcommand{\bu}{\bm{u}}
-%\newcommand{\bx}{\bm{x}}
-%\newcommand{\by}{\bm{y}}
-\newcommand{\bz}{\bm{z}}
-%\newcommand{\bn}{\bm{n}}
-%\newcommand{\bp}{\bm{p}}
-%\newcommand{\bq}{\bm{q}}
-\newcommand{\be}{\bm{e}}
-\newcommand{\bv}{\bm{v}}
-\newcommand{\bI}{\bm{I}}
-%\newcommand{\bom}{\bm{\omega}}
-
-%\newcommand{\Real}{\mathbb{R}}
-\newcommand{\bbS}{\mathbb{S}}
-%\newcommand{\Sph}{\bbS^2}
-\newcommand{\vis}{\mathbb{V}}
-\newcommand{\bbP}{\mathbb{P}}
-
-\newcommand{\Le}[1][]{L_{\ifthenelse{\equal{#1}{}}{\mathrm{e}}{\mathrm{e},#1}}}
+% regular 
+\newcommand{\fl}{f_\mathrm{l}}
+\newcommand{\fs}{f_\mathrm{s}}
+\newcommand{\fp}{f_\mathrm{p}}
 \newcommand{\Li}{L_\mathrm{i}}
-\newcommand{\Lr}{L_\mathrm{r}}
-\newcommand{\We}{W_\mathrm{e}}
-\newcommand{\bWe}{\bm{W}_\mathrm{e}}
-\newcommand{\Ae}{A_\mathrm{e}}
-\newcommand{\bAe}{\bm{A}_\mathrm{e}}
-
-\newcommand{\bomi}{\bom_\mathrm{i}}
-\newcommand{\bomo}{\bom_\mathrm{o}}
-\newcommand{\bxo}{\bx_\mathrm{o}}
-\newcommand{\bsdf}{f_\mathrm{s}}
-
-\newcommand{\sigS}{\sigma_\mathrm{s}}
-\newcommand{\sigA}{\sigma_\mathrm{a}}
-\newcommand{\sigT}{\sigma_\mathrm{t}}
-\newcommand{\phase}{f_\mathrm{p}}
-\newcommand{\cS}{C_\mathrm{s}}
-\newcommand{\cA}{C_\mathrm{a}}
-\newcommand{\cT}{C_\mathrm{t}}
-
-\newcommand{\dtheta}{\dir{\bm\theta}}
-\newcommand{\dphi}{\dir{\bm\dphi}}
-
-\newcommand{\dir}[1]{\mathbf{\hat{#1}}}
-
-\newcommand{\px}{\mathbf{r}}
-\newcommand{\dpx}{\dir{r}}
-\newcommand{\tpx}{r}
-\newcommand{\Px}{\mathbf{R}}
-\newcommand{\dPx}{\dir{R}}
-\newcommand{\tPx}{R}
-
-\newcommand{\radius}{a}
-
-\newcommand\approxwhen[1]{\mathrel{\stackrel{\makebox[0pt]{\mbox{\tiny{#1}}}}{\approx}}}
-
-\newcommand{\dw}{\dir{n}}
-\newcommand{\dwi}{\dw^{\text{inc}}}
-\newcommand{\dws}{\dw^{\text{sca}}}
-
-\newcommand{\dwpc}{\dir{\mathrm\phi}}
-\newcommand{\dwsc}{\dir{\mathrm\theta}}
-
-\newcommand{\diff}[1]{\,\text{d}#1}
-\newcommand{\img}{\text{i}}
-
-\newcommand{\Vint}{{V_{\text{int}}}}
-\newcommand{\Vext}{{V_{\text{ext}}}}
-
-\newcommand{\Nnear}{{N_{\text{near}}}}
-\newcommand{\Nfar}{{N_{\text{far}}}}
-\newcommand{\Ncls}{{N^\text{cls}}}
-
-\newcommand{\sFreq}{\omega}
-\newcommand{\sPermittivity}{\varepsilon}
-\newcommand{\sPermeability}{\mu}
-\newcommand{\sIOR}{m}
-
-%\newcommand{\E}{\mathrm{e}}
+\newcommand{\Lo}{L_\mathrm{o}}
+\newcommand{\Cs}{C_\mathrm{s}}
+\newcommand{\Ca}{C_\mathrm{a}}
+\newcommand{\Ct}{C_\mathrm{t}}
+\newcommand{\Nnear}{N_\mathrm{near}}
+\newcommand{\Nfar}{N_\mathrm{far}}
+\newcommand{\Ncls}{N^\mathrm{cls}}
+\newcommand{\sigmaa}{\sigma_\mathrm{a}}
+\newcommand{\sigmas}{\sigma_\mathrm{s}}
+\newcommand{\sigmat}{\sigma_\mathrm{t}}
 \newcommand{\Curl}{\nabla\times}
-\newcommand{\Complex}{\mathbb{C}}
 
-\newcommand{\Sphere}{\mathcal{S}^2}
+% bold (\bm)
+\newcommand{\bma}{\bm{a}}
+\newcommand{\bmd}{\bm{d}}
+\newcommand{\bmn}{\bm{n}}
+\newcommand{\bms}{\bm{s}}
+\newcommand{\bmu}{\bm{u}}
+\newcommand{\bmw}{\bm{w}}
+\newcommand{\bmz}{\bm{z}}
+\newcommand{\bmI}{\bm{I}}
+\newcommand{\bmIt}{\bmI_\mathrm{t}}
+\newcommand{\bmIs}{\bmI_\mathrm{s}}
+\newcommand{\bmS}{\bm{S}}
+\newcommand{\bmStheta}{\bmS_\theta}
+\newcommand{\bmSphi}{\bmS_\varphi}
+\newcommand{\bmomega}{\bm\omega}
+\newcommand{\bmomegai}{\bmomega_\mathrm{i}}
+\newcommand{\bmomegao}{\bmomega_\mathrm{o}}
+\newcommand{\bmtheta}{\bm\theta}
+\newcommand{\hatbmtheta}{\hat{\bmtheta}}
+\newcommand{\hatbmthetai}{{\hatbmtheta}^\mathrm{inc}}
+\newcommand{\hatbmthetas}{{\hatbmtheta}^\mathrm{sca}}
+\newcommand{\bmphi}{\bm\varphi}
+\newcommand{\hatbmphi}{\hat{\bmphi}}
+\newcommand{\hatbmphii}{{\hatbmphi}^\mathrm{inc}}
+\newcommand{\hatbmphis}{{\hatbmphi}^\mathrm{sca}}
+\newcommand{\bmxi}{\bm\xi}
+\newcommand{\bmSigma}{\bm\Sigma}
 
-\newcommand{\EField}{\mathbf{E}}
-\newcommand{\ScaEField}{\EField^\text{sca}}
-\newcommand{\IncEField}{\EField^\text{inc}}
-\newcommand{\ExcEField}{\EField^\text{exc}}
+% text (\mathrm)
+\newcommand{\Exp}{\mathrm{e}}
+\newcommand{\Img}{\mathrm{i}}
+\newcommand{\intd}{\,\mathrm{d}}
+\newcommand{\Cls}{\mathrm{C}}
 
-\newcommand{\EFields}{\EField_\theta}
-\newcommand{\EFieldp}{\EField_\phi}
-\newcommand{\MField}{\mathbf{H}}
+% bold text (\mathbf)
+\newcommand{\bfn}{\mathbf{n}}
+\newcommand{\hatbfn}{\hat\bfn}
+\newcommand{\hatbfni}{{\hatbfn}^\mathrm{inc}}
+\newcommand{\hatbfns}{{\hatbfn}^\mathrm{sca}}
+\newcommand{\hatbfnis}{\hatbfni,\hatbfns}
+\newcommand{\bfr}{\mathbf{r}}
+\newcommand{\hatbfr}{\hat\bfr}
+\newcommand{\bfE}{\mathbf{E}}
+\newcommand{\bfEi}{\bfE^\mathrm{inc}}
+\newcommand{\bfEs}{\bfE^\mathrm{sca}}
+\newcommand{\bfEe}{\bfE^\mathrm{exc}}
+\newcommand{\bfH}{\mathbf{H}}
+\newcommand{\bfR}{\mathbf{R}}
+\newcommand{\hatbfR}{\hat\bfR}
 
-\newcommand{\sStokes}{\bm{I}}
-\newcommand{\sJones}{\bm{J}}
+% space (\mathbb)
+\newcommand{\bbI}{\mathbb{I}}
+\newcommand{\bbR}{\mathbb{R}}
 
-\newcommand{\EV}[1]{{\langle #1 \rangle}}
+% operator (\mathcal)
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\calLpix}{\calL_\mathrm{pixel}}
+\newcommand{\calLper}{\calL_\mathrm{percept}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calSS}{\mathcal{S}^2}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\calWN}{\calW^+\calN}
+\newcommand{\calZ}{\mathcal{Z}}
 
-\newcommand{\Pprops}{\xi}
-
-\newcommand{\dyad}[1]{\accentset{\Longleftrightarrow}{#1}}
-\newcommand{\sGreen}{\dyad{G}}
-\newcommand{\sGreenProp}{g}
-\newcommand{\sIdDyad}{\dyad{I}}
-\newcommand{\ScaDyad}{\dyad{A}}
-
-\newcommand{\ScaMatrix}{\bm{S}}
-\newcommand{\PhaseMatrix}{\bm{Z}^{\sJones}}
-\newcommand{\ExtMatrix}{\bm{K}^{\sJones}}
-
+% equation reference
 \newcommand{\Eq}[1]{Equation~\eqref{#1}}
 \newcommand{\Eqs}[2]{Equations~\eqref{#1} and \eqref{#2}}
 \newcommand{\Eqss}[3]{Equations~\eqref{#1}, \eqref{#2} and \eqref{#3}}
 \newcommand{\EqRange}[2]{Equations~\eqref{#1}-\eqref{#2}}
 
-\newcommand{\Cls}{C}
-\newcommand{\UG}{\dyad{M}}
-\newcommand{\TG}{\dyad{M}^T}
+%% define equation
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
 
-%% svbrdf
-\newcommand{\Reals}{\mathbb{R}}
-\newcommand{\summ}{\mathbb{S}}
-\newcommand{\la}{\leftarrow}
-\newcommand{\ra}{\rightarrow}
-\newcommand{\lra}{\leftrightarrow}
-
-\newcommand{\latent}{\bm{u}}
-\newcommand{\latentopt}{\bm{u^{*}}}
-\newcommand{\params}{\bm{\theta}}
-\newcommand{\paramsopt}{\bm{\theta^{*}}}
-\newcommand{\image}{\bm{I}}
-\newcommand{\albedo}{\bm{a}}
-\newcommand{\normal}{\bm{n}}
-\newcommand{\rough}{r}
-\newcommand{\spec}{\bm{s}}
-\newcommand{\loss}{\mathcal{L}}
-\newcommand{\lossPix}{\loss_\mathrm{pixel}}
-\newcommand{\lossPercp}{\loss_\mathrm{percept}}
-\newcommand{\render}{\mathcal{R}}
-\newcommand{\decode}{\mathcal{D}}
-\newcommand{\generator}{\mathcal{G}}
-\newcommand{\matgan}{\mathcal{M}}
-\newcommand{\light}{L}
-\newcommand{\camera}{C}
-%\newcommand{\Real}{\mathbb{R}}
-
-\newcommand{\bw}{\bm{w}}
-\newcommand{\bW}{\bm{W}}
-%\newcommand{\bz}{\bm{z}}
-\newcommand{\bZ}{\bm{Z}}
-
-\newcommand{\noise}{\bm{\xi}}
-\newcommand{\calW}{\mathcal{W}}
-\newcommand{\calZ}{\mathcal{Z}}
-\newcommand{\calN}{\mathcal{N}}
-\newcommand{\calWN}{\mathcal{W}^+\mathcal{N}}
-
-\DeclareMathOperator*{\argmin}{arg\,min}
-\DeclareMathOperator*{\argmax}{arg\,max}
-
-
-%% bayesian
-%\newcommand{\Reals}{\mathbb{R}}
-%\newcommand{\summ}{\mathbb{S}}
-%\newcommand{\la}{\leftarrow}
-%\newcommand{\ra}{\rightarrow}
-%\newcommand{\lra}{\leftrightarrow}
-%\newcommand{\bd}{\bm{d}}
-%\newcommand{\bz}{\bm{z}}
-\newcommand{\btheta}{\bm{\theta}}
-\newcommand{\target}{\bm{I}_t}
-\newcommand{\synth}{\bm{I}_s}
-\newcommand{\bsigma}{\bm{\Sigma}}
-\newcommand{\fsigma}{\sigma_f}
-\newcommand{\fsigmax}{\sigma_{fx}}
-\newcommand{\fsigmay}{\sigma_{fy}}
-\newcommand{\fscale}{c_f}
-%\newcommand{\light}{E}
-%\newcommand{\bx}{\bm{x}}
-%\newcommand{\by}{\bm{y}}
-%\newcommand{\bom}{\bm{\omega}}
-\newcommand{\pc}{\alpha}
+%% others
 \newcommand{\imglabel}[1]{#1}
-
+\newcommand{\EV}[1]{{\langle #1 \rangle}}
+\newcommand{\dyad}[1]{{\accentset{\Longleftrightarrow}{#1}}}
 
 %% others
 \newlength{\resLen}
 \newlength{\raiseLen}
 
 \graphicspath{{img/}}
+

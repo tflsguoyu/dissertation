@@ -7,30 +7,30 @@ In what follows, we first describe a Bayesian formulation of the estimation prob
 \subsection{Bayesian formulation}
 \label{ssec:point_sec}
 
-We treat the procedural model parameters $\btheta$ as random variables with corresponding probability distributions.
+We treat the procedural model parameters $\bmtheta$ as random variables with corresponding probability distributions.
 
-We first introduce a \emph{prior} probability distribution $p(\btheta)$ of the parameters, reflecting our pre-existing beliefs about the likelihood values of the unknown parameters. For example, for most material categories, we know what range the albedo color and roughness coefficients of the material should typically be in.
+We first introduce a \emph{prior} probability distribution $p(\bmtheta)$ of the parameters, reflecting our pre-existing beliefs about the likelihood values of the unknown parameters. For example, for most material categories, we know what range the albedo color and roughness coefficients of the material should typically be in.
 
-Further, we model the $\approx$ operator from Eq. \eqref{eq:approx} as an error distribution. Specifically, we postulate that the difference between the simulated image summary $\summ(f(\btheta, \bz))$ and the target image summary $\summ(\target)$ follows a known probability distribution.
-In practice, we use a (multi-variate) normal distribution with zero mean and the covariance $\bsigma_e$:
+Further, we model the $\approx$ operator from Eq. \eqref{eq:approx} as an error distribution. Specifically, we postulate that the difference between the simulated image summary $\calS(f(\bmtheta, \bmz))$ and the target image summary $\calS(\bmIt)$ follows a known probability distribution.
+In practice, we use a (multi-variate) normal distribution with zero mean and the covariance $\bmSigma_e$:
 \begin{equation}
-	\summ(f(\btheta, \bz)) - \summ(\target) \sim \mathcal{N}(0, \bsigma_e).
+	\calS(f(\bmtheta, \bmz)) - \calS(\bmIt) \sim \mathcal{N}(0, \bmSigma_e).
 \end{equation}
-Our experiments indicate that this simple error distribution works well in practice, and we regard $\bsigma_e$ as a hyper-parameter and set it manually.
+Our experiments indicate that this simple error distribution works well in practice, and we regard $\bmSigma_e$ as a hyper-parameter and set it manually.
 
-We also have multiple options in handling the random vector $\bz$. While it is certainly theoretically possible to estimate it, we are not really interested in its values;  we find it simpler and more efficient to simply choose $\bz$ randomly, fix it, and assume it known during the process of estimating the ``interesting'' parameters $\btheta$.
+We also have multiple options in handling the random vector $\bmz$. While it is certainly theoretically possible to estimate it, we are not really interested in its values;  we find it simpler and more efficient to simply choose $\bmz$ randomly, fix it, and assume it known during the process of estimating the ``interesting'' parameters $\bmtheta$.
 
-Under these assumptions, according to the Bayes theorem, we can write down the posterior probability of parameters $\btheta$, conditional on the known values of $\target$ and $\bz$, as:
+Under these assumptions, according to the Bayes theorem, we can write down the posterior probability of parameters $\bmtheta$, conditional on the known values of $\bmIt$ and $\bmz$, as:
 \begin{equation} 
 	\label{eq:posterior}
-	p(\btheta | \target, \bz) \propto \mathcal{N}\left[\summ(f(\btheta, \bz)) - \summ(\target); 0, \bsigma_e\right] p(\btheta),
+	p(\bmtheta | \bmIt, \bmz) \propto \mathcal{N}\left[\calS(f(\bmtheta, \bmz)) - \calS(\bmIt); 0, \bmSigma_e\right] p(\bmtheta),
 \end{equation}
 where the right side does not need to be normalized; the constant factor has no effect on parameter estimates.
-For numerical stability, we compute the negative log posterior, viz. $-\log p(\btheta | \target, \bz)$, in practice. Equation~\eqref{eq:posterior} also holds when $\btheta$ involves discrete parameters, as long as the prior is properly defined as a product of a continuous pdf $p(\btheta_c)$ and a discrete probability $p(\btheta_d)$.
+For numerical stability, we compute the negative log posterior, viz. $-\log p(\bmtheta | \bmIt, \bmz)$, in practice. Equation~\eqref{eq:posterior} also holds when $\bmtheta$ involves discrete parameters, as long as the prior is properly defined as a product of a continuous pdf $p(\bmtheta_c)$ and a discrete probability $p(\bmtheta_d)$.
 
 \subsection{Point estimate of parameter values}
 
-A point estimate of the parameter vector can be modeled in the maximum a-posteriori (MAP) framework. We simply estimate the desired parameter values $\btheta$ as the maximum of the posterior pdf $p(\btheta | \target, \bz)$ given by Eq. \eqref{eq:posterior}. For continuous $\btheta$, this problem can be solved using standard non-linear optimization algorithms. In the presence of discrete parameters, there is no single accepted solution. While various heuristics could be used, our sampling approach described below provides a cleaner solution to discrete parameter estimation.
+A point estimate of the parameter vector can be modeled in the maximum a-posteriori (MAP) framework. We simply estimate the desired parameter values $\bmtheta$ as the maximum of the posterior pdf $p(\bmtheta | \bmIt, \bmz)$ given by Eq. \eqref{eq:posterior}. For continuous $\bmtheta$, this problem can be solved using standard non-linear optimization algorithms. In the presence of discrete parameters, there is no single accepted solution. While various heuristics could be used, our sampling approach described below provides a cleaner solution to discrete parameter estimation.
 
 \subsection{Markov-Chain Monte Carlo Sampling of the Posterior}
 \label{ssec:bayesian}
@@ -43,8 +43,8 @@ The goal of the sampling is to explore the posterior with many (typically thousa
 
 \input{tex/bayesian/alg/sample}
 
-Algorithm \ref{alg:bayesian:sample} summarizes our MCMC sampling process. At each iteration, we mutate either the continuous parameters (with probability $\pc$) or the discrete ones (with probability $1 - \pc$).
-For the former case, we utilize the gradient of the log pdf with respect to $\btheta_c$ to efficiently obtain a new proposal $\btheta_c'$ (Line \ref{alg:line:malaSample}).
+Algorithm \ref{alg:bayesian:sample} summarizes our MCMC sampling process. At each iteration, we mutate either the continuous parameters (with probability $\alpha$) or the discrete ones (with probability $1 - \alpha$).
+For the former case, we utilize the gradient of the log pdf with respect to $\bmtheta_c$ to efficiently obtain a new proposal $\bmtheta_c'$ (Line \ref{alg:line:malaSample}).
 Our implementation uses MALA for this process, although HMC could also work.
-For the latter case, we obtain a new proposal $\btheta_d'$ of the discrete parameters, currently by uniformly sampling their joint probability mass function (Line \ref{alg:line:mhSample}).
-Upon obtaining a full proposal, we use the standard Metropolis-Hasting rule (Line \ref{alg:line:mhAccRej}) to stochastically select the new sample $(\btheta_c^{(t + 1)}, \btheta_d^{(t + 1)})$ by either accepting the newly proposed $(\btheta_c', \btheta_d')$ or (rejecting the proposal and) keeping the previous sample $(\btheta_c^{(t)}, \btheta_d^{(t)})$.
+For the latter case, we obtain a new proposal $\bmtheta_d'$ of the discrete parameters, currently by uniformly sampling their joint probability mass function (Line \ref{alg:line:mhSample}).
+Upon obtaining a full proposal, we use the standard Metropolis-Hasting rule (Line \ref{alg:line:mhAccRej}) to stochastically select the new sample $(\bmtheta_c^{(t + 1)}, \bmtheta_d^{(t + 1)})$ by either accepting the newly proposed $(\bmtheta_c', \bmtheta_d')$ or (rejecting the proposal and) keeping the previous sample $(\bmtheta_c^{(t)}, \bmtheta_d^{(t)})$.

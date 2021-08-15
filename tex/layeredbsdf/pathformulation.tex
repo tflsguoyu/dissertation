@@ -1,27 +1,27 @@
 \section{Position-Free Path Formulation}
 \label{sec:layeredbsdf:pathformulation}
 
-In this section, we theoretically define the value of a layered BSDF due to a given layer stacking, for given query directions $\omegain$ and $\omegaout$, as a path integral. Given such a definition, any Monte Carlo method can be used to evaluate the BSDF by randomly sampling paths, evaluating their contributions and dividing by the corresponding probability density values.
+In this section, we theoretically define the value of a layered BSDF due to a given layer stacking, for given query directions $\bmomegai$ and $\bmomegao$, as a path integral. Given such a definition, any Monte Carlo method can be used to evaluate the BSDF by randomly sampling paths, evaluating their contributions and dividing by the corresponding probability density values.
 
 \subsection{Notation}
 
-We will use the notation $\cos \bom$ to denote the $z$-component of the unit vector $\bom$. We will also use $\ind(x)$ to denote an indicator function, returning 1 if the boolean condition $x$ is true and 0 if false. A bold font is used to denote unit vectors (directions) on $\Sph$. Please refer to Table \ref{tab:layeredbsdf:notation} for the notation used in this section.
+We will use the notation $\cos \bmomega$ to denote the $z$-component of the unit vector $\bmomega$. We will also use $\bbI(x)$ to denote an indicator function, returning 1 if the boolean condition $x$ is true and 0 if false. A bold font is used to denote unit vectors (directions) on $\calSS$. Please refer to Table \ref{tab:layeredbsdf:notation} for the notation used in this section.
 
 \input{tex/layeredbsdf/tab/notation}
 
 \subsection{Position-free path integral}
 
-To develop the theory, we will first assume a single infinite flat slab with a BSDF $f_\uparrow$ on the top interface and a BSDF $f_\downarrow$ on the bottom interface, combined with a homogeneous scattering volume inside the slab to produce a resulting layered BSDF. The volumetric medium is defined by a phase function $f_p$, scattering coefficient $\sigma_s$ and extinction coefficient $\sigma_t$; we will use the notation $\hat f_p = \sigma_s f_p$.
+To develop the theory, we will first assume a single infinite flat slab with a BSDF $f_\uparrow$ on the top interface and a BSDF $f_\downarrow$ on the bottom interface, combined with a homogeneous scattering volume inside the slab to produce a resulting layered BSDF. The volumetric medium is defined by a phase function $\fp$, scattering coefficient $\sigmas$ and extinction coefficient $\sigmat$; we will use the notation $\hat f_\mathrm{p} = \sigmas \fp$.
 
 For simplicity, we will drop the depth dependence of the volume parameters (though they could vary) and we will assume constant scattering / extinction coefficients, though they can vary with direction for fully anisotropic phase functions, which we also support. We will further assume that the slab has unit thickness; the formulation can be easily adjusted for any thickness.
 
 A {\bf vertex} $z_i \in [0, 1]$ is a single real number indicating the depth within the layer. A value of 0 or 1 indicates a surface reflection or refraction event on the bottom or top interface, respectively. Fractional values indicate volume scattering events at the specified depth. Note again that the horizontal positions of vertices on the infinite flat interfaces are not needed.
 
-A {\bf direction} $\bd_i$ is a unit vector on $\Sph$ denoting the light flow between vertices. In our convention (inherited from Veach), 
+A {\bf direction} $\bmd_i$ is a unit vector on $\calSS$ denoting the light flow between vertices. In our convention (inherited from Veach), 
 the vectors point in the direction of light flow (i.e. from light source to camera), and the vertex/direction indexing follows this as well.
 
-A {\bf light path} $\bar x$ is a sequence of directions and vertices: $\bar x = (\bd_0,\ z_1,\ \bd_1,\ \dots,\ z_k,\ \bd_k)$.
-The first and last directions are aligned with the input and output directions of the layered BSDF query, i.e. $\bd_0 = -\omegain$ and $\bd_k = \omegaout$. In contrast to Veach's formulation, the path interleaves directions with vertices, and the two ends of the path are defined by directions (not vertices). See Figure \ref{fig:layeredbsdf:paths} for some example paths.
+A {\bf light path} $\bar x$ is a sequence of directions and vertices: $\bar x = (\bmd_0,\ z_1,\ \bmd_1,\ \dots,\ z_k,\ \bmd_k)$.
+The first and last directions are aligned with the input and output directions of the layered BSDF query, i.e. $\bmd_0 = -\bmomegai$ and $\bmd_k = \bmomegao$. In contrast to Veach's formulation, the path interleaves directions with vertices, and the two ends of the path are defined by directions (not vertices). See Figure \ref{fig:layeredbsdf:paths} for some example paths.
 
 \input{tex/layeredbsdf/fig/paths}
 
@@ -32,44 +32,44 @@ The {\bf path contribution} $f(\bar x)$ of a light path is the product of vertex
 The vertex term consists of the BSDF or phase function value:
 \begin{equation}
 \label{eqn:vtx_contrib}
-v_i = v(z_i, -\bd_{i - 1}, \bd_i)
+v_i = v(z_i, -\bmd_{i - 1}, \bmd_i)
 = \begin{cases}
-	f_\uparrow(-\bd_{i-1}, \bd_i)   & \mbox{  if  } z_i = 0,\\
-	f_\downarrow(-\bd_{i-1}, \bd_i) & \mbox{  if  } z_i = 1,\\
-  	\hat{f}_p(-\bd_{i-1}, \bd_i)    & \mbox{  if  } 0 < z_i < 1.
+	f_\uparrow(-\bmd_{i-1}, \bmd_i)   & \mbox{  if  } z_i = 0,\\
+	f_\downarrow(-\bmd_{i-1}, \bmd_i) & \mbox{  if  } z_i = 1,\\
+  	\hat{f}_p(-\bmd_{i-1}, \bmd_i)    & \mbox{  if  } 0 < z_i < 1.
 \end{cases}
 \end{equation}
-Define the transfer term $\tau(z_1, z_2, \bom)$ as follows:
+Define the transfer term $\tau(z_1, z_2, \bmomega)$ as follows:
 \begin{equation}
-\tau(z, z', \bom) := \exp \left( \frac{-\sigma_t |z' - z|}{|\cos \bom|} \right) \cdot \ind \left( \frac{z' - z}{\cos \bom} > 0 \right).
+\tau(z, z', \bmomega) := \exp \left( \frac{-\sigma_t |z' - z|}{|\cos \bmomega|} \right) \cdot \bbI \left( \frac{z' - z}{\cos \bmomega} > 0 \right).
 \end{equation}
-The purpose of the exponential term is to compute the transmittance when going from depth $z$ to $z'$ following direction $\bom$.
+The purpose of the exponential term is to compute the transmittance when going from depth $z$ to $z'$ following direction $\bmomega$.
 The indicator term checks the validity of the configuration (i.e. if the direction points up, then $z'$ should be greater than $z$, and vice versa). The segment term for internal segments can now be defined as:
 \begin{equation}
 \label{eqn:seg_contrib}
-s_i = s(z_i, z_{i + 1}, \bd_i) := \tau(z_i, z_{i+1}, \bd_i) \cdot |\cos \bd_i|^{\alpha_i},
+s_i = s(z_i, z_{i + 1}, \bmd_i) := \tau(z_i, z_{i+1}, \bmd_i) \cdot |\cos \bmd_i|^{\alpha_i},
 \end{equation}
 where
 \begin{equation}
 \label{eqn:seg_contrib_cosine}
-\alpha_i = \ind(z_i \in \{0,1\}) + \ind(z_{i + 1} \in \{0,1\}) - 1.
+\alpha_i = \bbI(z_i \in \{0,1\}) + \bbI(z_{i + 1} \in \{0,1\}) - 1.
 \end{equation}
 This definition encapsulates the subtle behavior of cosine terms along the path segments.
 For a detailed derivation, please refer to Appendix \ref{sec:layeredbsdf:derivation}.
 
-The {\bf path space} $\Omega(\omegain, \omegaout)$ is the set of all paths of one or more vertices, such that the first direction of the path is equal to $-\omegain$ and the last to $\omegaout$. It can be seen as the union of the spaces of such paths of all lengths $k \geq 1$, that is, $\Omega = \cup_{k \geq 1} \Omega_k$.
+The {\bf path space} $\Omega(\bmomegai, \bmomegao)$ is the set of all paths of one or more vertices, such that the first direction of the path is equal to $-\bmomegai$ and the last to $\bmomegao$. It can be seen as the union of the spaces of such paths of all lengths $k \geq 1$, that is, $\Omega = \cup_{k \geq 1} \Omega_k$.
 
 The {\bf path space measure} $\mu(\bar x)$ is a product of solid angle measures $\sigma$ on the internal directions of the path, times the product of line measures $\lambda$ on volumetric scattering vertices.
 That is, for a $k$-vertex path,
 \begin{equation}
-\mu(\bar x) = \prod_{i=1}^{k-1} \sigma(\bd_i) \cdot \prod_{i \in V(\bar x)} \lambda(z_i).
+\mu(\bar x) = \prod_{i=1}^{k-1} \sigma(\bmd_i) \cdot \prod_{i \in V(\bar x)} \lambda(z_i).
 \end{equation}
 Here $V(\bar x)$ is the set of indices of volumetric vertices on $\bar x$, and $\lambda$ is the line measure (i.e. standard Lebesgue measure on the real numbers).
 
-Finally, we can define the {\bf layered BSDF value} $f_l(\omegain, \omegaout)$ as an integral over the set of paths $\Omega(\omegain, \omegaout)$:
+Finally, we can define the {\bf layered BSDF value} $\fl(\bmomegai, \bmomegao)$ as an integral over the set of paths $\Omega(\bmomegai, \bmomegao)$:
 \begin{equation}
 \label{eq:pathintegral}
-	f_l(\omegain, \omegaout) = \int_{\Omega(\omegain, \omegaout)} f(\bar x) \intd \mu(\bar x).
+	\fl(\bmomegai, \bmomegao) = \int_{\Omega(\bmomegai, \bmomegao)} f(\bar x) \intd \mu(\bar x).
 \end{equation}
 As usual, any Monte Carlo method can be used to compute this integral. As long as the probability density $p(\bar x)$ with respect to measure $\mu(\bar x)$ of generated sample paths is known, we simply average a number of samples of the form $f(\bar x) / p(\bar x)$.
 
@@ -77,43 +77,43 @@ As usual, any Monte Carlo method can be used to compute this integral. As long a
 \subsection{Derivation}
 
 Here we sketch the derivation of the path formulation.
-Like in Veach's version (and its volumetric extension), the derivation proceeds by recursively expanding the surface and volume rendering equation (the latter also commonly known as the radiative transfer equation). Denote the surface radiance by $L_s(z, \bom)$ (for $z \in \{0, 1\}$) and the volume radiance $L_v(z, \bom)$ (for $z \in [0,1]$).
+Like in Veach's version (and its volumetric extension), the derivation proceeds by recursively expanding the surface and volume rendering equation (the latter also commonly known as the radiative transfer equation). Denote the surface radiance by $L_s(z, \bmomega)$ (for $z \in \{0, 1\}$) and the volume radiance $L_v(z, \bmomega)$ (for $z \in [0,1]$).
 
 The volume radiance will satisfy the standard radiative transfer equation, specialized to our position-free setting:
 \begin{equation}
 \label{eq:IRTE}
-L_v(z, \bom) = S(z, \bom) + 
-\int_0^1 \frac{\tau(z', z, \bom)}{|\cos\bom|} \, \, \int_{\Sph} \hat f_p(\bom', \bom) \, L_v(z', \bom') \,\intd \bom' \intd z',
+L_v(z, \bmomega) = S(z, \bmomega) + 
+\int_0^1 \frac{\tau(z', z, \bmomega)}{|\cos\bmomega|} \, \, \int_{\calSS} \hat f_p(\bmomega', \bmomega) \, L_v(z', \bmomega') \,\intd \bmomega' \intd z',
 \end{equation}
-where the source term $S(z, \bom)$ gives illumination from the boundary of the slab:
+where the source term $S(z, \bmomega)$ gives illumination from the boundary of the slab:
 \begin{equation}
-S(z, \bom) = \tau(0, z, \bom) L_s(0, \bom) \ + \ \tau(1, z, \bom) L_s(1, \bom).
+S(z, \bmomega) = \tau(0, z, \bmomega) L_s(0, \bmomega) \ + \ \tau(1, z, \bmomega) L_s(1, \bmomega).
 \end{equation}
 Notice that, although the source term has two components, only one of them will be non-zero for any given query.
 This formulation is valid even with no scattering within the layer, in which case $\hat f_p = 0$ and the second term of Eq. \eqref{eq:IRTE} vanishes.
-Further, the $1/|\cos\bom|$ factor is due to a change of variable (from free-flight distance to depth). For more details, please refer to Appendix \ref{sec:layeredbsdf:derivation}.
+Further, the $1/|\cos\bmomega|$ factor is due to a change of variable (from free-flight distance to depth). For more details, please refer to Appendix \ref{sec:layeredbsdf:derivation}.
 
-The surface radiance $L_s(z, \bom)$ satisfies the standard rendering equation:
+The surface radiance $L_s(z, \bmomega)$ satisfies the standard rendering equation:
 \begin{equation}
 \label{eq:RE}
-L_s(z, \bom) = \int_{\Sph} f_s(z, \bom, \bom') \ |\cos \bom'| \ L_s^i(z, \bom') \intd \sigma(\bom'),
+L_s(z, \bmomega) = \int_{\calSS} \fs(z, \bmomega, \bmomega') \ |\cos \bmomega'| \ L_s^i(z, \bmomega') \intd \sigma(\bmomega'),
 \end{equation}
-where $L_s^i(z, \bom')$ is the incoming surface radiance. In case the incoming radiance query points back into the layer, we have
+where $L_s^i(z, \bmomega')$ is the incoming surface radiance. In case the incoming radiance query points back into the layer, we have
 \begin{equation}
 \label{eq:incoming}
-L_s^i(z, \bom) = L_v(z, -\bom).
+L_s^i(z, \bmomega) = L_v(z, -\bmomega).
 \end{equation}
-The BSDF value is defined as the radiance leaving the surface in direction $\omegaout$, under unit irradiance from a directional light in direction $\omegain$. This is equivalent to evaluating $L_s(1, \omegaout)$ under the boundary condition
+The BSDF value is defined as the radiance leaving the surface in direction $\bmomegao$, under unit irradiance from a directional light in direction $\bmomegai$. This is equivalent to evaluating $L_s(1, \bmomegao)$ under the boundary condition
 \begin{equation}
 	\label{eq:bound}
-	L_s^i(z, \bom) = \frac{\delta(\bom - \omegain)}{|\cos \omegain|}.
+	L_s^i(z, \bmomega) = \frac{\delta(\bmomega - \bmomegai)}{|\cos \bmomegai|}.
 \end{equation}
-One can easily check that the irradiance under this illumination is unit. Thus the incoming surface radiance $L^i_s$ is given by Eq. \eqref{eq:bound} when $\bom$ points out of the layer and Eq. \eqref{eq:incoming} when it points back into the layer.
+One can easily check that the irradiance under this illumination is unit. Thus the incoming surface radiance $L^i_s$ is given by Eq. \eqref{eq:bound} when $\bmomega$ points out of the layer and Eq. \eqref{eq:incoming} when it points back into the layer.
 
-The path formulation can now be obtained by recursively expanding the desired value $L_s(1, \omegaout)$ using the above equations for $L_s$ and $L_v$, terminating the paths using the boundary condition. Note that:
+The path formulation can now be obtained by recursively expanding the desired value $L_s(1, \bmomegao)$ using the above equations for $L_s$ and $L_v$, terminating the paths using the boundary condition. Note that:
 \begin{itemize}
-	\item Each recursive expansion of Eqs. \eqref{eq:IRTE} or \eqref{eq:RE} will contribute an $\hat f_p$ or $f_s$ term, respectively, to the path vertex.
-	\item Each volumetric segment will introduce a $\tau(z, z', \bom)$ term, whether the first or second term in Eq. \eqref{eq:IRTE} is taken.
+	\item Each recursive expansion of Eqs. \eqref{eq:IRTE} or \eqref{eq:RE} will contribute an $\hat f_p$ or $\fs$ term, respectively, to the path vertex.
+	\item Each volumetric segment will introduce a $\tau(z, z', \bmomega)$ term, whether the first or second term in Eq. \eqref{eq:IRTE} is taken.
 	\item{Expanding the rendering equation contributes a cosine term to the \emph{next} segment, while expanding the radiative transfer equation contributes a 1/cosine term to the \emph{previous} segment. A combination of these contributions explains the $\alpha_i$ term above.}
 	\item The last surface cosine is canceled out when using the boundary condition, due to the denominator cosine in Eq. \eqref{eq:bound}.
 \end{itemize}
@@ -123,22 +123,22 @@ The path formulation can now be obtained by recursively expanding the desired va
 
 An important feature of our method is the mapping of normals of the layer interfaces, introducing mismatches between geometric (flat) normals and shading (mapped) normals. The definition of the segment term (Eq. \eqref{eqn:seg_contrib}) changes with the presence of shading normals. Precisely, it becomes
 \begin{equation}
-s_i = \tau(z_i, z_{i+1}, \bd_i) \ \frac{|\langle \bn(z_i), \bd_i \rangle| \ |\langle \bn(z_{i + 1}), \bd_i \rangle|}{|\cos \bd_i|},
+s_i = \tau(z_i, z_{i+1}, \bmd_i) \ \frac{|\EV{\bmn(z_i),\bmd_i}| \ |\EV{\bmn(z_{i + 1}),\bmd_i}|}{|\cos \bmd_i|},
 \end{equation}
-where $\bn(z)$ denotes the local shading normal at $z$ (for $z \in \{0, 1\}$). This term is no longer symmetric, which implies that BSDFs with mapped normals will in general not be reciprocal. When sampling paths from the light, it is important to handle such BSDF using the correction term introduced by Veach \cite{veach1997robust} (Eq. 5.19).
+where $\bmn(z)$ denotes the local shading normal at $z$ (for $z \in \{0, 1\}$). This term is no longer symmetric, which implies that BSDFs with mapped normals will in general not be reciprocal. When sampling paths from the light, it is important to handle such BSDF using the correction term introduced by Veach \cite{veach1997robust} (Eq. 5.19).
 
 
 \subsection{Note about reciprocity}
 
 Our layered BSDF will be reciprocal whenever the path contribution $f(\bar x)$ is symmetric with respect to the reversal of the path. Assuming normal mapping is not used, the segment term $s_i$ will be symmetric, so the reciprocity boils down to the symmetry of the vertex terms $v_i$. This will certainly hold if all phase functions and BSDFs are reciprocal.
 
-Note, however, that crossing an interface between regions of different index of refraction (whether smooth or rough) is not reciprocal in the usual sense. Instead, a physical refractive BSDF should obey a modified reciprocity relation $f_s(\omegain, \omegaout) = \eta_o^2 / \eta_i^2 \cdot f_s(\omegaout, \omegain)$ \cite{walter2007microfacet}, where $\eta_i$ and $\eta_o$ are the refractive indices of the corresponding media. In the common case where the layered BSDF's incoming and outgoing directions are both assumed to be in air, the final layered BSDF will still be reciprocal, because there will be an equal number of $\eta^2$ and $1/\eta^2$ terms along the path for each medium with index $\eta$.
+Note, however, that crossing an interface between regions of different index of refraction (whether smooth or rough) is not reciprocal in the usual sense. Instead, a physical refractive BSDF should obey a modified reciprocity relation $\fs(\bmomegai, \bmomegao) = \eta_o^2 / \eta_i^2 \cdot \fs(\bmomegao, \bmomegai)$ \cite{walter2007microfacet}, where $\eta_i$ and $\eta_o$ are the refractive indices of the corresponding media. In the common case where the layered BSDF's incoming and outgoing directions are both assumed to be in air, the final layered BSDF will still be reciprocal, because there will be an equal number of $\eta^2$ and $1/\eta^2$ terms along the path for each medium with index $\eta$.
 
 
 \subsection{Multiple slabs}
 \label{subsec:multi_layer}
 
-Finally, we support extending the framework to multiple slabs. This is relatively straightforward theoretically, and simply requires explicitly keeping track of the interface or volume that a vertex/segment belongs to. We also need to modify the transfer term $\tau(z,z'\bom)$ to return zero in cases when the segment crosses an internal interface.
+Finally, we support extending the framework to multiple slabs. This is relatively straightforward theoretically, and simply requires explicitly keeping track of the interface or volume that a vertex/segment belongs to. We also need to modify the transfer term $\tau(z,z'\bmomega)$ to return zero in cases when the segment crosses an internal interface.
 
 Another option to obtain a multi-layer BSDF is by recursively nesting the BSDFs. To construct the layered BSDF due to a layer stacking of $n$ slabs, we define the layered BSDF due to the stacking of the bottom $n-1$ slabs, and use this BSDF as the bottom interface's BSDF in adding the top layer according to the above theory. We have found that this approach works in practice, but its performance is worse than the explicit implementation above.
 

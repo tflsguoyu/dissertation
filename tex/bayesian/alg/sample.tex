@@ -1,28 +1,28 @@
 \begin{algorithm}[h]
 	\caption{\label{alg:bayesian:sample}
-		MCMC sampling of material parameters $(\btheta_c, \btheta_d)$
+		MCMC sampling of material parameters $(\bmtheta_c, \bmtheta_d)$
 	}
 	\SetAlgoLined
 	\SetKwComment{tccinline}{// }{}
 	\SetKwFunction{sample}{samplePosterior}
-	\sample{$N$, $\pc$, $\btheta_c^{(1)}$, $\btheta_d^{(1)}$}{\\
-		\KwIn{Sample count $N$, probability $\pc$ for sampling continuous parameters, initial continuous parameters~$\btheta_c^{(1)}$ and discrete ones~$\btheta_d^{(1)}$}
-		\KwOut{$N$ material parameter estimates $\{ (\btheta_c^{(t)}, \btheta_d^{(t)}) \,:\, 1 \leq t \leq N \}$}
+	\sample{$N$, $\alpha$, $\bmtheta_c^{(1)}$, $\bmtheta_d^{(1)}$}{\\
+		\KwIn{Sample count $N$, probability $\alpha$ for sampling continuous parameters, initial continuous parameters~$\bmtheta_c^{(1)}$ and discrete ones~$\bmtheta_d^{(1)}$}
+		\KwOut{$N$ material parameter estimates $\{ (\bmtheta_c^{(t)}, \bmtheta_d^{(t)}) \,:\, 1 \leq t \leq N \}$}
 		\Begin{
 			\For{$t = 1$ to $(N - 1)$}{
 				Draw $\xi \sim U[0, 1)$\\
-				\uIf(\tccinline*[f]{Mutate continuous parameters}){$\xi < \pc$}{
-					$\btheta_c' \gets \mathrm{ContinuousSample}(\btheta_c^{(t)})$ \label{alg:line:malaSample}\\
-					$\btheta_d' \gets \btheta_d^{(t)}$
+				\uIf(\tccinline*[f]{Mutate continuous parameters}){$\xi < \alpha$}{
+					$\bmtheta_c' \gets \mathrm{ContinuousSample}(\bmtheta_c^{(t)})$ \label{alg:line:malaSample}\\
+					$\bmtheta_d' \gets \bmtheta_d^{(t)}$
 				}
 				\Else(\tccinline*[f]{Mutate discrete parameters}){
-					$\btheta_c' \gets \btheta_c^{(t)}$\\
-					$\btheta_d' \gets \mathrm{DiscreteSample}(\btheta_d^{(t)})$ \label{alg:line:mhSample}\\
+					$\bmtheta_c' \gets \bmtheta_c^{(t)}$\\
+					$\bmtheta_d' \gets \mathrm{DiscreteSample}(\bmtheta_d^{(t)})$ \label{alg:line:mhSample}\\
 				}
-				$(\btheta_c^{(t + 1)}, \btheta_d^{(t + 1)}) \gets \mathrm{MetropolisHasting}((\btheta_c', \btheta_d'),\ (\btheta_c^{(t)}, \btheta_d^{(t)}))$
+				$(\bmtheta_c^{(t + 1)}, \bmtheta_d^{(t + 1)}) \gets \mathrm{MetropolisHasting}((\bmtheta_c', \bmtheta_d'),\ (\bmtheta_c^{(t)}, \bmtheta_d^{(t)}))$
 				\label{alg:line:mhAccRej}
 			}
-			\KwRet{$\{ (\btheta_c^{(1)}, \btheta_d^{(1)}), \ldots, (\btheta_c^{(N)}, \btheta_d^{(N)}) \}$}
+			\KwRet{$\{ (\bmtheta_c^{(1)}, \bmtheta_d^{(1)}), \ldots, (\bmtheta_c^{(N)}, \bmtheta_d^{(N)}) \}$}
 		}
 	}
 \end{algorithm}
