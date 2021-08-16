@@ -1,33 +1,234 @@
 \chapter{Background}
 \label{cpt:background}
 
-\section{Light transport}
+In this chapter, we briefly review some background knowledge closely related to this dissertation. Firstly, we recap the fundamental light transport theory and Bidirectional Reflectance Distribution Function (BRDF). Then we introduce Maxwells' equation in wave optics. Finally we talk about some concepts in Markov Chain Monte Carlo (MCMC) methods. 
+
+\section{Light Transport}
+Radiometry is a set of techniques for measuring electromagnetic radiation, and we use is to measure the energy of visible lights in nowadays renderings. First we list some important Radiometric quantities and then describe rendering equations in the following sections.
+
+\begin{table}[h]
+	\centering
+	\caption[List of radiometry quantities]{\label{tab:background:notation}
+		List of radiometry quantities.
+	}
+	\begin{tabular}{cccc}
+		Quantity & Symbol & Unit & Notes \\
+		\hline
+		\multirow{2}{*}{Flux(Power)} & \multirow{2}{*}{$\Phi$} & \multirow{2}{*}{W} & Radiant energy emitted, reflected, \\
+		 & & & transmitted or received, per unit time. \\[0.2em]
+		Irradiance & $E$ & $W/m^2$ & Flux received by a surface per unit area. \\[0.2em]
+		Radiance & $L$ & $W/(Sr\cdot m^2)$ $^*$ & Flux per unit solid angle per unit projected area. \\
+		\hline
+		\multicolumn{3}{l}{\footnotesize{$^*$ watt per steradian per square meter.}}	
+	\end{tabular}
+\end{table}
 
 \subsection{Surface rendering equation}
+To render photorealistic image, a key concept is to simulate light transport, which models the light interaction between camera/eyes, scene objects and lightsource. For any point in the scene, we want to know its spectral radiance $\Lo(\bmr,bmomegao,\lambda,t)$ of wavelength $\lambda$ directed outward along direction $\bmomegao$ at time $t$, from a particular position $\bmr$. For simplisity, the commonly used \emph{rendering equation} (RE) \cite{kajiya1986rendering} for surface have two assumptions: geometric optics only and steady state. Therefore, we reformulate the light radiance as a $5D$ function of position ($\bmr$) and direction ($\bmomegao$), the outgoing radiance ($\Lo$) is the sum of the emitted radiance ($\Le$) and the reflected radiance ($\Lr$). The reflected radiance itself is the sum of all directions of incoming radiance ($\Li$) weighted by the surface reflection ($\fr$) and cosine of incident angle.     	
+\begin{align}
+	\Lo(\bmr,\bmomegao) &= \Le(\bmr,\bmomegao) + \Lr(\bmr,\bmomegao) \\
+	&= \Le(\bmr,\bmomegao) + 
+	\int_{\bbSS} \Li(\bmr,\bmomegai) \fr(\bmr,\bmomegai\rightarrow\bmomegao) \EV{\bmn(\bmr),\bmomegai} \intd \bmomegai
+\end{align}
+Note that, $\bmomegao$ is the direction of the outgoing light, and $\bmomegai$ is the negative direction of the incoming light. 
 
-\subsection{Volume rendering equation (RTE)}
+The rendering equation can fully model the light transport in a space without any participating media. It is popular to expand this integral equation to \emph{path integral formulation} and solve it using Monte Carlo methods (see Veach's thesis 
+\cite{veach1997metropolis}).
 
-\section{Scattering}
 
-\subsection{Bidirectional Reflectance Distribution Function (BRDF)}
+\subsection{Volume rendering equation}
+When light travels in a participation medium (e.g., smoke, marble and skin), we use \emph{radiative transfer equation} (RTE) \cite{chandrasekhar1960radiative} to describe how the radiance changes by four types of interaction events: emission, absorption, out-scattering, and in-scattering.
+\begin{align}
+	(\bmomegao\cdot\nabla) \Lo(\bmr,\bmomegao) &= 
+	\overbrace{\sigmas(\bmr) \int_{\bbSS} \Li(\bmr,\bmomegai)\fp(\bmr,\bmomegai\rightarrow\bmomegao) \intd\bmomegai}^{\text{a) In-scattering}} \\
+	& \overbrace{-\sigmas(\bmr)\Lo(\bmr,\bmomegao)}^{\text{b) Out-scattering}}
+	\overbrace{-\sigmaa(\bmr)\Lo(\bmr,\bmomegao)}^{\mathrm{c) Absorption}}
+	\overbrace{+\Le(\bmr,\bmomegao)}^{\mathrm{d) Emission}}
+\end{align}
+The RTE is a integro-differential equation which can be derived via conservation of energy. Briefly, the RTE states that a beam of light loses energy through divergence and extinction (including both absorption (c) and scattering (b) away from the beam) and gains energy from light sources (d) in the medium and scattering (a) directed towards the beam. Same as RE, coherence, polarization and light speed are neglected. Optical properties such as refractive index ($m$), absorption coefficient ($\sigmaa$), scattering coefficient ($\sigmas$) are taken as time-invariant but may vary spatially. In addition, we define the extinction coefficient $\sigmat = \sigmaa + \sigmas$, and the ratio between $\sigmas$ and $\sigmat$ controls the fraction of radiant energy not being absorbed at each scattering and is also known as the single-scattering albedo ($a$). We use phase functions $\fp(\bmomegai\rightarrow\bmomegao)$ to describe the directional distribution of light scattered in a medium.
 
-\paragraph{Spatially Varying BRDF}
+It is desirable to rewrite the RTE as an integral equation, which can them be solved numerically using Monte Carlo methods (see Veach's thesis 
+\cite{veach1997metropolis}). 
+
+\section{Scattering Distribution Function}
+In RE and RTE, an important term is still missing. When light hit a surface or a particle in the medium, how does the light scatter, or in other words, redistribute both in energy and direction? To model this scattering effect, we use \emph{bidirectional reflectance distribution function} (BRDF) for surface interaction and \emph{phase function} (PF) for light scattering in a medium.
+
+\subsection{Bidirectional reflectance distribution function (BRDF)}
+The BRDF is a 4-$D$ function that defines how light is reflected at an opaque surface. 
+\begin{equation}
+	\fr(\bmomegai\rightarrow\bmomegao) = \frac{\intd \Lo(\bmomegao)}{\intd \Ei(\bmomegai)}
+	= \frac{\intd\Lo(\bmomegao)}{\Li(\bmomegai)\EV{\bmn,\bmomegai}\intd\bmomegai}
+\end{equation}
+The function takes an incoming light direction $\bmomegai$, and outgoing direction $\bmomegao$, and returns the ratio of reflected radiance ($\Lo$) exiting along $\bmomegao$ to the irradiance incident ($\Li$) on the surface from direction $\bmomegai$. Each direction $\bmomega$ is itself parameterized by azimuth angle $\varphi$ and polar angle $\theta$. $\bmn$ is the (macro) surface normal.
+
+Physically based BRDFs have several properties, including,
+
+Positivity: 
+\begin{equation}
+	\fr(\bmomegai\rightarrow\bmomegao) \geq 0
+\end{equation}
+Reciprocity:
+\begin{equation}
+	\fr(\bmomegai\rightarrow\bmomegao) = \fr(\bmomegao\rightarrow\bmomegai)
+\end{equation}
+Conserving energy:
+\begin{equation}
+	\forall\bmomegao, \int_\bbSS \fr(\bmomegai\rightarrow\bmomegao) \EV{\bmn,\bmomegai} \leq 1
+\end{equation}
+
+Some basic BRDFs and the BRDFs used in this dissertation are listed below:
+
+\paragraph{Lambertian BRDF} distribute the incident energy equally towards all the outgoing directions and give a diffuse appearance.
+\begin{equation}
+	\fr(\bmomegai\rightarrow\bmomegao) = \kd
+\end{equation}
+where $\kd$ is the albedo or absorption of light which will introducing the color.
+
+\paragraph{Phong and Blinn-Phong BRDF} adds a specular component to introduce glossy effect.
+\begin{equation}
+	\fr(\bmomegai\rightarrow\bmomegao) = \kd + \ks({\bmomegai}_\mathrm{r} \cdot \bmomegao)^n
+\end{equation}
+where ${\bmomegai}_\mathrm{r}$ is the reflection of incident light and larger $n$ will increase the glossiness of the material. 
+
+\paragraph{Microfacet BRDF} is the state-of-the-art model which is widely used in all kinds of renderers. The microfacet theory assumes that all surfaces are formed by tiny microfacets that are perfectly specular that reflect rays like perfectly smooth mirrors.
+\begin{equation}
+	\fr(\bmomegai\rightarrow\bmomegao) = 
+	\frac{F(\bmomegai, \bmh) G(\bmomegai,\bmomegao,\bmh) D(\bmh)}
+	{4\EV{\bmn,\bmomegai}\EV{\bmn,\bmomegao}}
+\end{equation}
+where $\bmh$ is the half vector that $\bmh=(\bmomegai+\bmomegao)/2$. The first component $F$ is Fresnel term, $G$ is the geometry term (shading factor) and $D$ is \emph{normal distribution function} (NDF) which indicate the distribution of microfacets normals. With the change of statistics of the micro-geometry, the macro-appearance changes accordingly.
+All NDF should follow:
+\begin{equation}
+	\int_\bbSS D(\bmh)\EV{\bmn,\bmh} \intd\bmh = 1
+\end{equation}
+There're two forms of NDF we used in most of the papers, \emph{Beckmann} and \emph{GGX}.
+
+BRDF is a special case for opaque surface with reflection only. It can be extend to \emph{bidirectional transmittance distribution function} (BTDF) for  opposite side of the surface, and \emph{bidirectional scattering distribution function} (BSDF), a superset and generalization of BRDF and BTDF.
+
+%\emph{Beckmann}:
+%\begin{equation}
+%	D(\bmh) = \frac{1}{\pi\alpha^2\cos^4\theta}\Exp^{-\frac{\tan^2\theta}{\alpha^2}}
+%\end{equation}
+%
+%\emph{GGX}:
+%\begin{equation}
+%	D(\bmh) = \frac{\alpha^2}{\pi((\alpha^2-1)\cos^2\theta+1)^2}
+%\end{equation}
+
+
+\paragraph{Spatially varying BRDF}
+The \emph{spatially varying BRDF} (SVBRDF) is a 6-$D$ function, $\fr(\bmr,\bmomegai,\bmomegao)$, where $\bmr$ describes a 2D location over an object's surface.
+
 
 \subsection{Phase function}
+Phase function is usually parameterized as a function of the angle between $\bmomegai$ and $\bmomegao$, to model how light scattered in medium. A common phase function is \emph{Henyey-Greenstain} (HG) phase function with parameter $-1<g<1$:
+\begin{equation}
+	\fp(\theta,g) = \frac{1}{4\pi}
+	\frac{1=g^2}
+	{(1+g^2-2g\cos\theta)^(3/2)}
+\end{equation}
+
 
 \section{Maxwell's equations}
 
+\subsection{Basic operator notation}
+
+The differential operator given in Cartesian coordinates $\{x,y,z\}$: $$\nabla = \frac{\partial}{\partial x}\mathbf{i} + \frac{\partial}{\partial y}\mathbf{j} + \frac{\partial}{\partial z}\mathbf{k}$$
+
+For a scalar function $f(x,y,z)$ and a vector field $\mathbf{F}(x,y,z) = f_1(x,y,z)\mathbf{i} + f_2(x,y,z)\mathbf{j} + f_3(x,y,z)\mathbf{k}$, we have,
+
+Gradient: $$\nabla f = \frac{\partial f}{\partial x}\mathbf{i} + \frac{\partial f}{\partial y}\mathbf{j} + \frac{\partial f}{\partial z}\mathbf{k}$$
+
+Divergence: $$\nabla\cdot\mathbf{F} = \frac{\partial f_1}{\partial x} + \frac{\partial f_2}{\partial y} + \frac{\partial f_3}{\partial z}$$
+
+Curl: $$\nabla\times\mathbf{F} = \left|
+\begin{array}{ccc}
+	\mathbf{i} & \mathbf{j} & \mathbf{k} \\
+	\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\
+	f_1 & f_2 & f_3
+\end{array}
+\right|$$
+
+Laplace operator: $\nabla^2 f = \nabla\cdot(\nabla f)$
+
+Curl of Curl: 
+\begin{equation}
+	\nabla\times(\nabla\times\mathbf{F}) = \nabla(\nabla\cdot\mathbf{F}) - \nabla\cdot(\nabla\mathbf{F}) = - \nabla\cdot(\nabla\mathbf{F}) = -\nabla^2\mathbf{F} \label{CurlOfCurl}
+\end{equation}
+
+
+\subsection{Derivation}
+
+$\mathbf{E} [V/m]$: Electric field \\
+$\mathbf{H} [A/m]$: Magnetic field \\
+$\mathbf{D} [C/m^2]$: Electric flux density (Electric displacement) \\
+$\mathbf{B} [Wb/m^2(T)]$: Magnetic flux density (Magnetic induction) \\
+$\mathbf{J} [A/m^2]$: Electric current density \\
+$\mathbf{M}$: Magnetic current density (magnetization)\\
+$\mathbf{P}$: Electric polarization \\
+$\rho [C/m^3]$: Electric charge density \\
+$q$: Magnetic charge density \\
+$\varepsilon_0 [=8.854187817\times10^{-12}F/m]$: Electric permittivity of free space \\
+$\mu_0 [=4\pi\times10^{-7}H/m]$: Magnetic permeability of free space \\
+
+In book \textit{Absorption and Scattering of Light by Small Particle}:
+\begin{align}
+	\nabla\cdot\mathbf{D}  &= \rho \\
+	\nabla\times\mathbf{E} &= -\frac{\partial\mathbf{B}}{\partial t} \\
+	\nabla\cdot\mathbf{B}  &= 0 \\
+	\nabla\times\mathbf{H} &= \mathbf{J} + \frac{\partial\mathbf{D}}{\partial t}
+\end{align}
+where,
+\begin{align}
+	\mathbf{D} &= \varepsilon_0\mathbf{E} + \mathbf{P} \\
+	\mathbf{H} &= \frac{\mathbf{B}}{\mu_0} - \mathbf{M}
+\end{align}
+
+In free space, the polarization ($\mathbf{P}$) and magnetization ($\mathbf{M}$) vanish identically. And if there is no Electric charge density ($\rho [C/m^3]$) and Electric current density ($\mathbf{J}$), we rewrite \textit{Maxwell equation} in the form of $\mathbf{E}$ and $\mathbf{H}$,
+\begin{align}
+	\nabla\cdot\mathbf{E}  &= 0 \\
+	\nabla\times\mathbf{E} &= -\mu_0\frac{\partial\mathbf{H}}{\partial t} \\
+	\nabla\cdot\mathbf{H}  &= 0 \\
+	\nabla\times\mathbf{H} &= \varepsilon_0\frac{\partial\mathbf{E}}{\partial t}
+\end{align}
+
+To consider Electric and Magnetic field as as time-harmonic (time variation is sinusoidal) fields with angular frequency of $\omega$, which has the form of $\mathbf{\hat{u}} = \mathbf{u}e^{-i\omega t}$, the \textit{Maxwell equation} become,
+\begin{align}
+	\nabla\cdot\mathbf{E}  &= 0 \\
+	\nabla\times\mathbf{E} &= i\omega\mu_0\mathbf{H} \label{nablaE}\\
+	\nabla\cdot\mathbf{H}  &= 0 \\
+	\nabla\times\mathbf{H} &= -i\omega\varepsilon_0\mathbf{E} \label{nablaH}
+\end{align}
+
+Take the curl of (\ref{nablaE}) and (\ref{nablaH}), 
+\begin{align}
+	\nabla\times(\nabla\times\mathbf{E}) &= i\omega\mu_0(\nabla\times\mathbf{H}) = \omega^2\mu_0\varepsilon_0\mathbf{E} \\
+	\nabla\times(\nabla\times\mathbf{H}) &= -i\omega\varepsilon_0(\nabla\times\mathbf{E}) = \omega^2\mu_0\varepsilon_0\mathbf{H}
+\end{align}
+
+If we use (\ref{CurlOfCurl}), the \textit{Maxwell equations} reduce to the Helmholtz equations,
+\begin{align}
+	\nabla^2\mathbf{E} + k^2\mathbf{E} = 0 \\
+	\nabla^2\mathbf{H} + k^2\mathbf{H} = 0
+\end{align}
+where $k = \omega/c$, and $c=\frac{1}{\sqrt{\mu_0\varepsilon_0}}$ is the light speed in vacuum. 
+
+
 \section{Markov Chain Monte Carlo (MCMC)}
+In statistics, Markov chain Monte Carlo (MCMC) methods comprise a class of algorithms for sampling from a probability distribution. By constructing a Markov chain that has the desired distribution as its equilibrium distribution, one can obtain a sample of the desired distribution by recording states from the chain. The more steps are included, the more closely the distribution of the sample matches the actual desired distribution. 
 
 \subsection{Bayesian Inference}
+Bayesian inference derives the posterior probability as a consequence of two antecedents: a prior probability and a "likelihood function" derived from a statistical model for the observed data. Bayesian inference computes the posterior probability according to Bayes' theorem:
+\begin{equation}
+	p(\theta|\bfX) = \frac{p(\bfX|\theta)p(\theta)}{p(\bfX)} \propto p(\bfX|\theta)p(\theta)
+\end{equation}
+This is expressed in words as "posterior is proportional to likelihood times prior".
 
 \subsection{Hamiltonian Monte Carlo (HMC)}
 
 \subsection{Metropolis-Adjusted Langevin Algorithm (MALA)}
 
-\section{Notation}
-
-
+%\section{Notation}
 %\input{tex/related/tab/alpha}
 
 

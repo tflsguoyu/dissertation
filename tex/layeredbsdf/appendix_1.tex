@@ -7,7 +7,7 @@ We now provide detailed derivations for the key equations in \S\ref{sec:layeredb
 Traditionally, the radiative transfer equation (RTE) involves an integral over free-flight distance $t$:
 \begin{equation}
 \label{eq:IRTE0}
-  L_v(z, \bmomega) = S(z, \bmomega) + \int_0^{t'} \exp(-t \sigma_t) \, \int_{\calSS} \hat f_p(\bmomega', \bmomega) \, L_v(z', \bmomega') \,\intd \bmomega' \intd t,
+  L_v(z, \bmomega) = S(z, \bmomega) + \int_0^{t'} \exp(-t \sigma_t) \, \int_{\bbSS} \hat f_p(\bmomega', \bmomega) \, L_v(z', \bmomega') \,\intd \bmomega' \intd t,
 \end{equation}
 where $z' := z - t\cos\bmomega$ and $t'$ denotes the distance between $z$ and the closest layer boundary.
 Since $t = (z - z')/\cos\bmomega$, changing the integration variable from $t$ to $z'$ in Eq. \eqref{eq:IRTE0} yields an additional factor of $(\cos\bmomega)^{-1}$ which in turn gives our position-free RTE \eqref{eq:IRTE}.

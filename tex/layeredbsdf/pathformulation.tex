@@ -5,7 +5,7 @@ In this section, we theoretically define the value of a layered BSDF due to a gi
 
 \subsection{Notation}
 
-We will use the notation $\cos \bmomega$ to denote the $z$-component of the unit vector $\bmomega$. We will also use $\bbI(x)$ to denote an indicator function, returning 1 if the boolean condition $x$ is true and 0 if false. A bold font is used to denote unit vectors (directions) on $\calSS$. Please refer to Table \ref{tab:layeredbsdf:notation} for the notation used in this section.
+We will use the notation $\cos \bmomega$ to denote the $z$-component of the unit vector $\bmomega$. We will also use $\bbI(x)$ to denote an indicator function, returning 1 if the boolean condition $x$ is true and 0 if false. A bold font is used to denote unit vectors (directions) on $\bbSS$. Please refer to Table \ref{tab:layeredbsdf:notation} for the notation used in this section.
 
 \input{tex/layeredbsdf/tab/notation}
 
@@ -17,7 +17,7 @@ For simplicity, we will drop the depth dependence of the volume parameters (thou
 
 A {\bf vertex} $z_i \in [0, 1]$ is a single real number indicating the depth within the layer. A value of 0 or 1 indicates a surface reflection or refraction event on the bottom or top interface, respectively. Fractional values indicate volume scattering events at the specified depth. Note again that the horizontal positions of vertices on the infinite flat interfaces are not needed.
 
-A {\bf direction} $\bmd_i$ is a unit vector on $\calSS$ denoting the light flow between vertices. In our convention (inherited from Veach), 
+A {\bf direction} $\bmd_i$ is a unit vector on $\bbSS$ denoting the light flow between vertices. In our convention (inherited from Veach), 
 the vectors point in the direction of light flow (i.e. from light source to camera), and the vertex/direction indexing follows this as well.
 
 A {\bf light path} $\bar x$ is a sequence of directions and vertices: $\bar x = (\bmd_0,\ z_1,\ \bmd_1,\ \dots,\ z_k,\ \bmd_k)$.
@@ -83,7 +83,7 @@ The volume radiance will satisfy the standard radiative transfer equation, speci
 \begin{equation}
 \label{eq:IRTE}
 L_v(z, \bmomega) = S(z, \bmomega) + 
-\int_0^1 \frac{\tau(z', z, \bmomega)}{|\cos\bmomega|} \, \, \int_{\calSS} \hat f_p(\bmomega', \bmomega) \, L_v(z', \bmomega') \,\intd \bmomega' \intd z',
+\int_0^1 \frac{\tau(z', z, \bmomega)}{|\cos\bmomega|} \, \, \int_{\bbSS} \hat f_p(\bmomega', \bmomega) \, L_v(z', \bmomega') \,\intd \bmomega' \intd z',
 \end{equation}
 where the source term $S(z, \bmomega)$ gives illumination from the boundary of the slab:
 \begin{equation}
@@ -95,13 +95,13 @@ Further, the $1/|\cos\bmomega|$ factor is due to a change of variable (from free
 
 The surface radiance $L_s(z, \bmomega)$ satisfies the standard rendering equation:
 \begin{equation}
-\label{eq:RE}
-L_s(z, \bmomega) = \int_{\calSS} \fs(z, \bmomega, \bmomega') \ |\cos \bmomega'| \ L_s^i(z, \bmomega') \intd \sigma(\bmomega'),
+	\label{eq:RE}
+	L_s(z, \bmomega) = \int_{\bbSS} \fs(z, \bmomega, \bmomega') \ |\cos \bmomega'| \ L_s^i(z, \bmomega') \intd \sigma(\bmomega'),
 \end{equation}
 where $L_s^i(z, \bmomega')$ is the incoming surface radiance. In case the incoming radiance query points back into the layer, we have
 \begin{equation}
-\label{eq:incoming}
-L_s^i(z, \bmomega) = L_v(z, -\bmomega).
+	\label{eq:incoming}
+	L_s^i(z, \bmomega) = L_v(z, -\bmomega).
 \end{equation}
 The BSDF value is defined as the radiance leaving the surface in direction $\bmomegao$, under unit irradiance from a directional light in direction $\bmomegai$. This is equivalent to evaluating $L_s(1, \bmomegao)$ under the boundary condition
 \begin{equation}
@@ -123,7 +123,7 @@ The path formulation can now be obtained by recursively expanding the desired va
 
 An important feature of our method is the mapping of normals of the layer interfaces, introducing mismatches between geometric (flat) normals and shading (mapped) normals. The definition of the segment term (Eq. \eqref{eqn:seg_contrib}) changes with the presence of shading normals. Precisely, it becomes
 \begin{equation}
-s_i = \tau(z_i, z_{i+1}, \bmd_i) \ \frac{|\EV{\bmn(z_i),\bmd_i}| \ |\EV{\bmn(z_{i + 1}),\bmd_i}|}{|\cos \bmd_i|},
+	s_i = \tau(z_i, z_{i+1}, \bmd_i) \ \frac{|\EV{\bmn(z_i),\bmd_i}| \ |\EV{\bmn(z_{i + 1}),\bmd_i}|}{|\cos \bmd_i|},
 \end{equation}
 where $\bmn(z)$ denotes the local shading normal at $z$ (for $z \in \{0, 1\}$). This term is no longer symmetric, which implies that BSDFs with mapped normals will in general not be reciprocal. When sampling paths from the light, it is important to handle such BSDF using the correction term introduced by Veach \cite{veach1997robust} (Eq. 5.19).
 
