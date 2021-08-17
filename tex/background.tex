@@ -121,112 +121,171 @@ The \emph{spatially varying BRDF} (SVBRDF) is a 6-$D$ function, $\fr(\bmr,\bmome
 
 
 \subsection{Phase function}
-Phase function is usually parameterized as a function of the angle between $\bmomegai$ and $\bmomegao$, to model how light scattered in medium. A common phase function is \emph{Henyey-Greenstain} (HG) phase function with parameter $-1<g<1$:
+Phase function is usually parameterized as a function of the angle ($\theta$) between $\bmomegai$ and $\bmomegao$, to model how light scattered in medium. A common phase function is \emph{Henyey-Greenstain} (HG) phase function with parameter $-1<g<1$:
 \begin{equation}
 	\fp(\theta,g) = \frac{1}{4\pi}
-	\frac{1=g^2}
-	{(1+g^2-2g\cos\theta)^(3/2)}
+	\frac{1-g^2}
+	{(1+g^2-2g\cos\theta)^{3/2}}
 \end{equation}
 
 
-\section{Maxwell's equations}
+\section{Maxwell Equations}
 
-\subsection{Basic operator notation}
+\subsection{Basic operators and notation}
 
-The differential operator given in Cartesian coordinates $\{x,y,z\}$: $$\nabla = \frac{\partial}{\partial x}\mathbf{i} + \frac{\partial}{\partial y}\mathbf{j} + \frac{\partial}{\partial z}\mathbf{k}$$
+The differential operator given in Cartesian coordinates $\{x,y,z\}$: 
+\begin{equation}
+	\nabla = \frac{\partial}{\partial x}\mathbf{i} + \frac{\partial}{\partial y}\mathbf{j} + \frac{\partial}{\partial z}\mathbf{k}
+\end{equation}
+For a scalar function $f(x,y,z)$ and a vector field $\bfF(x,y,z) = f_1(x,y,z)\mathbf{i} + f_2(x,y,z)\mathbf{j} + f_3(x,y,z)\mathbf{k}$, we have,
 
-For a scalar function $f(x,y,z)$ and a vector field $\mathbf{F}(x,y,z) = f_1(x,y,z)\mathbf{i} + f_2(x,y,z)\mathbf{j} + f_3(x,y,z)\mathbf{k}$, we have,
-
-Gradient: $$\nabla f = \frac{\partial f}{\partial x}\mathbf{i} + \frac{\partial f}{\partial y}\mathbf{j} + \frac{\partial f}{\partial z}\mathbf{k}$$
-
-Divergence: $$\nabla\cdot\mathbf{F} = \frac{\partial f_1}{\partial x} + \frac{\partial f_2}{\partial y} + \frac{\partial f_3}{\partial z}$$
-
-Curl: $$\nabla\times\mathbf{F} = \left|
-\begin{array}{ccc}
-	\mathbf{i} & \mathbf{j} & \mathbf{k} \\
-	\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\
-	f_1 & f_2 & f_3
-\end{array}
-\right|$$
-
-Laplace operator: $\nabla^2 f = \nabla\cdot(\nabla f)$
+Gradient:
+\begin{equation}
+	\nabla f = \frac{\partial f}{\partial x}\mathbf{i} + \frac{\partial f}{\partial y}\mathbf{j} + \frac{\partial f}{\partial z}\mathbf{k}
+\end{equation}
+Divergence: 
+\begin{equation}
+	\Div\bfF = \frac{\partial f_1}{\partial x} + \frac{\partial f_2}{\partial y} + \frac{\partial f_3}{\partial z}
+\end{equation}
+Curl: 
+\begin{equation}
+	\Curl\bfF = \left|
+	\begin{array}{ccc}
+		\mathbf{i} & \mathbf{j} & \mathbf{k} \\
+		\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\
+		f_1 & f_2 & f_3
+	\end{array}
+	\right|
+\end{equation}	
+Laplace operator: $\nabla^2 f = \Div(\nabla f)$
 
 Curl of Curl: 
-\begin{equation}
-	\nabla\times(\nabla\times\mathbf{F}) = \nabla(\nabla\cdot\mathbf{F}) - \nabla\cdot(\nabla\mathbf{F}) = - \nabla\cdot(\nabla\mathbf{F}) = -\nabla^2\mathbf{F} \label{CurlOfCurl}
-\end{equation}
+	$\Curl(\Curl\bfF) = \nabla(\Div\bfF) - \Div(\nabla\bfF) = - \Div(\nabla\bfF) = -\nabla^2\bfF$
 
 
 \subsection{Derivation}
 
-$\mathbf{E} [V/m]$: Electric field \\
-$\mathbf{H} [A/m]$: Magnetic field \\
-$\mathbf{D} [C/m^2]$: Electric flux density (Electric displacement) \\
-$\mathbf{B} [Wb/m^2(T)]$: Magnetic flux density (Magnetic induction) \\
-$\mathbf{J} [A/m^2]$: Electric current density \\
-$\mathbf{M}$: Magnetic current density (magnetization)\\
-$\mathbf{P}$: Electric polarization \\
-$\rho [C/m^3]$: Electric charge density \\
-$q$: Magnetic charge density \\
-$\varepsilon_0 [=8.854187817\times10^{-12}F/m]$: Electric permittivity of free space \\
-$\mu_0 [=4\pi\times10^{-7}H/m]$: Magnetic permeability of free space \\
+\begin{table}[h]
+	\centering
+	\caption[List of Maxwell notations]{\label{tab:background:notation2}
+		List of Maxwell notations.
+	}
+	\begin{tabular}{ccl}
+		Symbol & Unit & Notes \\
+		\hline
+		$\bfE$ & $V/m$      & Electric field \\
+		$\bfH$ & $A/m$      & Magnetic field \\
+		$\bfD$ & $C/m^2$    & Electric displacement field (Electric flux density in free space) \\
+		$\bfB$ & $Wb/m^2$   & Magnetic flux density (Magnetic induction) \\
+		$\bfJ$ & $A/m^2$    & Electric current density \\
+		$\bfM$ &            & Magnetic current density (magnetization)\\
+		$\bfP$ &            & Electric polarization \\
+		$\rho$ & $C/m^3$    & Electric charge density \\
+		$q$    & $Wb/m^3$   & Magnetic charge density \\
+		$\varepsilon_0$     & $F/m$ & Electric permittivity of free space ($=8.854187817\times10^{-12}$) \\
+		$\mu_0$             & $H/m$ & Magnetic permeability of free space ($=4\pi\times10^{-7}$) \\
+	\end{tabular}
+\end{table}
+
+
 
 In book \textit{Absorption and Scattering of Light by Small Particle}:
-\begin{align}
-	\nabla\cdot\mathbf{D}  &= \rho \\
-	\nabla\times\mathbf{E} &= -\frac{\partial\mathbf{B}}{\partial t} \\
-	\nabla\cdot\mathbf{B}  &= 0 \\
-	\nabla\times\mathbf{H} &= \mathbf{J} + \frac{\partial\mathbf{D}}{\partial t}
-\end{align}
-where,
-\begin{align}
-	\mathbf{D} &= \varepsilon_0\mathbf{E} + \mathbf{P} \\
-	\mathbf{H} &= \frac{\mathbf{B}}{\mu_0} - \mathbf{M}
-\end{align}
+\begin{equation}
+	\begin{aligned}
+		\Div\bfD  &= \rho & & & & & \Div\bfB &= 0 \\
+		\Curl\bfE &= -\frac{\partial\bfB}{\partial t} & & & & & 
+		\Curl\bfH &= \mathbf{J} + \frac{\partial\bfD}{\partial t}
+  \end{aligned}
+\end{equation}
+where, $\bfD = \varepsilon_0\bfE + \bfP$ and 
+	$\bfH = \frac{\bfB}{\mu_0} - \bfM$.
 
-In free space, the polarization ($\mathbf{P}$) and magnetization ($\mathbf{M}$) vanish identically. And if there is no Electric charge density ($\rho [C/m^3]$) and Electric current density ($\mathbf{J}$), we rewrite \textit{Maxwell equation} in the form of $\mathbf{E}$ and $\mathbf{H}$,
-\begin{align}
-	\nabla\cdot\mathbf{E}  &= 0 \\
-	\nabla\times\mathbf{E} &= -\mu_0\frac{\partial\mathbf{H}}{\partial t} \\
-	\nabla\cdot\mathbf{H}  &= 0 \\
-	\nabla\times\mathbf{H} &= \varepsilon_0\frac{\partial\mathbf{E}}{\partial t}
-\end{align}
-
+In free space, the polarization ($\bfP$) and magnetization ($\bfM$) vanish identically. And if there is no Electric charge density ($\rho$) and Electric current density ($\mathbf{J}$), we rewrite \textit{Maxwell equation} in the form of $\bfE$ and $\bfH$,
+\begin{equation}
+	\begin{aligned}
+		\Div\bfE  &= 0 & & & & & \Div\bfH  &= 0 \\
+		\Curl\bfE &= -\mu_0\frac{\partial\bfH}{\partial t} & & & & & 
+		\Curl\bfH &= \varepsilon_0\frac{\partial\bfE}{\partial t}
+  	\end{aligned}
+\end{equation}
 To consider Electric and Magnetic field as as time-harmonic (time variation is sinusoidal) fields with angular frequency of $\omega$, which has the form of $\mathbf{\hat{u}} = \mathbf{u}e^{-i\omega t}$, the \textit{Maxwell equation} become,
-\begin{align}
-	\nabla\cdot\mathbf{E}  &= 0 \\
-	\nabla\times\mathbf{E} &= i\omega\mu_0\mathbf{H} \label{nablaE}\\
-	\nabla\cdot\mathbf{H}  &= 0 \\
-	\nabla\times\mathbf{H} &= -i\omega\varepsilon_0\mathbf{E} \label{nablaH}
-\end{align}
-
-Take the curl of (\ref{nablaE}) and (\ref{nablaH}), 
-\begin{align}
-	\nabla\times(\nabla\times\mathbf{E}) &= i\omega\mu_0(\nabla\times\mathbf{H}) = \omega^2\mu_0\varepsilon_0\mathbf{E} \\
-	\nabla\times(\nabla\times\mathbf{H}) &= -i\omega\varepsilon_0(\nabla\times\mathbf{E}) = \omega^2\mu_0\varepsilon_0\mathbf{H}
-\end{align}
-
-If we use (\ref{CurlOfCurl}), the \textit{Maxwell equations} reduce to the Helmholtz equations,
-\begin{align}
-	\nabla^2\mathbf{E} + k^2\mathbf{E} = 0 \\
-	\nabla^2\mathbf{H} + k^2\mathbf{H} = 0
-\end{align}
+\begin{equation}
+	\begin{aligned}
+		\Div\bfE  &= 0 & & & & & \Div\bfH  &= 0 \\
+		\Curl\bfE &= i\omega\mu_0\bfH & & & & & 
+		\Curl\bfH &= -i\omega\varepsilon_0\bfE \label{eq:nabla}
+	\end{aligned}
+\end{equation}
+Take the curl of (\ref{eq:nabla}), 
+\begin{equation}
+	\begin{aligned}
+		\Curl(\Curl\bfE) &= i\omega\mu_0(\Curl\bfH) = \omega^2\mu_0\varepsilon_0\bfE \\
+		\Curl(\Curl\bfH) &= -i\omega\varepsilon_0(\Curl\bfE) = \omega^2\mu_0\varepsilon_0\bfH
+	\end{aligned}
+\end{equation}
+If we use the rule \emph{Curl of Curl}, the \textit{Maxwell equations} reduce to the Helmholtz equations,
+\begin{equation}
+	\begin{aligned}
+		\nabla^2\bfE + k^2\bfE = 0 & & & & & 
+		\nabla^2\bfH + k^2\bfH = 0
+	\end{aligned}
+\end{equation}
 where $k = \omega/c$, and $c=\frac{1}{\sqrt{\mu_0\varepsilon_0}}$ is the light speed in vacuum. 
 
 
-\section{Markov Chain Monte Carlo (MCMC)}
-In statistics, Markov chain Monte Carlo (MCMC) methods comprise a class of algorithms for sampling from a probability distribution. By constructing a Markov chain that has the desired distribution as its equilibrium distribution, one can obtain a sample of the desired distribution by recording states from the chain. The more steps are included, the more closely the distribution of the sample matches the actual desired distribution. 
-
-\subsection{Bayesian Inference}
-Bayesian inference derives the posterior probability as a consequence of two antecedents: a prior probability and a "likelihood function" derived from a statistical model for the observed data. Bayesian inference computes the posterior probability according to Bayes' theorem:
+\section{Bayesian Inference}
+Bayesian inference is a paradigm for constructing statistical models based on Bayes’ Theorem
 \begin{equation}
-	p(\theta|\bfX) = \frac{p(\bfX|\theta)p(\theta)}{p(\bfX)} \propto p(\bfX|\theta)p(\theta)
+	p(\bmtheta|\bfX) = \frac{p(\bfX|\bmtheta)p(\bmtheta)}{p(\bfX)} \propto p(\bfX|\bmtheta)p(\bmtheta)
 \end{equation}
-This is expressed in words as "posterior is proportional to likelihood times prior".
+Generally speaking, the goal of Bayesian inference is to estimate the posterior distribution ($p(\bmtheta|\bfX)$) given the likelihood ($p(\bfX|\bmtheta)$) and the prior distribution ($p(\bmtheta)$). The likelihood is something that can be estimated from the training data. 
 
-\subsection{Hamiltonian Monte Carlo (HMC)}
+\subsection{Maximum a Posteriori (MAP)}
+In most of cases, we actually seek to maximize the posterior distribution which takes the existing data as fixed and determines the probability of any parameter setting $\bmtheta$ given that data $\bfX$. We call this process \emph{Maximum a Posteriori} (MAP), an iterative process which updates the model’s parameters in an attempt to maximize the probability of matching data to its distribution. Which is exactly the training pocess in a regular machine learning model.
 
-\subsection{Metropolis-Adjusted Langevin Algorithm (MALA)}
+MAP estimates can be computed via numerical optimization such as the conjugate gradient method or Newton's method. This usually requires first or second derivatives, which have to be evaluated analytically or numerically.
+
+\subsection{Markov Chain Monte Carlo (MCMC)}
+While MAP is the first step towards fully Bayesian inference, it’s still only computing what statisticians called a \emph{point estimate}. The downside of point estimates is that they don’t tell you much about a parameter other than its optimal setting. In reality, we often want to know other information, like how certain we are that a parameter’s value should fall within this predefined range. Therefore, a number of fascinating Bayesian methods have been devised that can be used to sample (i.e. draw sample values) from the posterior distribution. The most famous of these is an algorithm called \emph{Markov Chain Monte Carlo} (MCMC).
+
+In statistics, MCMC methods comprise a class of algorithms for sampling from a probability distribution. By constructing a Markov chain that has the desired distribution as its equilibrium distribution, one can obtain a sample of the desired distribution by recording states from the chain. The more steps are included, the more closely the distribution of the sample matches the actual desired distribution. 
+
+MCMC is used to simulate physical systems with Gibbs canonical distribution (\textbf{we will start to use $\bfx$ instead of $\bmtheta$ from here}):
+\begin{equation}
+	p(\bfx) \propto \exp\left( - \frac{U(\bfx)}{T} \right)
+\end{equation}
+Probability $p(\bfx)$ of a system to be in the state $\bfx$ depends on the energy of the state $U(\bfx)$ and temperature $T$.
+Any distribution can be rewritten as Gibbs canonical distribution, but for many problems such energy-based distributions appear very naturally.
+The goal becomes learning to sample from the canonical distribution.
+System has higher probability of staying in the states with lower energies, so minimize energy is the same as maximum a posteriori.
+
+\paragraph{Metropolis-Hastings (MH)} algorithm for MCMC is the simplest Markov Chain process that can sample from the distribution picks the neighbour of the current state and either accepts it or rejects depending on the change in energy. 
+Algorithm produces a chain of states: $ \bfx_1, \bfx_2, ..., \bfx_n $. Each time a candidate from a neighborhood of the last state is selected
+$\bfx_n' = \bfx_n + \varepsilon$ ($\epsilon$ is usually taken to be Gaussian with some spread $\sigma$).
+With probability $p = \min \left[1, \exp\left( \frac{U(\bfx_n) - U(\bfx_n')}{T} \right) \right]$, system accepts new state (jumps to the new state):
+$\bfx_{n+1} = \bfx_n'$ and with probability $1-p$ new state is rejected: $\bfx_{n+1} = \bfx_n$.
+Note, when energy is lower in new state $U(\bfx'_n) < U(\bfx_n)$, it is always accepted: $p=1$.
+In this way, we give preference to the states with lower energies, while not restricting the algorithm to always decrease the energy.
+The lower temperature, the lower probability to increase energy.
+
+Sampling high-dimensional distributions with MH becomes very inefficient in practice. A more efficient scheme is
+
+\paragraph{Hamiltonian Monte Carlo (HMC)} algorithm, is also known as Hybrid Monte Carlo. Velocity $v$ is added to the parameters describing the system. Energy of the system consists of potential and kinetic parts:	$E(\bfx, \bfv) = U(\bfx) + K(\bfv)$. %$\qquad K(\bfv) = \sum_i \frac{m \, v^2_i}{2}$. 
+Thus, velocities $\bfv$ and positions $\bfx$ have independent canonical distributions:
+\begin{equation}
+	p(\bfx, \bfv) \propto \exp\left(  \frac{-E(\bfx, \bfv)}{T}  \right)
+	= \exp\left(  \frac{-U(\bfx)}{T}  \right) \, \exp \left( \frac{-K(\bfv)}{T} \right) \propto p(\bfx) \; p(\bfv).
+\end{equation}
+So once it can be sampled from joint distribution $p(\bfx, \bfv)$, $\bfx$ can be also sampled by ignoring computed velocities $\bfv$.
+After initializing the system parameters $\bfx, \bfv$, it could be evolved using physics equations: $\dot{x}_i = v_i$, $m\dot{v_i} = -\frac{\partial U(\bfx)}{\partial x_i}$. During a long period of time, it will not get a canonical distribution by collecting system states, because energy $E$ is conserved in the system.
+At some points, velocity is resampled from $p(\bfv)$, thus changing the total energy and resample the parameters. Sampling from $p(\bfv)$ is very simple, because $\bfv$ is normally distributed.
+
+HMC uses not only energy $U(\bfx)$, but also it's gradient. So the `price' of a single iteration is higher, but HMC is still significantly more efficient than MH.
+In most cases HMC accepts new states, but still, it has problems with sampling from distributions with isolated local minimum and discrete parameters (no gradient provided).
+
+\paragraph{Metropolis-Adjusted Langevin Algorithm (MALA)} is based on \emph{Langevin Monte Carlo} (LMC). Different from gradient-based HMC, LMC uses a discrete Markov chain, which is equivalent to a gradient ascent procedure with injected Gaussian noise \cite{luan2020langevin}. The injected noise prevents the chain from collapsing to just the (local) maximum. Due to discretization error, the Markov chain is not guaranteed to converge to the same stationary distribution as the continuous process.
+This can be corrected by using the Metropolis-Hasting rule to accept or reject states of the chain. This approach, known as the \emph{Metropolis-adjusted
+Langevin algorithm} (MALA).
 
 %\section{Notation}
 %\input{tex/related/tab/alpha}
