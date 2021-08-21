@@ -26,13 +26,13 @@ In this example, the shape of the posterior can be analytically derived (using t
 \input{tex/bayesian/fig/scatter}
 
 Specifically, the material parameter space of translucent materials under the radiative transfer framework \cite{chandrasekhar1960radiative} is known to be approximately over-complete~\cite{zhao2014high}.
-Specifically, two sets of parameters $(\sigma_s, \sigma_a, g)$ and $(\sigma_s^*, \sigma_a^*, g^*)$ satisfying the following \emph{similarity relation} usually yield similar final appearances:
+Specifically, two sets of parameters $(\sigmas, \sigmaa, g)$ and $(\sigmas^*, \sigmaa^*, g^*)$ satisfying the following \emph{similarity relation} usually yield similar final appearances:
 \begin{equation}
 	\label{eq:similarity_rel}
-	\sigma_a = \sigma_a^*, \quad (1 - g)\,\sigma_s = (1 - g^*)\,\sigma_s^*,
+	\sigmaa = \sigmaa^*, \quad (1 - g)\,\sigmas = (1 - g^*)\,\sigmas^*,
 \end{equation}
-where $\sigma_a$ and $\sigma_s$ are, respectively, the absorption and scattering coefficients, and $g$ is the first Legendre moment of the phase function.
-We show in Figure~\ref{fig:bayesian:scatter} that applying our Bayesian inference method to $\sigma_s$ and $g$ (with fixed $\sigma_a$) computes a posterior distribution that agrees well with the predicted similarity relation~\eqref{eq:similarity_rel}.
+where $\sigmaa$ and $\sigmas$ are, respectively, the absorption and scattering coefficients, and $g$ is the first Legendre moment of the phase function.
+We show in Figure~\ref{fig:bayesian:scatter} that applying our Bayesian inference method to $\sigmas$ and $g$ (with fixed $\sigmaa$) computes a posterior distribution that agrees well with the predicted similarity relation~\eqref{eq:similarity_rel}.
 
 
 \subsection{Procedural Material Models}
@@ -88,7 +88,7 @@ Thanks to the underlying procedural models, our method is able to synthesize lar
 \input{tex/bayesian/fig/hu}
 
 \paragraph{Comparison to neural methods.}
-We also compare our method with the forward neural prediction method of Hu et al. \cite{hu2019novel}. Their method uses an AlexNet network structure \cite{krizhevsky2012imagenet}, mapping an image of a material sample to the parameters of an appropriate procedural model. We apply their network structure with our BRDFs and lighting conditions, as their original implementation assumes Lambertian materials and outdoor sun/sky lighting. We show the results in Figure \ref{fig:bayesian:hu}. In general, we find the method gives moderately accurate results, which moreover tends to become worse for more complex BRDF models and with more parameters. The photo (top) is better matched by our MCMC sampling results (middle) than their prediction (bottom),
+We also compare our method with the forward neural prediction method of Hu et al. \cite{hu2019novel}. Their method uses an AlexNet network structure \cite{krizhevsky2012imagenet}, mapping an image of a material sample to the parameters of an appropriate procedural model. We apply their network structure with our BRDFs and lighting conditions, as their original implementation assumes Lambertian materials and outdoor sun/sky lighting. We show the results in Figure \ref{fig:bayesian:hu}. In general, we find the method gives moderately accurate results, which moreover tends to become worse for more complex BRDF models and with more parameters.
 
 \input{tex/bayesian/fig/hu2}
 
@@ -96,7 +96,7 @@ To some extent, the method of \cite{hu2019novel} is orthogonal to ours, as it ca
 
 \input{tex/bayesian/fig/des}
 
-Finally, we also compare to the single input SVBRDF estimation method of Deschaintre et al. \cite{deschaintre2018single} (See Figure \ref{fig:bayesian:des}). This method takes a $256 \times 256$ target image, and produces material maps at the same resolution, pixel-wise aligned to the input. This pixel-wise alignment is not achievable with our method (or any procedural material estimation method). However, the overall perceptual appearance match is usually worse than our method. In some cases, the method produces specular burn-in, as the strong highlight cannot be fully removed and causes holes in the resulting maps (Plaster-4, Metallicflake-4). Advanced BRDF models like brushed metal and metallic flakes are not explicitly handled by their method and usually fail. Finally, their result is fixed at the $256 \times 256$ resolution, and does not support higher resolutions, seamless tiling, nor editability; these benefits come from the use of a procedural model.
+Finally, we also compare to the single input SVBRDF estimation method of Deschaintre et al. \cite{deschaintre2018single} (See Figure \ref{fig:bayesian:des}). This method takes a $256 \times 256$ target image, and produces material maps at the same resolution, pixel-wise aligned to the input. This pixel-wise alignment is not achievable with our (procedural) method. However, the overall perceptual appearance is usually worse than ours. In some cases (Plaster-4, Metallicflake-4), the method produces specular burn-in, as the strong highlight cannot be fully removed in the resulting maps. Advanced BRDF models like brushed metal and metallic flakes are not explicitly handled by their method and usually fail. Finally, their result does not support higher resolutions, seamless tiling, nor editability; these benefits come from the use of a procedural model.
 
 Figure~\ref{fig:bayesian:plot} shows a quantitative comparison of the Learned Perceptual Image Patch Similarity (LPIPS) metric \cite{zhang2018unreasonable} between the captured photos and the re-renderings using different methods.
 

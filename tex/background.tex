@@ -175,10 +175,10 @@ Curl of Curl:
 		\hline
 		$\bfE$ & $V/m$      & Electric field \\
 		$\bfH$ & $A/m$      & Magnetic field \\
-		$\bfD$ & $C/m^2$    & Electric displacement field (Electric flux density in free space) \\
-		$\bfB$ & $Wb/m^2$   & Magnetic flux density (Magnetic induction) \\
+		$\bfD$ & $C/m^2$    & Electric displacement \\
+		$\bfB$ & $Wb/m^2$   & Magnetic induction \\
 		$\bfJ$ & $A/m^2$    & Electric current density \\
-		$\bfM$ &            & Magnetic current density (magnetization)\\
+		$\bfM$ &            & Magnetic current density \\
 		$\bfP$ &            & Electric polarization \\
 		$\rho$ & $C/m^3$    & Electric charge density \\
 		$q$    & $Wb/m^3$   & Magnetic charge density \\
@@ -187,9 +187,7 @@ Curl of Curl:
 	\end{tabular}
 \end{table}
 
-
-
-In book \textit{Absorption and Scattering of Light by Small Particle}:
+The mathematical description of Maxwell’s equations are \cite{bohren2008absorption}:
 \begin{equation}
 	\begin{aligned}
 		\Div\bfD  &= \rho & & & & & \Div\bfB &= 0 \\
@@ -198,7 +196,7 @@ In book \textit{Absorption and Scattering of Light by Small Particle}:
   \end{aligned}
 \end{equation}
 where, $\bfD = \varepsilon_0\bfE + \bfP$ and 
-	$\bfH = \frac{\bfB}{\mu_0} - \bfM$.
+	$\bfH = \frac{1}{\mu_0}\bfB - \bfM$.
 
 In free space, the polarization ($\bfP$) and magnetization ($\bfM$) vanish identically. And if there is no Electric charge density ($\rho$) and Electric current density ($\mathbf{J}$), we rewrite \textit{Maxwell equation} in the form of $\bfE$ and $\bfH$,
 \begin{equation}

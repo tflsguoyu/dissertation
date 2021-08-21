@@ -41,7 +41,7 @@ v_i = v(z_i, -\bmd_{i - 1}, \bmd_i)
 \end{equation}
 Define the transfer term $\tau(z_1, z_2, \bmomega)$ as follows:
 \begin{equation}
-\tau(z, z', \bmomega) := \exp \left( \frac{-\sigma_t |z' - z|}{|\cos \bmomega|} \right) \cdot \bbI \left( \frac{z' - z}{\cos \bmomega} > 0 \right).
+\tau(z, z', \bmomega) := \exp \left( \frac{-\sigmat |z' - z|}{|\cos \bmomega|} \right) \cdot \bbI \left( \frac{z' - z}{\cos \bmomega} > 0 \right).
 \end{equation}
 The purpose of the exponential term is to compute the transmittance when going from depth $z$ to $z'$ following direction $\bmomega$.
 The indicator term checks the validity of the configuration (i.e. if the direction points up, then $z'$ should be greater than $z$, and vice versa). The segment term for internal segments can now be defined as:

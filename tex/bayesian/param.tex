@@ -19,7 +19,6 @@ In practice, we use a (multi-variate) normal distribution with zero mean and the
 Our experiments indicate that this simple error distribution works well in practice, and we regard $\bmSigma_e$ as a hyper-parameter and set it manually.
 
 We also have multiple options in handling the random vector $\bmz$. While it is certainly theoretically possible to estimate it, we are not really interested in its values;  we find it simpler and more efficient to simply choose $\bmz$ randomly, fix it, and assume it known during the process of estimating the ``interesting'' parameters $\bmtheta$.
-
 Under these assumptions, according to the Bayes theorem, we can write down the posterior probability of parameters $\bmtheta$, conditional on the known values of $\bmIt$ and $\bmz$, as:
 \begin{equation} 
 	\label{eq:posterior}

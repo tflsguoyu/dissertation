@@ -4,12 +4,11 @@
 In the dissertation, we focus on material appearances modeling in both forward and inverse rendering. All the macro appearances are modeled from microscales or hyperparameter spaces. 
 
 First we have presented two scattering frameworks in forward rendering, one for layered materials (\emph{thin planer surface}) and the other one for participating medium (\emph{bulk,particles}). The first work \textbf{LayeredBSDF} provides a general solution to layered materials which is included in \emph{Physically Based Rendering}, Fourth Edition \cite{pharr2021physically}. It leads to the first BSDF layering solution that offers unbiased accuracy and full flexibility in setting the layer properties.
-Our second work \textbf{Beyond Mie Theory} generalizes the widely-used Lorenz-Mie theory for rigorously deriving optical properties of scattering media, and can be readily used in any radiative-based light transport simulator.
+Our second work \textbf{Beyond Mie Theory} generalizes the widely-used Lorenz-Mie theory for rigorously deriving optical properties of scattering media and can be readily used in any radiative-based light transport simulator.
 
-Then we have estimated material properties using \emph{latent space} and \emph{procedural parameters}. Our third work \textbf{MaterialGAN} is the first step toward GAN-based material analysis and synthesis and our experiments suggest many avenues for further exploration. Our last work \textbf{Bayesian Inference Sampling} handles both continuous and discrete model parameters and provides users additional information beyond single point estimates and allows a
-cleaner extension to handle discrete parameters.
+Then we have estimated material properties using \emph{latent space} and \emph{procedural parameters}. Our third work \textbf{MaterialGAN} is the first step toward GAN-based material analysis by synthesis, and our experiments suggest many avenues for further exploration. Our last work \textbf{Bayesian Inference Sampling} handles both continuous and discrete model parameters and provides users additional information beyond single-point estimates, and allows a cleaner extension to handle discrete parameters.
 
-At the end, we will discuss the limitation of our work and future directions:
+In the end, we will discuss the limitation of our work and future directions:
 
 \paragraph{LayeredBSDF}
 Our model relies on the assumption of thin flat layers (Figure \ref{fig:layeredbsdf:zhaoyun}) and cannot capture effects caused by geometric or optical variations at the global scale.
