@@ -1,4 +1,4 @@
-\thesistitle{Microscale-based Macro-appearance Rendering and Its Inverse Problem}
+\thesistitle{Multi-scale Appearance Modeling of Complex Materials}
 
 %"Dissertation" for PhD, "Thesis" for master's
 \documenttitle{Dissertation}
@@ -49,32 +49,26 @@
 
 \acknowledgments
 {
-  I would like to thank my advisor Shuang Zhao for his patient guidance and unconditional support.
-  
-  I am sincerely grateful to Milo\v{s} Ha\v{s}an for his inspiration and offering me opportunities for my internships in Autodesk and Adobe. I would also like to thank my other committee members Gopi Meenakshisundaram and Charless Fowlkes for the constructive advice they have provided. 
-  
-  I want to thank all the collaborator from my publications.
-  And my intership mentors.
-  
-  I would like to thank my labmates and other friends.
-  
-  Finally, I thank my wife and my parents.
-  
-  This work was supported in part by NSF grant IIS-1813553, Autodesk Inc., Adobe Inc., University of Zaragoza (Spain) and Department of Computer Science, UC Irvine.
-  
-  Chapter \ref{cpt:layeredbsdf} is based on the material as it appears in ACM Transactions on Graphics, 2018
-  (“Position-Free Monte Carlo Simulation for Arbitrary Layered BSDFs”, Yu Guo, Milo\v{s} Ha\v{s}an and Shuang Zhao). The dissertation author was the primary investigator and author of this paper.
-  
-  Chapter \ref{cpt:waveoptics} is based on the material as it appears in ACM Transactions on Graphics, 2021
-  ("Beyond Mie Theory: Systematic Computation of Bulk Scattering Parameters based on Microphysical Wave Optics", Yu Guo, Adrian Jarabo and Shuang Zhao). The dissertation author was the primary investigator and author of this paper.
-  
-  Chapter \ref{cpt:svbrdf} is based on the material as it appears in ACM Transactions on Graphics, 2020
-  (“MaterialGAN: Reflectance Capture using a Generative SVBRDF Model”, Yu Guo, Cameron Smith, Milo\v{s} Ha\v{s}an, Kalyan Sunkavalli and Shuang Zhao). The dissertation author was the primary investigator and author of this paper.
-  
-  Chapter \ref{cpt:bayesian} is based on the material as it appears in Computer Graphics Forum, 2020
-  (“A Bayesian Inference Framework for Procedural Material Parameter Estimation”, Yu Guo, Milo\v{s} Ha\v{s}an, Lingqi Yan and Shuang Zhao). The dissertation author was the primary investigator and author of this paper.
+First, I would like to thank my advisor Shuang Zhao who gave me the opportunity to join his rendering group at UC Irvine back in 2016. As his first student, I received his enormous support and intellectual guidance on all aspects, from scientific thinking and research designing to debugging, paper writing, and presentation skills. I truly appreciate and am greatly indebted to his immense patience and help.
 
-  This dissertation is based on a \LaTeX~template for thesis and dissertation documents at UC Irvine \cite{uci-thesis-latex}.
+
+I am grateful to Milo\v{s} Ha\v{s}an for his brilliant ideas and great inspiration during my PhD study. I would also like to thank my dissertation committee members Gopi Meenakshisundaram and Charless Fowlkes, and my candidacy exam committee members Aditi Majumder and Weining Shen for their insightful and constructive comments. 
+
+
+I want to thank my other collaborators Lingqi Yan, Kalyan Sunkavalli, Cameron Smith, and Adrian Jarabo for their invaluable input on our publications.  
+
+
+I would like to extend my gratitude to internship mentors: Jue Wang, Xue Bai, Christophe Hery, and Olivier Maury for broadening my horizons and allowing me to explore new knowledge. 
+
+
+I feel fortunate getting to know numerous academic friends Zahra Montazeri, Cheng Zhang, Marco (Zhanhang) Liang, Lifan Wu, Fujun Luan, Mengqi (Mandy) Xia, Manuel Lagunas, Conny Lu, etc., and other colleagues from iGravi Lab: Mahdi Tehrani, Mehdi Rahimzadeh, Jia Chen, Nitin Agarwal, Twaha Ibrahim, Andy Thai, Jessica Souza, Isabela Figueira, Kai Yan, Guangyan Cai, and Zihan Yu. 
+
+
+Finally, I thank my wife Yao Sun and my parents for their unconditional love and support throughout these years.
+
+
+This work was supported in part by NSF grant IIS-1813553, Autodesk Inc., Adobe Inc., University of Zaragoza (Spain), and Department of Computer Science at UC Irvine. 
+  
 }
 
 
@@ -146,9 +140,9 @@
 % currently does not indicate that there is any word limit for the abstract
 \thesisabstract
 {
-  Physically-based rendering has become mature and commonplace in recent decades. However, the rendered results look artificial and overly perfect. Better realism needs higher fidelity detailed geometry or model complexity, which substantially increases computational power and human works. To achieve higher physical realism and enable more effective material content creation, many techniques are developed in material reflection and scattering models. We put emphasis on accurately representing and reproducing the rich visual world from \emph{micro}-level details to overall (\emph{macro}) appearance.
+  Physically-based rendering has become mature and commonplace in recent decades. However, the rendered results look artificial and overly perfect. Better realism needs higher fidelity detailed geometry or model complexity, which substantially increases computational power and human works. To achieve higher physical realism and enable more effective material content creation, many techniques are developed in material reflection and scattering models. We put emphasis on accurately representing and reproducing the rich visual world from micro-level scales.
 
-  The first half of the dissertation focuses on building the bridge from \emph{micro} to \emph{macro} world: we present an accurate appearance model for layered materials derived from microstructures to define their optical behavior and a general framework of bulk scattering in participating medium which considers the microscale effects. Contradictory, in the second half, we discuss the inverse problem of retrieving the micro parameters from photo-captured materials. 
+  The first half of the dissertation focuses on building the bridge from micro-model to macro properties: we present an accurate appearance model for layered materials derived from microstructures to define their optical behavior and a general framework of bulk scattering in participating medium which considers the microscale effects. Consequently, in the second half, we discuss the inverse problem of retrieving the micro parameters from captured materials. 
 
   Our first work introduces a new unbiased layered BSDF model based on Monte Carlo simulation, whose only assumption is the layer assumption itself. Our novel position-free path formulation is fundamentally more powerful at constructing light transport paths than generic light transport algorithms applied to the particular case of flat layers. We introduce two techniques for sampling the position-free path integral, a forward path tracer with next-event estimation and a full bidirectional estimator. We show several examples featuring multiple layers with surface and volumetric scattering, surface and phase function anisotropy, and spatial variation in all parameters.
 

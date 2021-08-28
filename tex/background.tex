@@ -24,12 +24,14 @@ Radiometry is a set of techniques for measuring electromagnetic radiation, and w
 \end{table}
 
 \subsection{Surface rendering equation}
-To render photorealistic image, a key concept is to simulate light transport, which models the light interaction between camera/eyes, scene objects and lightsource. For any point in the scene, we want to know its spectral radiance $\Lo(\bmr,bmomegao,\lambda,t)$ of wavelength $\lambda$ directed outward along direction $\bmomegao$ at time $t$, from a particular position $\bmr$. For simplisity, the commonly used \emph{rendering equation} (RE) \cite{kajiya1986rendering} for surface have two assumptions: geometric optics only and steady state. Therefore, we reformulate the light radiance as a $5D$ function of position ($\bmr$) and direction ($\bmomegao$), the outgoing radiance ($\Lo$) is the sum of the emitted radiance ($\Le$) and the reflected radiance ($\Lr$). The reflected radiance itself is the sum of all directions of incoming radiance ($\Li$) weighted by the surface reflection ($\fr$) and cosine of incident angle.     	
-\begin{align}
-	\Lo(\bmr,\bmomegao) &= \Le(\bmr,\bmomegao) + \Lr(\bmr,\bmomegao) \\
-	&= \Le(\bmr,\bmomegao) + 
-	\int_{\bbSS} \Li(\bmr,\bmomegai) \fr(\bmr,\bmomegai\rightarrow\bmomegao) \EV{\bmn(\bmr),\bmomegai} \intd \bmomegai
-\end{align}
+To render photorealistic image, a key concept is to simulate light transport, which models the light interaction between camera/eyes, scene objects and lightsource. For any point in the scene, we want to know its spectral radiance $\Lo(\bmr,\bmomegao,\lambda,t)$ of wavelength $\lambda$ directed outward along direction $\bmomegao$ at time $t$, from a particular position $\bmr$. For simplisity, the commonly used \emph{rendering equation} (RE) \cite{kajiya1986rendering} for surface have two assumptions: geometric optics only and steady state. Therefore, we reformulate the light radiance as a $5D$ function of position ($\bmr$) and direction ($\bmomegao$), the outgoing radiance ($\Lo$) is the sum of the emitted radiance ($\Le$) and the reflected radiance ($\Lr$). The reflected radiance itself is the sum of all directions of incoming radiance ($\Li$) weighted by the surface reflection ($\fr$) and cosine of incident angle.
+\begin{equation}     	
+	\begin{aligned}
+		\Lo(\bmr,\bmomegao) &= \Le(\bmr,\bmomegao) + \Lr(\bmr,\bmomegao) \\
+		&= \Le(\bmr,\bmomegao) + 
+		\int_{\bbSS} \Li(\bmr,\bmomegai) \fr(\bmr,\bmomegai\rightarrow\bmomegao) \EV{\bmn(\bmr),\bmomegai} \intd \bmomegai
+	\end{aligned}
+\end{equation}
 Note that, $\bmomegao$ is the direction of the outgoing light, and $\bmomegai$ is the negative direction of the incoming light. 
 
 The rendering equation can fully model the light transport in a space without any participating media. It is popular to expand this integral equation to \emph{path integral formulation} and solve it using Monte Carlo methods (see Veach's thesis 
@@ -38,13 +40,15 @@ The rendering equation can fully model the light transport in a space without an
 
 \subsection{Volume rendering equation}
 When light travels in a participation medium (e.g., smoke, marble and skin), we use \emph{radiative transfer equation} (RTE) \cite{chandrasekhar1960radiative} to describe how the radiance changes by four types of interaction events: emission, absorption, out-scattering, and in-scattering.
-\begin{align}
-	(\bmomegao\cdot\nabla) \Lo(\bmr,\bmomegao) &= 
-	\overbrace{\sigmas(\bmr) \int_{\bbSS} \Li(\bmr,\bmomegai)\fp(\bmr,\bmomegai\rightarrow\bmomegao) \intd\bmomegai}^{\text{a) In-scattering}} \\
-	& \overbrace{-\sigmas(\bmr)\Lo(\bmr,\bmomegao)}^{\text{b) Out-scattering}}
-	\overbrace{-\sigmaa(\bmr)\Lo(\bmr,\bmomegao)}^{\mathrm{c) Absorption}}
-	\overbrace{+\Le(\bmr,\bmomegao)}^{\mathrm{d) Emission}}
-\end{align}
+\begin{equation}
+	\begin{aligned}
+		(\bmomegao\cdot\nabla) \Lo(\bmr,\bmomegao) &= 
+		\overbrace{\sigmas(\bmr,\bmomegao) \int_{\bbSS} \Li(\bmr,\bmomegai)\fp(\bmr,\bmomegai\rightarrow\bmomegao) \intd\bmomegai}^{\text{a) In-scattering}} \\
+		& \overbrace{-\sigmas(\bmr,\bmomegao)\Lo(\bmr,\bmomegao)}^{\text{b) Out-scattering}}
+		\overbrace{-\sigmaa(\bmr,\bmomegao)\Lo(\bmr,\bmomegao)}^{\mathrm{c) Absorption}}
+		\overbrace{+\Le(\bmr,\bmomegao)}^{\mathrm{d) Emission}}
+	\end{aligned}
+\end{equation}
 The RTE is a integro-differential equation which can be derived via conservation of energy. Briefly, the RTE states that a beam of light loses energy through divergence and extinction (including both absorption (c) and scattering (b) away from the beam) and gains energy from light sources (d) in the medium and scattering (a) directed towards the beam. Same as RE, coherence, polarization and light speed are neglected. Optical properties such as refractive index ($m$), absorption coefficient ($\sigmaa$), scattering coefficient ($\sigmas$) are taken as time-invariant but may vary spatially. In addition, we define the extinction coefficient $\sigmat = \sigmaa + \sigmas$, and the ratio between $\sigmas$ and $\sigmat$ controls the fraction of radiant energy not being absorbed at each scattering and is also known as the single-scattering albedo ($a$). We use phase functions $\fp(\bmomegai\rightarrow\bmomegao)$ to describe the directional distribution of light scattered in a medium.
 
 It is desirable to rewrite the RTE as an integral equation, which can them be solved numerically using Monte Carlo methods (see Veach's thesis 
@@ -73,7 +77,7 @@ Reciprocity:
 \end{equation}
 Conserving energy:
 \begin{equation}
-	\forall\bmomegao, \int_\bbSS \fr(\bmomegai\rightarrow\bmomegao) \EV{\bmn,\bmomegai} \leq 1
+	\forall\bmomegao, \int_{\bbSS} \fr(\bmomegai\rightarrow\bmomegao) \EV{\bmn,\bmomegai} \leq 1
 \end{equation}
 
 Some basic BRDFs and the BRDFs used in this dissertation are listed below:
@@ -96,10 +100,10 @@ where ${\bmomegai}_\mathrm{r}$ is the reflection of incident light and larger $n
 	\frac{F(\bmomegai, \bmh) G(\bmomegai,\bmomegao,\bmh) D(\bmh)}
 	{4\EV{\bmn,\bmomegai}\EV{\bmn,\bmomegao}}
 \end{equation}
-where $\bmh$ is the half vector that $\bmh=(\bmomegai+\bmomegao)/2$. The first component $F$ is Fresnel term, $G$ is the geometry term (shading factor) and $D$ is \emph{normal distribution function} (NDF) which indicate the distribution of microfacets normals. With the change of statistics of the micro-geometry, the macro-appearance changes accordingly.
+where $\bmh$ is the half vector that $\bmh=(\bmomegai+\bmomegao)/2$. The first component $F$ is Fresnel term, $G$ is the geometry term (shading factor) and $D$ is \emph{normal distribution function} (NDF) which indicate the distribution of microfacets normals. With the change of statistics of the micro-geometry, the macro-properties changes accordingly.
 All NDF should follow:
 \begin{equation}
-	\int_\bbSS D(\bmh)\EV{\bmn,\bmh} \intd\bmh = 1
+	\int_{\bbSS} D(\bmh)\EV{\bmn,\bmh} \intd\bmh = 1
 \end{equation}
 There're two forms of NDF we used in most of the papers, \emph{Beckmann} and \emph{GGX}.
 
